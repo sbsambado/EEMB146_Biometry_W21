@@ -1,0 +1,39 @@
+---
+title: "delete"
+author: "sbsambado"
+date: "1/14/2021"
+output: html_document
+---
+The sky is blue
+
+**bold**
+*italicize*
+#HEADING
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Question 1. a. What is the mean temperature of SB? b. what s the temp in July?
+```{r}
+# annotate! 
+install.packages("readr")
+library(readr)
+
+read_csv("data.csv")
+
+temp <- read.csv("SB.csv")
+
+# Question A
+mean(temp)
+
+# Question B
+mean(temp == "July")
+```
+
+Answer.
+1. A. The mean temp is 77F
+1. B. The mean temp in july is 82F

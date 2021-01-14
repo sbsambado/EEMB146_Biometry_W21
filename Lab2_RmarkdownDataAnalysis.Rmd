@@ -13,7 +13,7 @@ instal.package('redr') , not correct
 
 # capitilization
 install.packages('redr'), correct
-install.packages('redr'), not correct
+install.packages('Redr'), not correct
 
 # punctuation
 install.packages('redr'), correct
@@ -23,6 +23,7 @@ instll_packages('readr'), not correct
 # R basics
 
 variable <- function(argument)
+
 
 #List of useful functions to create and explore data structure
 * Basic mathematical functions for summary statistics
@@ -65,12 +66,17 @@ variable <- function(argument)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
 #install.packages('readr') # if first time using readr
 ## hashtag is making a comment, it is not seen as code
 # annotating your code is great practice! 
 
+#install.packages("readr")
 library(readr)
+library(ggplot2)
+library(tidyverse)
+library(knitr)
+
+
 library(ggplot2)
 ```
 
@@ -80,11 +86,13 @@ library(ggplot2)
 ```{r}
 # A
 bat_tongues <- read_csv("battongues.csv")
+#View(bat_tongues)
 
 #C
 bat_copy <- bat_tongues
 
 names(bat_copy)
+
 
 # let's change them
 names(bat_copy) <- c("spp", "palate", "tongue")
@@ -92,6 +100,7 @@ names(bat_copy)
 
 # mean of tongue
 mean(bat_copy$tongue)
+
 
 # other stats
 summary(bat_copy$palate)
@@ -125,6 +134,8 @@ ggplot(data = caffeine, aes(x = brand, y = caffeine_mg)) +
   theme_minimal()+
   theme(axis.text.x.bottom =  element_text(size = 8, angle = 90))
   
+
+
 ```
 
 #Homework
@@ -139,14 +150,18 @@ mammal <- read_csv("mammals.csv")
 
 names(mammal) <- c("name", "body", "brain")
 
-
 # A. Which mammal has the largest brain size:body ratio?
 
 # make new variable column
-mammal$ratio <- mammal$brain/mammal$body
+mammal$ratio <- mammal$brain / mammal$body
+
+# / divide 
+# * multiply 
+# exp is exponential 
+
 
 # find max ratio
-# dataframe[which.function(sf$variable),]
+# dataframe[which.function(df$variable),]
 
 mammal[which.max(mammal$ratio),] # don't forget the comma post ()!!!
 
@@ -157,8 +172,10 @@ mammal[which.min(mammal$ratio),] # don't forget the comma post ()!!!
 mean(mammal$ratio)
 
 # find human ratio
+
 # Option 1 (prefered)
 mammal[mammal$name == "Human",] # make sure the spelling is the exact same!
+
 
 # Option 2
 mammal[mammal$name == "Human", "ratio"] # if you have a lot of variable columns
@@ -184,8 +201,10 @@ birds <- read_csv("desert_birds.csv")
 # A. How many desert bird species are rare (<= 10 counts)
 
 # make subset
+
 rare <- subset(birds, Count <= 10)
 #find how many rows there are in subset
+
 # Option 1. Look at length of vector
 length(rare$Count)
 dim(rare)
@@ -213,7 +232,12 @@ endangered <- read_csv("endangered.csv")
 # Option 1
 
 Verts <- subset(endangered, vertebrate == "yes")
-sum(Verts$no.species)/ sum(endangered$no.species) # 0.26
+sum(Verts$no.species) / sum(endangered$no.species) # 0.26
+
+# / divide 
+# * multiple
+# exp is exponential 
+
 
 # Option 2
 
