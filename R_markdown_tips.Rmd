@@ -1,0 +1,92 @@
+---
+title: "R_markdown_tips"
+author: "sbsambado"
+date: "1/14/2021"
+output: html_document
+---
+
+# Jist of R Markdown
+*bold*
+**italics**
+
+
+For those new to R Markdown:
+``` {r} 
+# install.packages('rmarkdown') # downloads package
+# library(rmarkdown) # call package
+# you have to use library() function after installing the package
+#View(caffeine)
+```
+
+R Markdown: Connect to data. Run code. Generate reports.
+## Think of as modern day lab notebook where you capture what you DID and what you were THINKING
+
+3 components 
+ 1. YAML metadata (title, author, data, output) ['yet another markup language']
+ 2. Text 
+ 3. Code chunks
+ 
+Shaded area is called a 'chunk'
+
+Three ways to create 'chunk'
+  1. (on R script consolue) select Insert (green square with C +) > click 'R' (blue circle) on drop down menu
+  2. (on tool bar) Code > Insert Chunk
+  3. Manually make chunk ``` {r} ```
+      a. ' ` ' symbol is the same key as ' ~ '
+      b. type ' ` ' three times
+      c. add curly brackets ' { } '
+      d. place the letter 'r' inside curly brackets {}
+          - there are other items to put inside curly brackets, but we can discuss that later
+      e. write code
+      f. type ' ` ' three times to end the 'chunk'
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# knitr: allows the R markdown file to be exported as a dynamic report (like a html)
+# opts_chunk: local chunk options are merged with default options
+# $set : all later chunks will use these options
+# echo = TRUE: all code chunks will be included in final rendered version
+## All homework assignments should contain this chunk verbage ##
+```
+
+      
+```{r}
+# let's practice running code in 'chunks'
+# create variables
+x = 2 # x is storing the value 2
+y = 6 # y is storing the value 6
+# solve an equation with known variables
+z = x*y # z will be x times y
+print(z) # show the answer for z
+```
+
+
+
+## When the assignment is completed
+  1. *Select* Save (but you should be saving throughout your progress!)
+      - either 'File > Save' or click the blue save icon on R window
+  2. Click 'Knit' (blue yarn with needles), select 'Knit to HTML'
+      - Knit will rerun your code starting from the top, so make sure to load all data and create all objects
+      - If there are errors in your code, you may not be able to knit your document until they are fixed
+      - You will see the progress of your save in your 'Console'
+      - If your knit is successful, your knitted doucument will pop up
+          -- it should producce 2 files (1. filename.Rmd , 2. filename.html/pdf)
+
+# What are you suppose to turn in?
+
+Content:
+1. Each answer should contain all relevant code to reproduce answer (i.e. loading data, variables, graphs)
+~ We will grade on completeness and correctness
+~~ Each week there is 1 TA who grades all of the assignments to keep grading consistent
+
+Format:
+1. Must use R markdown to complete assingments, not R Script like week 1
+2. Must save R markdown file as 1) .html or 2) .pdf
+3. Keep it nice & neat = happy TA!
+4. Upload .html or .pdf file to gaucho space by Wednesay (we will not accept .Rmd files)
+
+# Additional help for Rmarkdown and other R code 
+# 1. https://r4ds.had.co.nz/r-markdown.html ('R for Data Science' by G. Grolemund and H. Wickham)
+# 2. https://rmarkdown.rstudio.com/ ('R Markdown from RStudio')
+# 3. R Markdown Cheat Sheet (Gauchospace)
+# 4. Rmarkdown syntax reference (Gauchospace)
+# 5. R Markdown Tutorial (Gauchospace)

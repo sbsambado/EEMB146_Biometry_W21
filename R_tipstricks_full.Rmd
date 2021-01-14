@@ -1,0 +1,68 @@
+---
+title: "R tips & tricks (full)"
+author: "sbsambado"
+date: "12/23/2020"
+output: html_document
+---
+
+##Tutorial Video: Making a R Project (.Rproj) for EEMB146
+
+#Why? To find files & keep file paths simple.
+
+**You'll hear about setwd()**
++ Which takes an absolute file path as an input then sets it as the current working directory of the R process.
+
++ You then use getwd() to find out what the current working directory is, and check that your working directory is correctly set.
+
+```{r example of setwd}
+setwd("/Users/jenny/cuddly_broccoli/verbose_funicular/foofy/data")
+getwd()
+df <- read.delim("raw_foofy_data.csv")
+```
+
+^^ this is fine... but,
++ What if you want to run other people's code?
++ What if you are working on multiple projects?
+
+And most realisticly, you will run into 
+>Error in file(file, "rt") : cannot open the connection
+
+**There is a better way**
+
+### R Projects are your friend for this course, other courses and any additional projects you may be working on
+
+## Why? R Projects create easy file path referencing within RStudio
+
+This .Rproj file can be created by going to File > New Project… in RStudio, 
++ which then becomes associated with the specified folder or directory. 
++ The mindset should then be that the directory (the whole folder and its sub-folders and contents) is stand-alone and portable, 
++ which in other words means that you shouldn’t be reading in data from or writing data to files outside the directory. 
++**Everything relating to that analysis or project should only happen within that directory**
+
+
+**sources: <https://www.tidyverse.org/blog/2017/12/workflow-vs-script/>**
+
+
+
+##Tutorial Video: How to upload data
+
+
+
+
+First watch: Lab1, intro to R and Rstudio
+
+
+First things first, let's get acquainted with the file types in RStudio
+here is a good link if you're interested
+https://martinctc.github.io/blog/rstudio-projects-and-working-directories-a-beginner's-guide/
+
+Types of files you can work with and export
+A) filename.R (R Script - don't use this)
++ like a word doc 
+B) filename.Rmd
+C) filename.html
+D) filename.pdf
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
