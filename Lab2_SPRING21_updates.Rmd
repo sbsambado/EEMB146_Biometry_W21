@@ -1,23 +1,24 @@
 ---
-title: "Lab2_RmarkdownDataAnalysis"
+title: "Lab2_Sp21"
 author: "sbsambado"
-date: "1/14/2021"
+date: "1/16/2021"
 output: html_document
 ---
+
 Lab 2: Introduction to R Markdown and Data Analysis
 
 # 3 common syntax errors
-# spelling 
-install.packages('readr'), correct
-instal.package('redr') , not correct
+**spelling** 
++install.packages('readr'), correct
++instal.package('readr') , not correct
 
-# capitilization
-install.packages('redr'), correct
-install.packages('Redr'), not correct
+**capitilization**
++ install.packages('readr'), correct
++ Install.Packages('readr'), not correct
 
-# punctuation
-install.packages('redr'), correct
-instll_packages('readr'), not correct
+**punctuation**
++ install.packages('readr'), correct
++ instll_packages('readr'), not correct
 
 
 # R basics
@@ -53,14 +54,6 @@ variable <- function(argument)
     + `nlevels()` - categorial levels within an object
     + `cbind()` - combine objects by columns
     + `rbind()` - combine objects by rows
-    + `rm()` - remove an object
-    + `edit()` - edit an object
-    + `t()` - transpose a matrix or dataframe
-    + `is.data.frame()` - check if you data is a data frame
-    + `as.data.frame()` - coerce your data to a data frame
-    + `is.matrix()` - check if your data is a matrix
-    + `as.matrix()` - coerce your data to a matrix
-
 
 
 
@@ -129,6 +122,11 @@ table(caffeine)
 table(caffeine$brand)
 
 # plot it!
+
+# HINT: The basics of ggpploting
+# ggplot(data = DATA, aes(x = INDEPENDENT VARIABLE, y = DEPENDENT VARIABLE)) +
+# geom_point()+
+
 ggplot(data = caffeine, aes(x = brand, y = caffeine_mg)) +
   geom_histogram(stat = "identity") +
   theme_minimal()+
@@ -140,55 +138,44 @@ ggplot(data = caffeine, aes(x = brand, y = caffeine_mg)) +
 
 #Homework
 
+FOR SPRING OF 2021 RESHAPE THE HOMEWORK QUESTIONS TO GET STUDENTS THINKING MORE ABOUT STRUCTURE OF DATA VS TRYING TO FIND COMMANDS
 **Question 1.**
 ```{r}
 # load in required data
 mammal <- read_csv("mammals.csv")
 
 # let's look at file
-#View(mammal)
+#View(DATAFRAME)
 
-names(mammal) <- c("name", "body", "brain")
+# names(DATAFRAME) <- c("COLUMN1NAME", "COLUMN2NAME", "COLUMN3NAME")
 
 # A. Which mammal has the largest brain size:body ratio?
 
-# make new variable column
-mammal$ratio <- mammal$brain / mammal$body
+  # make new variable column
+  # DATAFRAME$VARIABLE <- DATAFRAME$VARIABLE1 / DATAFRAME$VARIABLE2
 
-# / divide 
-# * multiply 
-# exp is exponential 
+  # find max ratio
+# DATAFRAME[which.max(DATAFRAME$VARIABLE),]
 
-
-# find max ratio
-# dataframe[which.function(df$variable),]
-
-mammal[which.max(mammal$ratio),] # don't forget the comma post ()!!!
 
 # B. Which mammal has the smallest ratio?
-mammal[which.min(mammal$ratio),] # don't forget the comma post ()!!!
+# DATAFRAME[which.mIN(DATAFRAME$VARIABLE),]
 
 # C. What is the mean brain size:body ratio? Are humans above or below the mean?
-mean(mammal$ratio)
+# mean(DATAFRAME$VARIABLE)
 
 # find human ratio
 
 # Option 1 (prefered)
-mammal[mammal$name == "Human",] # make sure the spelling is the exact same!
+# DATAFRAME[DATAFRAME$VARIABLE == "OBJECT",]
 
 # Option 2
-mammal[mammal$name == "Human", "ratio"] # if you have a lot of variable columns
+# DATAFRAME[DATAFRAME$VARIABLE == "OBJECT", "SPECIFICVALUE_OF_OBJECT"]
 
-# Option 3 (less prefered)
-# make new dataframe for humans and analyze that
-human <- mammal[which(mammal$name == "Human"),]
-mean(human$ratio)
+
 ```
-Answers
-A. The ground squirrel has the largest brain size:body ratio of 40 g/kg.
-B. The African elephant has the smallest brain size:body ratio of 0.858431 g/kg.
-C. The mean brain size:body ratio is 9.516999 g/kg.  This is less than the human ratio of 21.29032.
-D. Explain your findings about the scientist hypothesis in complete sentencees.
+
+
 
 **Question 2**
 ```{r}
@@ -201,22 +188,22 @@ birds <- read_csv("desert_birds.csv")
 
 # make subset
 
-rare <- subset(birds, Count <= 10)
+# VARIABLE_NAME <- subset(DATAFRAME, VARIABLE <= 10)
 #find how many rows there are in subset
 
 # Option 1. Look at length of vector
-length(rare$Count)
-dim(rare)
-nrow(rare)
+
+#length(DATAFRAME$VARIABLE)
+#dim(DATAFRAME)
+#nrow(DATAFRAME)
 
 # Option 2. Look at dataset summary
-print(rare)
-summary(rare)
+#print(DATAFRAME)
+#summary(DATAFRAME)
 
 # This is different than finding the total sum of birds within these rare species
-sum(rare$Count)
+#sum(DATAFRAME$VARIABLE)
 ```
-Answer. There are 16 species of desert birds that are considered rare. 
 
 **Question 3**
 ```{r}
@@ -230,39 +217,9 @@ endangered <- read_csv("endangered.csv")
 
 # Option 1
 
-Verts <- subset(endangered, vertebrate == "yes")
-sum(Verts$no.species) / sum(endangered$no.species) # 0.26
-
-# / divide 
-# * multiple
-# exp is exponential 
-
-
-# Option 2
-
-verts <- sum(endangered$no.species[endangered$vertebrate == "yes"])
-prop <- verts/sum(endangered$no.species)
-print(prop) # 0.27
-
-# Option 3
-# make new dataframe
-
-vertebrate <- subset(endangered, vertebrate == "yes")
-
-# find sum of vertebrates
-vertebrate_count <- sum(vertebrate$no.species)
-print(vertebrate_count) # 399
-
-# find sum of all endangered species (verts & inverts)
-endangered_count <- sum(endangered$no.species)
-print(endangered_count) # 1263
-
-# find proportion of vertebrates
-proportion <- vertebrate_count/endangered_count
-print(proportion) # 0.27
-
+# VARIABLE_NAME <- subset(DATAFRAME, VARIABLE == "yes")
+# sum(DATAFRAME1$VARIABLE) / sum(DATAFRAME2$VARIABLE)
 
 
 
 ```
-Answer. 27% of endangered species are vertebrates.

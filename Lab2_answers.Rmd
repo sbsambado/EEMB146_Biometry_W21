@@ -1,0 +1,175 @@
+---
+title: "Lab2_answers"
+author: "sbsambado"
+date: "1/16/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+#Answers for Lab 2
+
+**Question 1** (6 points: 2 points code is correct, 1 point for correct response)
+
++ A. The ground squirrel has the largest brain size:body ratio of 40 g/kg.
+
++ B. The African elephant has the smallest brain size:body ratio of 0.858431 g/kg.
+
++ C. The mean brain size:body ratio is 9.516999 g/kg.  This is less than the human ratio of 21.29032.
+
++ D. Anything coherent that explains their findings about the data not supporting scientist hypothesis in complete sentencees.
+
+
+**Question 2** (2 points: 1 point for code, 1 point for response)
+
++ There are 16 species of desert birds that are considered rare. 
+
+**Question 3** (2 points: 1 point for code, 1 point for response)
+
++ 27% of endangered species are vertebrates.
+
+
+*Notes*
+
++ ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + Reduce 20% off HW not in right format (-2 points)
+
++ Take the time to nail in homework format since this is first graded assignment
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+
+
+
+
+Some potential code to answer questions
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+```
+
+**Question 1.**
+```{r}
+# load in required data
+mammal <- read_csv("mammals.csv")
+
+# let's look at file
+#View(mammal)
+
+names(mammal) <- c("name", "body", "brain")
+
+# A. Which mammal has the largest brain size:body ratio?
+
+# make new variable column
+mammal$ratio <- mammal$brain / mammal$body
+
+# / divide 
+# * multiply 
+# exp is exponential 
+
+
+# find max ratio
+# dataframe[which.function(df$variable),]
+
+mammal[which.max(mammal$ratio),] # don't forget the comma post ()!!!
+
+# B. Which mammal has the smallest ratio?
+mammal[which.min(mammal$ratio),] # don't forget the comma post ()!!!
+
+# C. What is the mean brain size:body ratio? Are humans above or below the mean?
+mean(mammal$ratio)
+
+# find human ratio
+
+# Option 1 (prefered)
+mammal[mammal$name == "Human",] # make sure the spelling is the exact same!
+
+# Option 2
+mammal[mammal$name == "Human", "ratio"] # if you have a lot of variable columns
+
+# Option 3 (less prefered)
+# make new dataframe for humans and analyze that
+human <- mammal[which(mammal$name == "Human"),]
+mean(human$ratio)
+```
+
+**Question 2**
+```{r}
+# load data
+
+birds <- read_csv("desert_birds.csv")
+#View(birds)
+
+# A. How many desert bird species are rare (<= 10 counts)
+
+# make subset
+
+rare <- subset(birds, Count <= 10)
+#find how many rows there are in subset
+
+# Option 1. Look at length of vector
+length(rare$Count)
+dim(rare)
+nrow(rare)
+
+# Option 2. Look at dataset summary
+print(rare)
+summary(rare)
+
+# This is different than finding the total sum of birds within these rare species
+sum(rare$Count)
+```
+
+**Question 3**
+```{r}
+
+# load data
+endangered <- read_csv("endangered.csv")
+
+#View(endangered)
+
+# A. What proportion of endangered species are vertebrates?
+
+# Option 1
+
+Verts <- subset(endangered, vertebrate == "yes")
+sum(Verts$no.species) / sum(endangered$no.species) # 0.26
+
+# / divide 
+# * multiple
+# exp is exponential 
+
+
+# Option 2
+
+verts <- sum(endangered$no.species[endangered$vertebrate == "yes"])
+prop <- verts/sum(endangered$no.species)
+print(prop) # 0.27
+
+# Option 3
+# make new dataframe
+
+vertebrate <- subset(endangered, vertebrate == "yes")
+
+# find sum of vertebrates
+vertebrate_count <- sum(vertebrate$no.species)
+print(vertebrate_count) # 399
+
+# find sum of all endangered species (verts & inverts)
+endangered_count <- sum(endangered$no.species)
+print(endangered_count) # 1263
+
+# find proportion of vertebrates
+proportion <- vertebrate_count/endangered_count
+print(proportion) # 0.27
+
+
+
+
+```

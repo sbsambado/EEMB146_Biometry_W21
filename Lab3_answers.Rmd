@@ -1,0 +1,118 @@
+---
+title: "Lab3_answers"
+author: "sbsambado"
+date: "1/16/2021"
+output: html_document
+---
+
+
+# Answers for Lab 3
+
+**Question 1** (3 points: 1 point for code, 1 point for correctly answering each answer)
+
++ a. All distances are slightly skewed, with tails pointing to the right (right-skewed). 3m and 0m look the most normal.  
+
++ b. The median rosette diameters are very similar at different distances from the
+edge.  However, the dispersion or spread of the data increaes as the distance from the edge increases. Based on this, I would not feel confident concluding that there
+is a significant effect of edge on median rosette diameter, but I would feel confident concluding that there is a significant effect of edge on the variance in rosette diameter.
+
+**Question 2** (4 points: 1 point for code, 1 code for correctly answering each question)
+
++ a. Squaring the data only scaled the data, but did nothing about changing the distribution ("increasing the right skew"). Log-transforming the data changed the distribution ("decreased the right skew of the data"). 
+
++ b. The log-transformed data looks more normal.
+
++ c. The variable `num_flowers` can be 0 because it is a count. However the log of 0 is not a number; it is negative infinity.  Therefore, we need to add 1 to all values in the column to scale the data.  
+
+Squaring zero still gives us zero. 
+
+Technically, we would not need to add 1 if we log-transformed `dand_rosette_diam_cm` because measures are continuous variables that are always greater than 0. However, in our data set there actually are a few `dand_rosette_diam_cm` measures that are 0 due to mis-recording.
+
+
+**Question 3** (3 points: 1 point for code and 1 point correctly answering each question)
+
++ a. As we increase the distance from the nearest tree we see an increase in the percent cover. However, the linear trend line is not a good representation of this trend. The trend looks distinctly non-linear and there is substantial variation in the data.
+Just because R fitted a linear trend line doesn't mean that a line is the best fit. Even looking just looking at the slope of the line, we can tell it's a small relationship. Thus indicating that there is a weak to possibly no linear relationship.
+
++ b. The explanatory variable is `dist_from_tree_m` and the response variable is `percent_cover`.
+
+
+
+
+*Notes*
+
++ ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + -1.0 point for not PDF or HTML
+
++ - point for 1 day late
++ Take the time to nail in homework format since it's still early in course 
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+  
++ no credit for corrupted/non-working file
+
+
+# Some potential code to answer questions
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(tidyverse)
+library(knitr)
+library(ggplot2)
+```
+
+## Question 1 
+
+```{r, fig.width = 5, fig.height = 6}
+
+plant <- read.csv("plant_data.csv")
+
+# Make a histogram of dandelion rosette diameter - using basic R plotting code
+par(mfrow=c(3,1))
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 0m")
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 3m")
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 6m")
+```
+
+
+```{r}
+# Make a boxplot of dandelion rosette diameter
+boxplot(dand_rosette_diam_cm ~ dist_from_edge_m, plant, xlab="Distance from edge",
+		ylab="Dandelion rosette diameter")
+```
+
+## Question 2 
+
+```{r}
+plant$log_num_flowers = log(plant$num_flowers + 1)
+plant$num_flowers_sq = plant$num_flowers^2
+
+```
+
+Plotting the 3 histograms 
+
+```{r, fig.width = 5, fig.height = 6}
+# using using basic R plotting code
+par(mfrow=c(3,1))
+hist(plant$num_flowers, xlab="Number of flowers", breaks=20)
+hist(plant$log_num_flowers, xlab="Log number of flowers", breaks=20)
+hist(plant$num_flowers_sq, xlab="Number of flowers squared", breaks=20)
+
+```
+  
+
+## Question 3 
+
+```{r}
+# how you would code this in R
+plot(plant$percent_cover ~ plant$dist_from_tree_m, xlab="Distance from tree", ylab="Percent cover")
+
+fit <- lm(plant$percent_cover ~ plant$dist_from_tree_m, data=plant)
+abline(fit,col="green")
+```
+
+
