@@ -73,6 +73,9 @@ plant <- read.csv("plant_data.csv")
 
 # Make a histogram of dandelion rosette diameter - using basic R plotting code
 par(mfrow=c(3,1))
+
+
+par(mfrow = c(3,1))
 hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 0m")
 hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 3m")
 hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 6m")

@@ -1,0 +1,211 @@
+---
+title: "Lab3_DiscussionNotes"
+author: "sbsambado"
+date: "1/21/2021"
+output: html_document
+---
+
+Today's agenda
+
+1. Class housekeeping notes
+2. Work on exercises & homework in class
+4. Ask questions
+
+
+*Notes*
+
+**If you get stuck on HW code**
++ 1. refer to course material
++ 2. Nectir
++ 3. Google
++ 4. Attend a lab section
++ 5. email a TA after 1 - 4
+
+**Knitting problems**
++ make sure to have library()
++ #install.packages and #View
++ deceipher knitr error
++ read in data
+
+**Don't hesitate to ask questions in section!**
++ often I recieve the same question from different students
+
+**Check out these resources for graph help**
++ https://www.r-graph-gallery.com/
++ ggplot2-cheatsheet.pdf
+  + hone in on graph types for numeric/categorical data
+
+**Plotting**
++ base plot or ggplot - either is fine
+
++ ggplot formula
+
+    ggplot(dataframe, aes(x = variable1, y = variable2)) +
+    geom_structure()
+
+**THE FORMULA IS Y ~ X**
++ variable of interest ~ explanatory variable
++ outcome ~ input
+
+
+**Feedback on how you would like discussion section organized**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+
+```{r upload neccessary packages and data}
+library(readr)
+library(tidyverse)
+library(ggplot2)
+
+guppies <- read_csv("guppies.csv")
+lynx <- read_csv("lynx_data.csv")
+plant <- read_csv("plant_data.csv")
+
+install.packages("ggplot2")
+library(ggplot2)
+
+
+```
+
+# HOMEWORK
+
+**Question 1**
+
+```{r q1 hint}
+# read in data
+plant <- read.csv("plant_data.csv")
+
+# look at data
+#View(plant)
+dim(plant)
+summary(plant)
+
+# answer question
+
+# A. Describe the shape for different distances
+
+par(mfrow = c(3,1)) # view 3 rows in 1 column
+
+# HINT
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "0.0m"], xlab = "TITLE", ylab = "TITLE,  main = "TITLE)
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "3.0m"], xlab = "TITLE", ylab = "TITLE, main = "TITLE)
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "6.0m"], xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+
+par(mfrow = c(1,1)) # reset
+
+# Make a boxplot to look at spread
+
+#HINT
+#boxplot(Y ~ X, DATAFRAME, xlab = "TITLE", ylab = "TITLE", main = "TITLE")
+
+boxplot(plant$dand_rosette_diam_cm ~ plant$dist_from_edge_m, xlab = "Distance from edge", ylab = "diameter")
+
+```
+
+```{r q1 answer}
+# A
+
+par(mfrow = c(3,1))
+# 0 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],xlab = "Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 0m")
+
+# 3 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 3m")
+
+# 6 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 6m")
+
+par(mfrow = c(1,1))
+# look at "tails", where are they pointing
+# all look slightly skewed, with right skewed tails
+
+# B
+# Make a boxplot of dandelion rosette diameter
+boxplot(dand_rosette_diam_cm ~ dist_from_edge_m, plant, xlab="Distance from edge",
+		ylab="Dandelion rosette diameter")
+
+# not confident true effect
+
+par(mfrow = c(1,1))
+
+
+```
+
+
+**Question 2**
+
+```{r q2 hint}
+# A
+
+# First, transform data (i.e. make 2 new columns in plant data frame)
+# Then, make 3 histograms 
+  # num_leaves
+  # log_leaves
+  # sq_leaves
+
+
+# transform data
+
+
+# HINT
+
+
+# log transform
+# DATAFRAME$LOG_VARIABLE = log(DATAFRAME$VARIABLE + 1)
+
+# square transform 
+# DATAFRAME$SQ_VARIABLE = DATAFRAME$VARIABLE^2
+
+# look at distribution 
+
+# HINT
+
+par(mfrow = c(3,1))
+#hist(DATAFRAME$VARIABLE,  xlab = "TITLE", ylab = "TITLE", main = "TITLE")
+#hist(DATAFRAME$LOG_VARIABLE, xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+#hist(DATAFRAME$SQ_VARIABLE,  xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+```
+
+```{r q2 answer}
+
+plant$log_num_flowers = log(plant$num_flowers + 1)
+plant$sq_num_flowers = plant$num_flowers^2
+
+
+par(mfrow = c(3,1))
+hist(plant$num_flowers, xlab="Number of flowers")
+hist(plant$log_num_flowers, xlab="Log number of flowers")
+hist(plant$sq_num_flowers, xlab="Number of flowers squared")
+```
+
+**Question 3**
+
+```{r q3 hint}
+
+plant <- read_csv("plant_data.csv")
+# A. what trend do you notice in the data?
+
+# HINT
+# plot(DATAFRAME$VARIABLE1 ~ DATAFRAME$VARIABLE2, xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+
+# fit <- lm(DATAFRAME$VARIABLE1 ~ DATAFRAME$VARIABLE2, data = DATAFRAME)
+# abline(fit, col = "CHOOSECOLOR")
+
+```
+
+```{r q3 answer}
+# how you would code this in R
+plot(plant$percent_cover ~ plant$dist_from_tree_m, xlab="Distance from tree", ylab="Percent cover")
+
+fit <- lm(plant$percent_cover ~ plant$dist_from_tree_m, data=plant)
+abline(fit,col="green")
+```
+
