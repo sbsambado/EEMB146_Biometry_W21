@@ -45,7 +45,8 @@ Just because R fitted a linear trend line doesn't mean that a line is the best f
 
   + -1.0 point for not PDF or HTML
 
-+ - point for 1 day late
++ - 1.0 point for 1 day late
+
 + Take the time to nail in homework format since it's still early in course 
   + -.25 point if code is not annotated
   + -.25 point if answers are not in complete sentences

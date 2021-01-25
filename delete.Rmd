@@ -1,0 +1,36 @@
+---
+title: "delete"
+author: "sbsambado"
+date: "1/24/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### 1.1 One sample t-test  
+  
+When we want ot ask a question about the mean of a sample, but we do not know there true variance of the population (i.e. we have to estimate the variance from the sample) we need to use a one sample t-test. The one-sample t-test has the following assumptions:  
+  
+1. Assumes the random variable (e.g. beak width, kelp height, etc.) has a *normal distribution*  
+2. Assumes that the observations represent a *random sample* from the population  
+  
+The hypotheses for a two-sided one sample t-test are: 
+  
+$H_0 : \mu = a$  
+$H_A : \mu \neq a$  
+  
+where $a$ is your hypothesized mean.  
+  
+To test these hypotheses, calculate a t statistic using the following formula:  
+  
+$t = \frac{\bar Y - a}{s/\sqrt{n}}$  
+  
+where $s$ is the standard deviation of your sample and n is your sample size.  
+  
+The resulting t-statistic has $n-1$ degrees of freedom (df). You can test your null hypothesis in three different ways:   
+  
+1. Get the critical t-value $(t_{\alpha(2)})$ with $n-1$ df for $\alpha = 0.05$ and compare it to your calculated t-value. Reject your null hypothesis if the absolute value of your t-value is greater than the absolute value or the critical t-value.  
+2. Calculate the 95% confidence interval with the equation $\bar Y \pm t_{\alpha(2),df}SE_{\bar Y}$ and determine if $a$ (your hypothesized mean) i sin the interval. Reject your null hypothesis if $a$ is not in the 95% CI.    
+3. Find the p-value associated with your critical t-value (via R or a t-table with $n-1$ df) and determine if it is less than your predetermined $\alpha$. Reject $H_0$ if $p<\alpha$  
