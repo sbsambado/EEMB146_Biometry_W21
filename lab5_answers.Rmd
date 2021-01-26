@@ -1,0 +1,130 @@
+---
+title: "lab5_answers"
+author: "sbsambado"
+date: "1/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+# libraries needed for this lab
+library(readr)
+library(tidyverse)
+library(ggplot2) # ifyou want to make fancy plots
+library(car) # new package alert!
+
+mammals <- read_csv("mammals_hearing.csv")
+parasitoids <- read_csv("parasitoids.csv")
+crickets <- read_csv("starving_cricket.csv")
+plant <-read_csv("plant_data.csv")
+```
+
+# Answers for Lab 5
+
+*Notes*
+
+ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + -2.0 points if HW not in right format 
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+  
+  
+### **Question 1: Dandelions and the habitat edge**
+
+Load the plant_data.csv dataset and try to answer the following question:
+
+**Is there a difference in the number of dandelion leaves per rosette between dandelion 0m from the habitat edge and 6m from the habitat edge?**
+
+Use the num_leaves_in_rosette column and the dist_from_edge_m column to answer this question. You will have to subset your data to only include the plants from 0m and 6m. To do this, do the following:
+
+```{r}
+dat <- read.csv("plant_data.csv")
+sub_plant = dat[dat$dist_from_edge_m != "3.0m", ]
+sub_plant$dist_from_edge_m <- factor(sub_plant$dist_from_edge_m)
+
+# check to see if 3.0m is dropped
+ levels(sub_plant$dist_from_edge_m)
+ View(sub_plant) #remove View() command before knitting your Rmd
+
+```
+
+After you have subsetted your data, perform the following analysis:
+
+  * Look at **histograms and boxplots** of *num_leaves_in_rosette* at 0.0m and 6.0m. Based on these boxplots, are there any outliers? What is the shape of each distribution?
+
+```{r}
+hist(sub_plant$num_leaves_in_rosette[sub_plant$dist_from_edge_m=="0.0m"])
+hist(sub_plant$num_leaves_in_rosette[sub_plant$dist_from_edge_m=="0.0m"])
+
+boxplot(sub_plant$num_leaves_in_rosette ~ sub_plant$dist_from_edge_m)
+
+```
+
+  * Check the **assumptions of normality** of *num_leaves_in_rosette* at 0.0m and 6.0m from the habitat edge using the **residuals** (see appendix for how to do this). Are the residuals normal or not normal? Show a **QQ-plot** and a **Shapiro-Wilk** statistic.
+```{r}
+fit <- lm(num_leaves_in_rosette ~ dist_from_edge_m, data = sub_plant)
+res <- fit$residuals
+
+library(car)
+qqPlot(res)
+hist(res)
+shapiro.test(res)
+```
+
+  * If your assumptions of normality were not met (and you don't think the CLT would apply), **transform the data** using an appropriate transformation (see Section 4).
+```{r}
+sub_plant$log_numleaves <- log(sub_plant$num_leaves_in_rosette+1)
+#fit <- lm(num_leaves_in_rosette ~ dist_from_edge_m, data=sub_plant)
+fit_log <- lm(log_numleaves ~ dist_from_edge_m, data = sub_plant)
+
+res <- fit$residuals
+res_log <- fit_log$residuals
+
+hist(res)
+hist(res_log)
+```
+
+  * Specify what transformation you used (you can try a couple, but just report one!) and **retest your normality assumptions** and check again for outliers. Show me the **QQplot and Shapiro-Wilk** statistic for the **residuals** of a transformed variable. Do you feel confident assuming normality?
+
+  * Based on your answer to the above question, perform the **appropriate two-sample test** (e.g. t-test (parametric) or Mann-Whitney U-test/Wilcoxon Test (non-parametric)). For whatever test you choose:
+
+
+A. Clearly **state your null and alternative hypotheses**. Remember, these hypotheses will change based on transformations and whether or not you are running a non-parametric test so you may have to update them!
+```{r question 1A}
+# null hypothesis: there is no difference in X
+
+# alternative hypothesis: there is a difference in X
+```
+
+B. Check your homogeneity of variance assumption and **report the p-value from your Levene's Test**. Remember, you have to test this assumption even if you are using a Mann-Whitney U-test. If you reject this assumption you can still do a Mann-Whitney U-test, but you have to be careful whether you null hypothesis is that the medians are different between the two groups or that the shapes of the distributions are different between the two groups.
+
+```{r question 2B}
+
+
+```
+
+C. Show your **test statistic** and your **p-value** for your test.
+
+D. Clearly state your conclusion regarding how the **number of leaves in a rosette** differs between 0m from the habitat edge and 6.0m from the habitat edge. Provide a one to two sentence biological interpretation of your conclusion (no right answer here, just make sure it is logical and complete).
+
+### **Question 2: Starving crickets**
+
+Example 13.5 in Whitlock and Schluter: The sage cricket has an unusual form of mating. During mating, the male offers his fleshy hind wings to the female to eat. The wounds are not fatal, but a male with already nibbled wings is less likely to be chosen by females he meet subsequently. Females get some nutrition from feeding on the wings, which raises the question, "Are females more likely to mate if they are hungry?" Johnson et al. (1999) answered this question by randomly dividing 24 females into two groups: one group of 11 females was starved for at least two days and another group of 13 females was fed during the same period. Finally, each female was put separately into a cage with a single (new) male, and the waiting time to mating was recorded.
+
+Load in the data file starving_crickets.csv and perform the following steps:
+
+A. Clearly **state your null and alternative hypotheses**.
+
+B. **Visualize** your data in some meaningful way and show this plot in your report.
+
+C. Test whether the two groups of crickets (starved and fed) follow a normal distribution by **testing the normality of the residuals** (see appendix for how to do this). Are the residuals normal or not normal? Show a **QQ-plot and a Shapiro-Wilk** statistic.
+
+D. Try one **transformation on your data** that you think is reasonable (note: you can try more than one, but only include one in your homework). **Retest your normality assumptions**, give the **QQ-plot** and the **Shapiro-Wilk** statistic, and report whether this transformation made the data normal.
+  
+E. Test the assumption that the variances between the two groups is equal for either the transformed or untransformed data, depending on what you are going to analyze. Show me the resulting Levene's test p-value. Interpret your Levene's Test p-value.
+
+F. Based on your results above, test your hypothesis using the appropriate two-sample test and give the results of the test. State your conclusions in terms of rejecting or failing to reject your null hypothesis. Based on your result, give a logical explanation on why you think female crickets eat the male crickets' wings.
