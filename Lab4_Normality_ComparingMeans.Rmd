@@ -74,9 +74,17 @@ hist(norm_samp,
 
 hist(exp_samp,
      breaks=20, #20 bins is more practical, even though our sample size is 10x bigger. You get a sense of how many fall within bins that have a width that makes sense. This normal variable could be "age" for example 
-     col='darkgray',
+     col='purple',
      ylab="Frequency",
      main="Histogram of Non-Normally Distributed Data") 
+
+titantic <- read_csv("titanic.csv")
+names(titanic)
+
+ggplot(data = titanic, aes(x = Survive, y = Age)) +
+  geom_point(fill = "red", size = 6, color = "red") +
+  theme_classic()
+
 
 ```
 
@@ -92,8 +100,15 @@ The `exp_samp` data does not look normally distributed
 library(car)#load car package
 
 # Now we’ll generate a qqplot using qqPlot function in car package.
+
+qqplot() # wrong
+qqp() # wrong
+qqPlot(norm_samp, main = "title") # right
+
+par(mfrow = c(1,1) )
 qqPlot(norm_samp, main = "qqPlot of Normally Distributed Data") #qqplot function
 qqPlot(exp_samp, main = "qqPlot of Non-Normally Distributed Data") #qqplot function
+
 
 
 ```
@@ -199,7 +214,11 @@ If you want to compare the means between two groups and each data point in one g
 
 R code
 ```{r paired- t-test}
+
+# first make 
 # t.test(GROUP1, GROUP2, paired = TRUE)
+
+t.test(weak, dominant, paired = TRUE)
 
 ```
 
@@ -330,6 +349,9 @@ Women and children first?! That was the societal norm when the Titanic sank. The
 # survive is a non-numeric value, so boxplot is more appropriate than a histogram
 # HINT: boxplot(Y ~ X, data = DATASET)
 
+names(titanic)
+boxplot(Age ~ Survive, data = titanic)
+
 ```  
   
 2. Check the assumptions of the two sample t-test:
@@ -341,6 +363,8 @@ library(car) # load the package before you use it
 # Visualize
 
 # HINT: with(DATASET, qqPlot(RESPONSEVARIABLE[GROUPVARIABLE == "no"],))
+
+dim(titanic)   
 with(titanic, qqPlot(Age[Survive == "no"],)) # did you name titanic.csv "titanic"? if not, change it here
 with(titanic, qqPlot(Age[Survive == "yes"],)) # did you name titanic.csv "titanic"? if not, change it here
 
@@ -358,6 +382,9 @@ Remember: The *null hypothesis* of the Levene's test is that the variance betwee
 If p < 0.05 we reject the null hypothesis, if p > 0.05 we fail to reject the null hypothesis
 ```{r}
 # Levene's test: response variable, group variable
+
+leveneTest(titanic$Age, titanic$Survive)
+
 leveneTest(titanic$Age, titanic$Survive)
 
 leveneTest(titanic$Age, titanic$Survive)

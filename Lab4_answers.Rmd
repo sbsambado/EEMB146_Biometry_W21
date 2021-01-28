@@ -25,7 +25,7 @@ bumpus <- read_csv("bumpus.csv")
 
 ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
 
-  + -2.0 points if HW not in right format (-2 points)
+  + -2.0 points if HW not in right format 
   + -.25 point if code is not annotated
   + -.25 point if answers are not in complete sentences
   + -.25 point if code does not seem adequate to answer question
@@ -37,7 +37,8 @@ Use a **paired t-test** to answer the following question: *Does writing the phas
   
 a. Clearly *state* your null and alternative hypotheses of your paired t-test.
 ```{r question 1a}
-# null hypothesis: mean of dominant = mean of week (there is no difference btween the time it takes to write)
+
+# null hypothesis: mean of dominant = mean of week (there is no difference btween the time it takes to write) 
 
 # alternative hypothesis: mean of dominant != mean of weak (There is a difference between the time it takes to write ")
 ```
@@ -48,8 +49,9 @@ b. Visualize your data in a meaningful way.
 
 # make new column for differences
 
+library(tidyverse)
 # Option 1
-dominant <- subset(dexterity, hand=="dominant")
+dominant <- subset(dexterity, hand =="dominant") 
 weak  <- subset(dexterity, hand=="weak")
 diff <- dominant$time - weak$time
 
@@ -70,6 +72,7 @@ par(mfrow = c(1,1))
 boxplot(diff, main = "Boxplot of the difference in time")
 hist(diff, main = "Boxplot of the difference in time")
 
+
 ```
 
 
@@ -85,6 +88,7 @@ weak  <- subset(dexterity, hand=="weak")
 diff <- dominant$time - weak$time
 
 # Option 2
+
 weak <- dexterity$time[dexterity$hand=="weak"] #create new data section for each hand
 dominant <- dexterity$time[dexterity$hand=="dominant"] #create new data section for each hand
 difference <- weak - dominant
@@ -104,6 +108,8 @@ shapiro.test(diff)
 
 d. Regardless of whether or not you think the assumptions of the t-test hold, *report* the 95% confidence interval for the paired t-test. Use the 95% CI to reject or fail to reject your null hypothesis. Be specific as to why you do one or the other and *state* your conclusions about the dominant v. weak hand dexterity.
 ```{r question 1d}
+
+# paired t.test two groups 
 # Null hypothesis: mean of the differences = 0
 t.test(dominant, weak, paired = TRUE)
 
@@ -120,6 +126,10 @@ t.test(diff, mu = 0)
 # p value < 2.2e-16
 # mean is not equal to 0, there is a significant difference between the mean time for writing "The search for truth"
 
+
+
+
+?t.test
 ```
 
 **Question 2: Natural selection in birds**  
@@ -129,30 +139,42 @@ Bumpus published all of his data, and you can find them in the file *bumpus.csv*
 
 a. Clearly *state* your null and alternative hypotheses of your **two-sample t-test**.  
 
+null = this
+alternative = that
 ```{r question 2a}
+
 # null hypothesis: mean of alive birds = mean of dead birds (There is no significant difference in mean bird length between alive and dead birds)
+
 # alternative hypothesis: mean of alive birds != mean of dead birds (there is a significant difference in mean bird length between alive and dead birds)
 ```
 
 b. Visualize your data in some meaningful way, and *explain* what information you get from the visualization. Include this plot in your report.  
 ```{r question 2b}
+
+# boxplot(Y ~ X, data = data)
+
 # boxplot or histogram that shows alive birds seem to be smaller than dead birds
 boxplot(total_length_mm ~ survival, data = bumpus)
+
+
 
 ```
 
 c. Check whether the normality assumption is valid for the two-sample t-test using the procedure described earlier. Include the Shapiro-Wilk p-value and the qqPlot and *explain* whether or not the normality assumption is valid.  
 ```{r}
+
 # qqPlot
+# HINT: with(dataframe, qqPlot(Yvariable[groupvariable === "no]))
+
 with(bumpus, qqPlot(total_length_mm[survival == "no"]))
 with(bumpus, qqPlot(total_length_mm[survival == "yes"]))
 
 # shapiro
 
-with(bumpus, shapiro.test(total_length_mm[survival == "no"])) # p = 0.01767
-with(bumpus, shapiro.test(total_length_mm[survival == "yes"])) # p = 0.1787
+with(bumpus, shapiro.test(total_length_mm[survival == "no"])) # p = 0.01767; p < 0.05 = reject null, data are NOT normal
+with(bumpus, shapiro.test(total_length_mm[survival == "yes"])) # p = 0.1787; p > 0.05 = fail to reject, data are NORMAL
 
-# The above qqPlot and Shapiro-Wilk statistic show that for once of the classes (survival = yes) the residuals are not quite normal. However for this scenario we are going to pretend that both classes are normally distributed
+# The above qqPlot and Shapiro-Wilk statistic show that for once of the classes (survival = no) the residuals are not quite normal. However for this scenario we are going to pretend that both classes are normally distributed
 ```
 
 d. Test whether the trait has equal variance between dead and alive birds using a Levene's Test. *Report* the results of your Levene's test. Based on the results, *state* whether the groups have equal or unequal variances.  
@@ -165,6 +187,8 @@ leveneTest(total_length_mm ~ survival, data = bumpus, center = "median") # p = 0
 # Remember, 
   # F test is used for small data sets
   # Levene is use for large data sets
+
+
 ```
 
 e. Perform the appropriate two-sample t-test and display your results. Clearly *state* your conclusion from the two-sample t-test in terms of how the trait affects a bird's survival during winter storms.  

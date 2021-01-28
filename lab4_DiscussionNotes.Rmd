@@ -1,0 +1,119 @@
+---
+title: "Lab4_discussionNotes"
+author: "sbsambado"
+date: "1/28/2021"
+output: html_document
+---
+
+
+Today's Agenda
+
+1. What you need for this lab
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(readr)
+library(tidyverse)
+library(ggplot2) # ifyou want to make fancy plots
+
+library(car) # new package alert!
+
+# data needed for this lab
+titanic <- read_csv("titanic.csv")
+dexterity <- read_csv("dexterity.csv")
+bumpus <- read_csv("bumpus.csv")
+```
+
+2. Contextualize where we are this week
+    Lab 2: import and wrangle data
+    Lab 3: visualize data
+    Lab 4: determine normality of data
+    Lab 5 - 8: running the appropriate statistical tests based on your data normality
+    
+3. Quick Notes about Lab 4
+    + it is A LOT of information 
+        + but this information will help you with 30% of your final project
+    + sometimes it is a judgment call based on hist/box, qqPlot, CLT
+        + just make your an
+
+4. Info that will make this lab assignment easier (this is a notoriously tricky lab)     
+
+### shapiro wilks comparing NORMALITY
+### t-test comparing MEANS
+### levene's and welch's comparing VARIANCE
+
+This lab is split into 2 sections
+~ make sure you null/alternative hypotheses match with what tests you are running!! ~
+
+**1. Normality**
+  + shapiro wilks: testing normality 
+  
+**2. Comparing means**
+  + t-test : testing for means
+  + levene's / welch : testing for variance
+
+# Shapiro-Wilks: Testing for normality 
+
+*Steps to complete homework*
+1. state your null and alternative hypothesis
+2. visualize the distribution with a histogram/boxplot, qqPlot
+3. run a shapiro-wilk test (test normality)
+4. run the appropriate t-test (parametric or not parametric)
+
+
+## WRITE THIS DOWN SOMEWHERE
+
+*The gist of Shapiro-Wilks Test*
+null hypothesis: data are NORMALLY distributed
+alternative hypothesis: data are NOT NORMALLY distributed
+
+p < 0.05 : reject null --> data are NOT normally distributed
+p > 0.05 : fail to reject null --> data are NORMALLY distributed
+
+
+# How to interpret shapiro test results
+
+```{r}
+# create data from a norm sample
+norm_samp = rnorm(1000, mean=21 , sd=3) #normal distribution 
+
+# run a shapiro.test
+# HINT: shapiro.test(VECTOR)
+shapiro.test(norm_samp)
+
+shapiro.test(norm_samp)
+
+
+```
+
+  1. state your p-value: p-value = 0.348
+  2. compare your p-value to significant p-value value: 0.348 > 0.05
+  3. look at your null hypothesis: data are normally distributed
+  4. contextualize: My p-value of the shapiro-wlk test is 0.348, which is above a p-value of 0.05, so I fail to reject my null and I can be resaonably confident that my data are normal
+
+*Does your shaprio-wilk value align with the plots you made regarding data distribution?*
++ this is a judgment call sometimes, when in doubt look at CLT (50+ observations)
+
+run a qqPlot for normality
+```{r}
+
+# other tools for visualizing normality 
+# histogram
+# boxplots
+
+# another tool for visualizing normality
+# qqPlot
+
+qqPlot(norm_samp) 
+```
+
+# T-test: Comparing Means
+
+paired = take the difference (requires subsetting)
+  + can't split the groups
+    + left/right hand 1 body, leaf 1/leaf2 1 branch
+
+two - sample = splits 1 variable into 2 groups with code
+  + can split the groups
+    + high school/college students, basketball/baseball players
