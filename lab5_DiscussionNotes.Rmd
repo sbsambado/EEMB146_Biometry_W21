@@ -1,0 +1,88 @@
+---
+title: "lab5_discussionnotes"
+author: "sbsambado"
+date: "2/4/2021"
+output: html_document
+---
+
+Today's Agenda
+
+1. What you need for this lab
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# libraries needed for this lab
+library(readr)
+library(tidyverse)
+library(ggplot2) # ifyou want to make fancy plots
+library(car) 
+
+mammals <- read_csv("mammals_hearing.csv")
+parasitoids <- read_csv("parasitoids.csv")
+crickets <- read_csv("starving_cricket.csv")
+plant <-read_csv("plant_data.csv")
+
+
+```
+
+2. Contextualize where we are this week
+    Lab 2: import and wrangle data
+    Lab 3: visualize data
+    Lab 4: determine normality of data
+    Lab 5: what to do with non-normal data... moving into regression models!
+    
+3. Quick Notes about Lab 5
+    + You know most of this stuff already.
+    + residuals are *new* 
+        ~ amount of variability between observed and predicted Y value
+            aka "how wrong is your prediction"
+      res = 0 -> no difference between your observed & predicted Y values (highly unlikely)
+      res = 1+ -> there is some difference between observed & predicted Y values (more likely)
+    
+    + Use your lab manuals to follow the structure of how we want you to answer question
+    + Be *very* clear with your language 
+  
+4. Info that will make this lab assignment easier (this is a notoriously tricky lab)     
+  + parametric for normal data
+  + non-parametric for not normal data
+  
+    **shapiro wilks** comparing NORMALITY
+    **t-test** comparing MEANS
+    **levene's and welch's** comparing VARIANCE
+    **Mann-Whitney U-test/Wilcoxn** comparing MEDIANS (non-parametric) << this is new
+    
+*The gist of these tests *
+null hypothesis: data are X 
+alternative hypothesis: data are NOT X
+
+p < 0.05 : reject null --> data are NOT X
+p > 0.05 : fail to reject null --> data are X
+
+
+MAKE SURE IF YOU TRANSFORM YOUR DATA YOU RE-RUN THROUGH ALL THE NORMALITY CHECKS
++ hist(data) -> not normal
+  qqPlot(data) -> not normal
+  shapiro(data) -> not normal
+  
+  
++ hist(log(data)) -> normal
+  qqPlot(log(data)) -> normal
+  shapiro(log(data)) -> normal
+      ----> then run all your appropriate statistical tests!
+ 
+```{r}
+
+unique(plant$dist_from_edge_m)
+unique(plant$num_leaves_in_rosette)
+
+??subset()
+
+
+boxplot(num_leaves_in_rosette ~ dist_from_edge_m, data = sub_plant)
+
+qqPlot(num_leaves_in_rosette ~ dist_from_edge_m, data = sub_plant)
+
+
+```
+

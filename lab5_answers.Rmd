@@ -42,9 +42,24 @@ Load the plant_data.csv dataset and try to answer the following question:
 Use the num_leaves_in_rosette column and the dist_from_edge_m column to answer this question. You will have to subset your data to only include the plants from 0m and 6m. To do this, do the following:
 
 ```{r}
-dat <- read.csv("plant_data.csv")
+
+plant<- read.csv("plant_data.csv")
+dim(plant) # 259 rows/observations, 10
+
+
+
+sub_plant = plant[plant$dist_from_edge_m == "0.0m" | plant$dist_from_edge_m == "6.0m",]
+
+dim(sub_plant) #158 
+
+sub_plant = plant[plant$dist_from_edge_m != "3.0m",]
+
+
+
+
 sub_plant = dat[dat$dist_from_edge_m != "3.0m", ]
 sub_plant$dist_from_edge_m <- factor(sub_plant$dist_from_edge_m)
+dim(sub_plant) # 158 rows/observations, 10
 
 # check to see if 3.0m is dropped
  levels(sub_plant$dist_from_edge_m)
@@ -58,7 +73,7 @@ After you have subsetted your data, perform the following analysis:
 
 ```{r}
 hist(sub_plant$num_leaves_in_rosette[sub_plant$dist_from_edge_m=="0.0m"])
-hist(sub_plant$num_leaves_in_rosette[sub_plant$dist_from_edge_m=="0.0m"])
+hist(sub_plant$num_leaves_in_rosette[sub_plant$dist_from_edge_m=="6.0m"])
 
 boxplot(sub_plant$num_leaves_in_rosette ~ sub_plant$dist_from_edge_m)
 
@@ -69,47 +84,83 @@ boxplot(sub_plant$num_leaves_in_rosette ~ sub_plant$dist_from_edge_m)
 fit <- lm(num_leaves_in_rosette ~ dist_from_edge_m, data = sub_plant)
 res <- fit$residuals
 
-library(car)
 qqPlot(res)
 hist(res)
-shapiro.test(res)
+shapiro.test(res) # p -value < 0.05, we reject the null; suggest that data are not normal
 ```
 
   * If your assumptions of normality were not met (and you don't think the CLT would apply), **transform the data** using an appropriate transformation (see Section 4).
 ```{r}
 sub_plant$log_numleaves <- log(sub_plant$num_leaves_in_rosette+1)
 #fit <- lm(num_leaves_in_rosette ~ dist_from_edge_m, data=sub_plant)
+```
+
+  * Specify what transformation you used (you can try a couple, but just report one!) and **retest your normality assumptions** and check again for outliers. Show me the **QQplot and Shapiro-Wilk** statistic for the **residuals** of a transformed variable. Do you feel confident assuming normality?
+```{r}
+# log transformation
 fit_log <- lm(log_numleaves ~ dist_from_edge_m, data = sub_plant)
 
 res <- fit$residuals
 res_log <- fit_log$residuals
 
-hist(res)
 hist(res_log)
+qqPlot(res_log)
+
+shapiro.test(res_log) # p < 0.05, we reject the null; suggest that data are not normal
 ```
 
-  * Specify what transformation you used (you can try a couple, but just report one!) and **retest your normality assumptions** and check again for outliers. Show me the **QQplot and Shapiro-Wilk** statistic for the **residuals** of a transformed variable. Do you feel confident assuming normality?
-
   * Based on your answer to the above question, perform the **appropriate two-sample test** (e.g. t-test (parametric) or Mann-Whitney U-test/Wilcoxon Test (non-parametric)). For whatever test you choose:
+```{r}
+
+hist(sub_plant$log_numleaves[sub_plant$dist_from_edge_m == "0.0m"])
+hist(sub_plant$log_numleaves[sub_plant$dist_from_edge_m == "6.0m"])
+
+# perform a levene's test
+
+leveneTest(sub_plant$num_leaves_in_rosette ~ sub_plant$dist_from_edge_m) # F value = 5.4947, p value =  0.02065
+# p < 0.05, reject the null, varaince of these distributions are different
+
+# non-normal data so non-parametric test, Mann-Whitney U-test/Wilcoxon Test
+
+wilcox.test(num_leaves_in_rosette ~ dist_from_edge_m, data = sub_plant) # p-value = 0.0171
+# p < 0.05, distances 0m and 6m do not have equal amounts of number of leaves in rosette
+
+# check median
+median(sub_plant$log_numleaves[sub_plant$dist_from_edge_m == "0.0m"], na.rm = T) # 2.397895
+median(sub_plant$log_numleaves[sub_plant$dist_from_edge_m == "6.0m"], na.rm = T) # 2.197225
+
+```
 
 
 A. Clearly **state your null and alternative hypotheses**. Remember, these hypotheses will change based on transformations and whether or not you are running a non-parametric test so you may have to update them!
 ```{r question 1A}
-# null hypothesis: there is no difference in X
+# null hypothesis: there is no difference in log X
 
-# alternative hypothesis: there is a difference in X
+# alternative hypothesis: there is a difference in log X
 ```
 
 B. Check your homogeneity of variance assumption and **report the p-value from your Levene's Test**. Remember, you have to test this assumption even if you are using a Mann-Whitney U-test. If you reject this assumption you can still do a Mann-Whitney U-test, but you have to be careful whether you null hypothesis is that the medians are different between the two groups or that the shapes of the distributions are different between the two groups.
 
 ```{r question 2B}
 
+# perform a levene's test
+
+leveneTest(sub_plant$log_numleaves ~ sub_plant$dist_from_edge_m) # p value = 0.2656
+# p > 0.05, fail to reject the null, varaince of these distributions are not different
+
 
 ```
 
 C. Show your **test statistic** and your **p-value** for your test.
+```{r}
+# variances are not different based on Levene test
+# use Mann-Whitney U-test
+
+```
 
 D. Clearly state your conclusion regarding how the **number of leaves in a rosette** differs between 0m from the habitat edge and 6.0m from the habitat edge. Provide a one to two sentence biological interpretation of your conclusion (no right answer here, just make sure it is logical and complete).
+
+
 
 ### **Question 2: Starving crickets**
 
@@ -118,13 +169,54 @@ Example 13.5 in Whitlock and Schluter: The sage cricket has an unusual form of m
 Load in the data file starving_crickets.csv and perform the following steps:
 
 A. Clearly **state your null and alternative hypotheses**.
+```{r}
+# null: waiting time is not different between starved and fed
+# alternative: waiting time is different between starved and fed
+
+```
 
 B. **Visualize** your data in some meaningful way and show this plot in your report.
+```{r}
+
+boxplot(time_to_mating ~ feeding, data = crickets)
+
+qqPlot(time_to_mating ~ feeding, data = crickets)
+```
 
 C. Test whether the two groups of crickets (starved and fed) follow a normal distribution by **testing the normality of the residuals** (see appendix for how to do this). Are the residuals normal or not normal? Show a **QQ-plot and a Shapiro-Wilk** statistic.
+```{r}
+
+fit2 <- lm(time_to_mating ~ feeding, data = crickets)
+
+res2 <- fit2$residuals
+
+#What is a residual? http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-residual.html
+
+#Are the residuals normally distributed?
+shapiro.test(res2) #p < 0.05 so we reject the null; suggests that the data are not normal
+qqPlot(res2) #this can also be found within the diagnostic plots obtained from plot(fit)
+hist(res2)
+```
+
 
 D. Try one **transformation on your data** that you think is reasonable (note: you can try more than one, but only include one in your homework). **Retest your normality assumptions**, give the **QQ-plot** and the **Shapiro-Wilk** statistic, and report whether this transformation made the data normal.
-  
+
+```{r}
+
+crickets$log_time <- log(crickets$time_to_mating)
+fit3 <- lm(log_time ~ feeding, data = crickets)
+
+res3 <- fit2$residuals
+
+#What is a residual? http://www.statsmakemecry.com/smmctheblog/confusing-stats-terms-explained-residual.html
+
+#Are the residuals normally distributed?
+shapiro.test(res3) #p < 0.05 so we reject the null; suggests that the data are not normal
+qqPlot(res3) #this can also be found within the diagnostic plots obtained from plot(fit)
+hist(res3)
+```
+
+
 E. Test the assumption that the variances between the two groups is equal for either the transformed or untransformed data, depending on what you are going to analyze. Show me the resulting Levene's test p-value. Interpret your Levene's Test p-value.
 
 F. Based on your results above, test your hypothesis using the appropriate two-sample test and give the results of the test. State your conclusions in terms of rejecting or failing to reject your null hypothesis. Based on your result, give a logical explanation on why you think female crickets eat the male crickets' wings.
