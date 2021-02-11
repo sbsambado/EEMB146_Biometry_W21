@@ -14,6 +14,7 @@ library(tidyverse)
 library(car)
 library(ggplot2)
 library(multcomp) # new package alert! Make sure to install.packages("")
+library(MASS)
 
 # datasets needed for lab 6
 hand_wash <- read_csv("hand_washing.csv")
@@ -128,8 +129,9 @@ boxplot(bac_colonies~washing_method,
         data=hand_wash,
         xlab="Washing method",ylab="Bacteria colonies") #one outlier
 
-
+unique(hand_wash$washing_method)
 with(hand_wash,hist(bac_colonies[washing_method=="ab_soap"])) # remember [ ] selects for objects 
+
 
 ```
 
@@ -149,11 +151,16 @@ To get our residuals, we first need to run our ANOVA. We will use the funciton *
 ```{r}
 
 # HINT: aov(y ~ x, data = dataset)
+
 wash1 <- aov(bac_colonies~washing_method, data=hand_wash) #run the ANOVA
 par(mfrow=c(2,2)) # places 2 plots on 1 output view
 plot(wash1) #look at the diagnostic plots; focus on the first two plots (fitted vs residuals & QQ plot)
 
 par(mfrow=c(1,1)) # resets output view
+
+
+## extract residuals
+
 res=wash1$residuals #retrieve the residuals
 
 ```
@@ -242,10 +249,14 @@ summary(Post_hoc)
 confint(Post_hoc) # shows your lower and upper CI bounds 
 cld(Post_hoc) #compact letter display of Tukey groups
 
-plot(Post_hoc, main = "Fig 1: 95% confidence level") #confidence intervals plotted
+par("mgp")
+#par(mpg = c(3, 1, 0))
+plot(Post_hoc, main = "Fig 1: 95% confidence level", cex.axis = .3) #confidence intervals plotted
 # the mean number of bacterial colonies on alcohol is significantly different than all other levels (alcohol = a, the rest of the levels = b)
 # (has a different letter and CIs don't overlap with 0 and p-values significant)
 
+
+?par()
 ```
 
 

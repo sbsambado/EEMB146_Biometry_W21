@@ -89,7 +89,11 @@ A. Clearly state your **null and alternative hypotheses**
 B. Show me a **box plot** (or a means plot) of the data. How many levels are we testing?
 ```{r}
 malaria <- read_csv("malaria_vs_maize.csv")
+# check to see if your variable is a factor
+str(malaria)
+# change to factor
 
+malaria$Maize_yield <- as.factor(malaria$Maize_yield)
 boxplot(malaria_cases_per_10000 ~ Maize_yield, data = malaria)
 
 # We are testing 3 levels
@@ -128,6 +132,8 @@ shapiro.test(corn2$residuals) # p = 0.8875
 E. Run an **ANOVA on your transformed data**. Include the ANOVA table generated in the analysis. Using the ANOVA table, conclude whether the level of cultivation significantly affects the number of malaria cases. You don’t need to do any pairwise comparisons for this exercise.
 
 ```{r}
+
+
 corn2 <- aov(log_cases ~ Maize_yield, data=malaria)
 
 summary(corn2) # p = 2.41e-05
@@ -160,7 +166,8 @@ eggs <- read_csv("cuckooeggs.csv")
 
 names(eggs) <- c("species", "length")
 
-boxplot(length ~ species, data = eggs)
+# formula ( y ~ x)
+boxplot(length ~ species, data = eggs, cex.axis = .4)
 
 # we are testing 6 levels/groups/species
 ```
@@ -170,15 +177,14 @@ C. Test the **assumptions of normality and homogeneity of variance** using diagn
 ```{r}
 eggs1 <- aov(length ~ species, data = eggs)
 summary(eggs1) # p = 3.15e-08
-
 par(mfrow = c(2,2))
 plot(eggs1)
 par(mfrow = c(1,1))
 
+egg_res <- eggs1$residuals
+qqPlot(egg_res)
 
-qqPlot(eggs1$residuals)
-
-shapiro.test(eggs1$residuals)
+shapiro.test(egg_res)
 leveneTest(length ~ species, data = eggs, center = "median") # p = 0.6698
 ```
 
@@ -224,9 +230,13 @@ summary(Post_hoc)
 confint(Post_hoc) # shows your lower and upper CI bounds 
 cld(Post_hoc) #compact letter display of Tukey groups
 
-plot(Post_hoc, main = "Fig 1: 95% confidence level") #confidence intervals plotted
-#
+# change output size
+par(mar = c(5.1, 4.1, 4.1, 2.1)) # play around with these numbers
+plot(Post_hoc, main = "Fig 1: 95% confidence level",cex.axis = .3) #confidence intervals plotted
+
 # The cuckoo lays the smallest eggs in the Wren nest
+
+?plot()
 ```
 
 

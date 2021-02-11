@@ -1,0 +1,102 @@
+---
+title: "lab6_disccusion_notes"
+author: "sbsambado"
+date: "2/11/2021"
+output: html_document
+---
+
+Today's Agenda
+
+1. FINAL PROJECT
++ go over the instructions
++ start looking for datasets **NOW**
++ look at link `How to start looking at data`
+
+
+2. What you need for this lab
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages needed for lab 6
+library(readr)
+library(tidyverse)
+library(car)
+library(ggplot2)
+library(multcomp) # new package alert! Make sure to install.packages("")
+library(MASS) # new package alert! Make sure to install.packages("")
+
+# datasets needed for lab 6
+hand_wash <- read_csv("hand_washing.csv")
+malaria <- read_csv("malaria_vs_maize.csv")
+eggs <- read_csv("cuckooeggs.csv")
+
+# you'll need `power_anova.R` open in another script
+
+
+
+```
+
+3. Contextualize where we are this week
+    Lab 2: import and wrangle data
+    *T-test land* -> Part 1 of final project
+    Lab 3: visualize data
+    Lab 4: determine normality of data
+    Lab 5: what to do with non-normal data... moving into regression models!
+    *Regression and correlation land* -> Part 2 of final project
+    Lab 6: Regression models are here and residuals are here to stay
+    
+4. Quick Notes about Lab 6
+  + analyzing variance within and across groups
+  
+  + **factor** = variable of interest (column name)
+      + **level/treatment** = groups we are comparing
+      
+  + MAKE SURE YOUR VARIABLE IS A FACTOR
+```{r}
+hand_wash < read_csv("hand_washing.csv")
+str(hand_wash)
+
+# transform washing_method into a factor
+
+# DATASET$FACTOR <- as.factor(DATASET$FACTOR)
+hand_wash$washing_method <- as.factor(hand_wash$washing_method)
+str(hand_wash) # washing_method = 'chr', won't work for the mcp()
+```
+
+  + HW question 3 copy script `power_anova.R`
+    + only change values in top part of script
+    
+
+  + How to read an ANOVA residual plot
+```{r}
+# HINT: aov(y ~ x, data = dataset)
+wash1 <- aov(bac_colonies~washing_method, data=hand_wash) #run the ANOVA
+par(mfrow=c(2,2)) # places 2 plots on 1 output view
+plot(wash1) #look at the diagnostic plots; focus on the first two plots (fitted vs residuals & QQ plot)
+
+unique(hand_wash$washing_method)
+```
++ Different wrappers
+```{r}
+### ONE WAY ANOVA ### 
+
+# run model with aov()
+# get summary of model with summary()
+
+# run model with lm()
+# get ANOVA summary of model with aov()
+
+```
+
+
+You test residuals to get the whole picture
+```{r}
+par(mfrow = c(3,1))
+with(plant,hist(num_leaves_in_rosette[dist_from_edge_m=="0.0m"], breaks = 20, col = "lightblue"))
+with(plant,hist(num_leaves_in_rosette[dist_from_edge_m=="6.0m"], breaks = 20, col = "darkblue"))
+with(plant,hist(num_leaves_in_rosette, breaks = 20, col = "blue"))
+
+
+?hist()
+```
+
