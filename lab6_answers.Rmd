@@ -1,0 +1,242 @@
+---
+title: "lab6_answers"
+author: "sbsambado"
+date: "2/4/2021"
+output: html_document
+---
+
+# Answers for Lab 6
+
+*Notes*
+
+ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + -2.0 points if HW not in right format 
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages needed for lab 6
+library(readr)
+library(tidyverse)
+library(car)
+library(ggplot2)
+library(multcomp) # new package alert! Make sure to install.packages("")
+
+# datasets needed for lab 6
+hand_wash <- read_csv("hand_washing.csv")
+malaria <- read_csv("malaria_vs_maize.csv")
+eggs <- read_csv("cuckooeggs.csv")
+
+```
+
+## **Question 1** 
+
+4 points:
+
+  + 1 correct hypotheses 
+  
+  + 0.5 boxplot 
+  
+  + 1 checking assumptions 
+  
+  + 0.5 transformation
+  
+  + 1 correct interpretation of ANOVA
+
+## **Question 2**
+
+4 points: 
+
+  + 1 correct hypotheses 
+  
+  + 0.5 boxplot 
+  
+  + 0.5 checking assumptions 
+  
+  + 1 correct interpretation of ANOVA
+  
+  + 1 correct interpretation of Tukey-Kramer
+  
+## **Question 3**
+
+2 points:
+
+  + 0.25 part A
+  
+  + 0.25 part B
+  
+  + 0.25 part C
+  
+  + 0.25 part D
+  
+  + 1 point for part E
+  
+  
+**Question 1**
+
+A. Clearly state your **null and alternative hypotheses**
+```{r}
+# null: the mean malaria incidence doe not differ between the three levels of cultivation
+# alternative: Then mean malaria incidence differs for at least one level of cultivation
+```
+
+
+B. Show me a **box plot** (or a means plot) of the data. How many levels are we testing?
+```{r}
+malaria <- read_csv("malaria_vs_maize.csv")
+
+boxplot(malaria_cases_per_10000 ~ Maize_yield, data = malaria)
+
+# We are testing 3 levels
+```
+
+C. Test the assumptions of normality and homogeneity of variance using the diagnostic plots (i.e. the **residual plot and the qqPlot**) and the **Shapiro-Wilk test and the Levene’s Test**. Based on these tests, what do you conclude about your normality and homogeneity of variance assumptions?
+```{r}
+corn1 <- aov(malaria_cases_per_10000 ~ Maize_yield, data=malaria)
+summary(corn1)
+par(mfrow = c(2,2))
+plot(corn1)
+par(mfrow = c(1,1))
+
+qqPlot(corn1$residuals)
+
+leveneTest(malaria_cases_per_10000 ~ Maize_yield, data=malaria)
+shapiro.test(corn1$residuals)
+
+# There are clear violations of normality and homogeniety of variance assumptions
+```
+
+D. If your assumptions aren’t met try **transforming malaria_cases_per_1000**. After your transformation, **retest your assumptions using the transformed data** with diagnostic plots (i.e. the residual plot and the qqplot) and the Shapiro-Wilk test and the Levene’s Test. Find a transformation that allows for both assumptions to be met. Just report this transformation.
+```{r}
+
+malaria$log_cases <- log(malaria$malaria_cases_per_10000)
+
+leveneTest(log_cases ~ Maize_yield, data = malaria, center = "median") # p = 0.05604
+
+corn2 <- aov(log_cases ~ Maize_yield, data=malaria)
+
+shapiro.test(corn2$residuals) # p = 0.8875
+
+# based on the above tests, both the homogeneity of variance and normality assumptions are now met. I used a log transformation
+```
+
+E. Run an **ANOVA on your transformed data**. Include the ANOVA table generated in the analysis. Using the ANOVA table, conclude whether the level of cultivation significantly affects the number of malaria cases. You don’t need to do any pairwise comparisons for this exercise.
+
+```{r}
+corn2 <- aov(log_cases ~ Maize_yield, data=malaria)
+
+summary(corn2) # p = 2.41e-05
+
+par(mfrow = c(2,2))
+plot(corn2)
+
+par(mfrow = c(1,1))
+
+# we conclude that cultivation does have a significant effect on the log number of malaria cases
+```
+
+
+**Question 2**
+
+The European cuckoo does not look after its own eggs, but instead lays them in the nests of birds of other species. Cuckoos sometimes have evolved to lay eggs that are colored similarly to the host birds’ eggs. Is the same true of size – do cuckoos lay eggs of different sizes in nests of different hosts? The data file **cuckooeggs.csv** contains data on the lengths of cuckoo eggs laid in a variety of other species’ nests.
+
+Use an ANOVA to test for *a difference in cuckoo egg size for different host species*. Specifically:
+
+A. Clearly state your **null and alternative hypotheses**
+```{r}
+# null:The mean size of cuckoo eggs is the same for all host species
+# alternative: The mean size of cuckoo eggs is different for at least one host species
+```
+
+B. Show me a **box plot** (or a means plot) of the data. How many levels (groups) are we testing? 
+```{r}
+
+eggs <- read_csv("cuckooeggs.csv")
+
+names(eggs) <- c("species", "length")
+
+boxplot(length ~ species, data = eggs)
+
+# we are testing 6 levels/groups/species
+```
+
+  
+C. Test the **assumptions of normality and homogeneity of variance** using diagnostic plots (i.e. residuals plots and QQplots) and a Shapiro-Wilk test and a Levene’s Test. What do you conclude about your assumptions of normality and homogeneity of variance?
+```{r}
+eggs1 <- aov(length ~ species, data = eggs)
+summary(eggs1) # p = 3.15e-08
+
+par(mfrow = c(2,2))
+plot(eggs1)
+par(mfrow = c(1,1))
+
+
+qqPlot(eggs1$residuals)
+
+shapiro.test(eggs1$residuals)
+leveneTest(length ~ species, data = eggs, center = "median") # p = 0.6698
+```
+
+D. If your assumptions aren’t met try a transformation. Otherwise, proceed with your analysis.
+```{r}
+
+# The assumptions of normality and homoegenitiy of variances are met
+
+
+```
+
+
+E. Include the **ANOVA table** generated from the analysis. Conclude whether cuckoos lay different size eggs in different bird nests.
+```{r}
+eggs1 <- aov(length ~ species, data = eggs)
+summary(eggs1) # p = 3.15e-08
+
+par(mfrow = c(2,2))
+plot(eggs1)
+par(mfrow = c(1,1))
+
+shapiro.test(eggs1$residuals) # p = 0.07761
+leveneTest(length ~ species, data = eggs, center = "median") # p = 0.6698
+qqPlot(eggs1$residuals)
+
+
+# Cuckoos lay significantly different sized eggs in different host species's nests
+```
+
+
+F. Perform a **Tukey-Kramer Test** for multiple comparisons. For what bird species does the cuckoo lay the significantly smallest eggs?
+```{r}
+
+eggs$species <- as.factor(eggs$species)
+eggs1 <- aov(length ~ species, data = eggs)
+
+TukeyHSD(eggs1)
+
+Post_hoc <- glht(eggs1, linfct = mcp(species = "Tukey")) # if washing_method is not a factor when you ran the wash1 anova, the glht() will not work
+
+summary(Post_hoc) 
+
+confint(Post_hoc) # shows your lower and upper CI bounds 
+cld(Post_hoc) #compact letter display of Tukey groups
+
+plot(Post_hoc, main = "Fig 1: 95% confidence level") #confidence intervals plotted
+#
+# The cuckoo lays the smallest eggs in the Wren nest
+```
+
+
+**Question 3**
+A. One factor that could bias the experiment is how much the student drank the night before. Another factor that could bias the experiment is whether or not you blinded the experiment.
+
+B. Approximately 25 students in each group to have a power of 0.8
+
+C. We would now need to sample approximately 38 students in each group to have a power of 0.8
+
+D. Now I would need only about 12 students to have 0.8 power
+
+E. If there is larger variance we will need more samples to have equivalent power. If there is a bigger difference between the treatment and control we will need fewer samples to detect the true difference.
