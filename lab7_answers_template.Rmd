@@ -1,0 +1,215 @@
+---
+title: "lab7 answers"
+author: "sbsambado"
+date: "2/14/2021"
+output: html_document
+---
+
+# Answers for Lab 7
+
+*Notes*
+
+ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + -2.0 points if HW not in right format 
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+  
+  
+**Question 1 (4 pts)**
+	0.5 pt correct hypothesis: leaves not correlated w diam
+	0.5 pt scatterplot
+	0.5 pt transformation and assess
+	1 pt Pearson's test on transformed
+	1 pt Spearman's test on raw data
+	0.5 pt conclusions
+
+**Question 2 (6 pts)**
+	0.5 pt correct hypothesis
+	0.5 pt scatterplot
+	0.5 pt first linear model spiders~height
+	1 pt interpret assumptions
+	1 pt final transformation
+	1 pt interpret B1
+	1 pt prediction
+	0.5 pt R2
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages needed for lab 7
+library(readr)
+library(tidyverse)
+library(car)
+library(ggplot2)
+library(psych) # new package alert! Make sure to install.packages("")
+
+
+# datasets needed for lab 7
+kelp <- read_csv("kelp_data.csv")
+deet <- read_csv("deet.csv")
+plant <- read_csv("plant_data.csv") # the plant data will forever haunt us
+spiders <- read_csv("spiders.csv")
+```
+
+
+### **Question 1: correlating dandelions**  
+  
+We are going to look at the plant dataset and ask the following question:  
+  
+*Does the number of leaves in a dandelion rosette (num_leaves_in_rosette) correlate with the diameter of the rosette (dand_rosette_diam_cm)?*  
+  
+
+1. Clearly state your null and alternative hypotheses for the correlation test.  
+```{r}
+
+plant <- read_csv("plant_data.csv") # the plant data will forever haunt us
+
+#H0: These is no significant correlation between number of leaves in a dandelion rosette and the diameter of a dandelion rosette
+
+#HA: There is a significant correlation between the number of leaves in a dandelion rosette and the diameter of a dandelion rosette.
+```
+
+2. Use a scatter plot matrix of num_leaves_in_rosette and dand_rosette_diam_cm to assess your assumptions for a parametric correlation test. Do you think your assumption of linearity and bivariate normality are met just based on the figure (i.e. you don’t need to run any Shapiro-Wilk tests)?  
+```{r}
+str(plant) # 259 rows, 10 variables
+#subset the data you want to plot - pairs.panels() only takes data.frames, not formulas!
+plot.plant <- data.frame(plant[,9:10])
+colnames(plot.plant)<-c("num_leaves_in_rosette", "dand_rosette_diam_cm") #give columns names
+
+# Always double check your dataframe after subsetting it!
+str(plot.plant) # 259 rows, 2 variables
+
+pairs.panels(plot.plant, density = TRUE, cor=FALSE, lm=TRUE)  # makes a scatterplot matrix of your dataset. show density plots, do not show correlation values, use a linear model
+
+
+## Based on the above plot, num_leaves_in_rosette looks distinctly non-normal which violates our bivariate normality assumption. Moreover, there does seem to be a slight non-linear trend in the data. Therefore, our assumptions are not met.
+```
+
+  
+3. If your assumptions of bivariate normality are not met (i.e. at least one of the variables is not normal), transform whatever variable is not normal so that the assumptions of linearity and bivariate normality are met. Assess these assumptions using a scatter plot matrix and briefly describe how the plot shows you that the assumptions are now met.  
+  + Hint: If you log-transform num_leaves_in_rosette be sure to add 1!  
+```{r}
+
+plot.plant$log_leaves <- log(plot.plant$num_leaves_in_rosette + 1)
+pairs.panels(plot.plant, density = TRUE, cor=FALSE, lm=TRUE)
+
+## Based on the figure, both variables look pretty normal and there doesn’t seem to be any strong non-linear relationship between the two variables. Therefore, I’d say the assumptions are met.
+```
+
+  
+4. Run a Pearson's correlation test on the transformed data.  
+```{r}
+cor.test(plot.plant$log_leaves, plot.plant$dand_rosette_diam_cm, method = "pearson")
+
+# cor = 0.27
+```
+
+
+5. Run a Spearman's rank correlation test on the untransformed data.  
+```{r}
+
+cor.test(plot.plant$num_leaves_in_rosette, plot.plant$dand_rosette_diam_cm, method = "spearman")
+
+# rho = 0.263
+```
+  
+6. Based on both tests, what do you conclude about the correlation (positive, negative, none) between number of leaves in a dandelion rosette and the diameter of a dandelion rosette?  
+```{r}
+## Both tests show a significant positive correlation between the number of leaves in a dandelion rosette and the diameter of the diameter rosette.
+```
+
+### **Question 2: social spiders**  
+  
+Social spiders live together in kin groups where they build communal webs and cooperate in gathering prey. You gather web measurements on 17 colonies of the social spider *Cyrtophora citricola* in Gabon to determine whether you could *predict* the number of spiders in a colony based on how high the web was off of the ground. Load in the dataset spiders and do the following:  
+  
+1. Clearly state your null and alternative hypotheses for a regression analysis.  
+```{r}
+# H0: There is no effect of height of the web on the number of spiders in the colony (β1(slope) = 0)
+
+# HA: There is an effect of the height of the web on the number of spiders in the colony (β1(slope) 6= 0)
+```
+  
+2. Make a scatterplot of the data. What stands out to you about this scatterplot?  
+```{r}
+
+plot(spiders$height.cm, spiders$number.spiders)
+text(spiders$height.cm, spiders$number.spiders, labels=rownames(spiders), pos=1)
+
+## plot 5 seems like a huge outlier!
+```
+  
+3. Fit a linear regression to the data, and look at the diagnostic plots like we did earlier. Based on these plots, are the assumptions of normality and equal variance met? Briefly explain your answer.  
+
+```{r}
+fit1 <- lm(number.spiders ~ height.cm, data = spiders)
+par(mfrow = c(2,2))
+plot(fit1)
+
+shapiro.test(fit1$residuals) # p < 0.05
+
+# Based on the these plots the assumptions of normality and homogeneity of variance are not met. Point 5 makes it so there are severe violations of the normality assumptions as noted by the QQ plot deviating from the straight line. This can also be seen with a Shapiro-Wilk statistic which shows a clear violation of our normality assumptions. Moreover, 5 is such an outlier on the residual plot that we can’t even assess whether there is any sort of a patter in the remaining residuals. Let’s run the analysis without observations 5
+```
+ 
+4. You learn that one of the research technicians miscounted observation 5 and you decide to drop it from your data and run a regression analysis. You can use the subset() function where colony!=5, and run your regression on the new subset. After you have fit the regression model, check your assumptions with diagnostic plots and report whether you think your assumptions for the linear regression are met.  
+```{r}
+fit2 <- lm(number.spiders ~ height.cm, subset = colony != 5, data = spiders)
+par(mfrow = c(2,2))
+plot(fit2)
+
+shapiro.test(fit2$residuals) # p > 0.05
+
+# After dropping point 5, our assumptions of normality looks decent, but there is a wedge shaped pattern in the residual plot indicating that our homogeneity of variance assumption might not be met. We should try a transformation to see if it improves the residual plot. Note, that we only transform the y because the violation is in the residual plot. Residuals remember are calculated as the y oberservation - fitted y. Therefore the transformation is applied to fix the violation in the response variables.
+```
+  
+5. If necessary, try transforming your response and/or predictor variables. Report what transformations you tried and show the resulting diagnostic plots. Make sure you continue to exclude colony 5!  
+```{r}
+
+fit3 <- lm(log(number.spiders) ~ height.cm, subset = colony != 5, data = spiders)
+par(mfrow = c(2,2))
+plot(fit3)
+
+shapiro.test(fit3$residuals) # p > 0.05
+
+summary(fit3) # p = 6.40e-08 ***
+
+# After log transforming the response variable (number.spiders) it looks like the equal variance assumptions are met. It might not be as normal, but since we’re aren’t teaching you how to deal with that. We’ll say it’s fine. Now I can use the linear regression model test my null hypothesis.
+```
+  
+6. Report the resulting linear regression model in the form: response variable = b0 + b1 * explanatory variable. Interpret b1 in a sentence.  
+```{r}
+# The resulting model is:
+# Log number of spiders = 2.621925 + 0.007166 ∗ height in cm
+
+# b1 says that for every one unit increase in height of a web off of the ground, there is a corresponding 0.007166 unit increase in log number of spiders in a web.
+```
+
+7. Use the model you wrote down in the question above to predict the expected number of spiders in a colony 230cm off of the ground. *Hint*: if you log transformed your data, remember that log in R is by default the natural log.
+```{r}
+# Now I want to predict how many spiders will be in a web 230 cm off of the ground. I can do this with the model that I wrote down above
+
+log_spiders = 2.621925 + 0.007166 * 230
+
+exp(log_spiders) # 72 spiders in a web that is 230 cm off of the ground
+```
+
+  
+8. Is web height a significant predictor of the number of spiders in a colony? What is the value of the p-value that is allowing you to make that conclusion?  
+```{r}
+# According to the output above, web height is a highly significant positive predictor of number of spiders with a p-value of 1.12e-05.
+```
+
+  
+9. Finally, report the $R^2$ value of the model and interpret it in a sentence.
+```{r}
+# the R2 for this model is .7588 which says that about 76% of the variation in log number of spiders in a colony can be explained by the height the colony was off of the ground.
+```
+
+
+
+
+
+
+
+
