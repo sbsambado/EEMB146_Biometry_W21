@@ -122,13 +122,16 @@ cor.test(plot.plant$num_leaves_in_rosette, plot.plant$dand_rosette_diam_cm, meth
 
 ### **Question 2: social spiders**  
   
+  explanatory data analysis
+  - visualize 
+  
 Social spiders live together in kin groups where they build communal webs and cooperate in gathering prey. You gather web measurements on 17 colonies of the social spider *Cyrtophora citricola* in Gabon to determine whether you could *predict* the number of spiders in a colony based on how high the web was off of the ground. Load in the dataset spiders and do the following:  
   
 1. Clearly state your null and alternative hypotheses for a regression analysis.  
 ```{r}
 # H0: There is no effect of height of the web on the number of spiders in the colony (β1(slope) = 0)
 
-# HA: There is an effect of the height of the web on the number of spiders in the colony (β1(slope) 6= 0)
+# HA: There is an effect of the height of the web on the number of spiders in the colony (β1(slope)= 0)
 ```
   
 2. Make a scatterplot of the data. What stands out to you about this scatterplot?  
@@ -165,6 +168,8 @@ shapiro.test(fit2$residuals) # p > 0.05
   
 5. If necessary, try transforming your response and/or predictor variables. Report what transformations you tried and show the resulting diagnostic plots. Make sure you continue to exclude colony 5!  
 ```{r}
+# see if there is 0 data in your y
+min(spiders$number.spiders)
 
 fit3 <- lm(log(number.spiders) ~ height.cm, subset = colony != 5, data = spiders)
 par(mfrow = c(2,2))
@@ -175,11 +180,22 @@ shapiro.test(fit3$residuals) # p > 0.05
 summary(fit3) # p = 6.40e-08 ***
 
 # After log transforming the response variable (number.spiders) it looks like the equal variance assumptions are met. It might not be as normal, but since we’re aren’t teaching you how to deal with that. We’ll say it’s fine. Now I can use the linear regression model test my null hypothesis.
+
+
+#fake <- lm(num_flowers ~ dist_from_edge_m, data = plant)
+#par(mfrow = c(2,2))
+#plot(fake)
+#plot(fit3)
+
+
 ```
   
 6. Report the resulting linear regression model in the form: response variable = b0 + b1 * explanatory variable. Interpret b1 in a sentence.  
 ```{r}
 # The resulting model is:
+
+# Y ~ intercept (B0) + slope (B1)*X
+
 # Log number of spiders = 2.621925 + 0.007166 ∗ height in cm
 
 # b1 says that for every one unit increase in height of a web off of the ground, there is a corresponding 0.007166 unit increase in log number of spiders in a web.
@@ -189,6 +205,7 @@ summary(fit3) # p = 6.40e-08 ***
 ```{r}
 # Now I want to predict how many spiders will be in a web 230 cm off of the ground. I can do this with the model that I wrote down above
 
+# Y = B0 + B1*X
 log_spiders = 2.621925 + 0.007166 * 230
 
 exp(log_spiders) # 72 spiders in a web that is 230 cm off of the ground

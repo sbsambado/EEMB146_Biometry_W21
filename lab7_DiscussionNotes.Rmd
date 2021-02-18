@@ -1,0 +1,217 @@
+---
+title: "lab7_DiscussionNotes"
+author: "sbsambado"
+date: "2/18/2021"
+output: html_document
+---
+
+Today's Agenda
+
+1. FINAL PROJECT
+- Mini-Assessment # 1 is due tomorrow at 12 PM (NOON)
+- My sections will now be focused on final project help
+
+### Clarifications: look for the post I made on 2/13
+1.  If you are using a published dataset we ask that you 
+      a) perform different statistical analyses than the paper or 
+      b) investigate a different relationship with the data. 
+
+i.e. If **published authors** were interested in **egg length (y)** and were looking at **species type (x)** to explain the outcomes, **you could look at** **egg length** as a result of other variables like **height of nest, diet of mother bird, etc**.
+
+2. Your outcome of interest **(y) needs to be numerical and normally distributed** (untransformed or with a transformation).
+
+3. When looking at datasets, write down what are potential relationships to investigate in a format that is familiar for this class (y~x). Or if you're writing to me explaining your dataset/question (which is totally fine!), **tell me what is your potential outcome of interest (y) and what are potential explanatory variables (x)**.
+
+i.e. I am interested in the height of trees and I think tree species, annual precipitation, and soil type influences the height of a given tree. A way to write this down to help you make sure your dataset follows all criteria would be:
+
+** individual tree height (m) **(numeric and normally distributed)** ~ tree species **(categorical for pine, oak, magnolia)** + annual precipitation (mm) **(numeric)** + soil type **(categorical for sand, silt, clay)**
+
+
+Y ~ x + x + x
+
+numeric/normally distributed ~  numeric + categorical + categorical
+
+
+
+
+4 tools
+- boxplot/histogram
+- shapiro wilk
+- qqPlot
+- CLT
+
+
+
+
+4. If you don't have a particular dataset in mind, I personally highly recommend the  **Bird and Mammal database** (https://opentraits.org/datasets.html) because it has datasets that look a lot like the ones we use in 146!
+
+5. If you have identified a dataset that meets the criteria but are stuck on where to begin, I definitely recommend looking over this link (https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html) in addition to the techniques we taught you for Lab 2 and Lab 3:
+
++ identify how much data (rows + columns) you have
+```{r}
+dim(plant)
+str(plant) # 49857 observations/rows (y's), # 10 variables/colums (x's)
+
+```
+
++ identify numeric/categorical variables
+```{r}
+
+str(dataset)
+str(plant)
+```
+
++ subset variables that will be useful for your analysis (may be more than 4 to begin with!)
+```{r}
+
+subset()
+
+datset[datset$variable == ""]
+```
+
++ get plotting, explatory data analysi
+
+```{r}
+
+hist()
+boxplot() # categorical, numeric 
+# scatterplots if you have two numeric variables 
+ggplot(data, aes(x = x, y = y)) +
+  geom_point() # scatterplot
+```
+
+
+
+2. What you need for this lab
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+# packages needed for lab 7
+library(readr)
+library(tidyverse)
+library(car)
+library(ggplot2)
+
+install.packages("psych")
+library(psych) # new package alert! Make sure to install.packages("")
+
+
+# datasets needed for lab 7
+kelp <- read_csv("kelp_data.csv")
+deet <- read_csv("deet.csv")
+plant <- read_csv("plant_data.csv") # the plant data will forever haunt us
+spiders <- read_csv("spiders.csv")
+
+
+str(kelp)
+summary(kelp)
+
+```
+
+y ~ x + x + x
+
+sea urchin
+
+1. graph it, shapiro, qqPlot
+
+2. transforming count 
+
+3. graph it, shapiro, qqPlot
+
+parametic <- normal data
+4. non-parametric tests <- for non-normal data FOR TEST ANALYSES PT 1 of report
+
+count of urchins (numeric, normally distributed) ~ level of kelp removal (categorical for control and annual) + size (numeric) + site (categorical for site1, site2, site3) + heatwave (categorical for pre and post) 
+
+3. Contextualize where we are this week
+    Lab 2: import and wrangle data
+    Lab 3: visualize data
+    *Comparing means/medians/variance land* -> Part 1 of final project (t-test or ANOVA)
+    Lab 4: determine normality of data
+    Lab 5: what to do with non-normal data
+    Lab 6: how to assess variance of categorical data (check normality on residuals)
+    *Regression and correlation land* -> Part 2 of final project
+    Lab 7: regression and correlation 
+    
+4. Quick Notes about Lab 7
+
+#### CORRELATION
+  - YOU CAN ONLY DO A CORRELATION ON TWO NUMERIC VALUES
+  - Pearson's correlation coefficient (r) (parametric) -1 to 1
+      + -1 perfect negative correlation
+      + 0 no correlation 
+      + 1 perfect positive correlation
+  - Spearman's rank (nonparametric)
+
+How to read pairs.panels in the `psych` package
+```{r if you don't subset, message=FALSE}
+str(kelp) # 120 rows, 6 variables
+#subset the data you want to plot - pairs.panels() only takes data.frames, not formulas!
+
+pairs.panels(kelp) # add arguments: density = T/F, cor = T/F, lm = T/F
+
+
+#pairs.panels(kelp, density = TRUE) # adds curve to histograms
+#pairs.panels(kelp, lm = TRUE) # add linear regression line
+
+
+
+
+```
+
+```{r subset, but not normal data, message=FALSE}
+
+plot.kelp <- data.frame(kelp[,2:3], kelp[,5]) # subset your dataset kelp into variables you care about
+colnames(plot.kelp)<-c("max_wid", "min_wid", "abund_amphipod") #give columns names
+
+# Always double check your dataframe after subsetting it!
+str(plot.kelp) # 120 rows, 3 variables
+
+#install.packages("psych") #a new package for you!
+#library(psych)
+pairs.panels(plot.kelp, density = TRUE, cor=TRUE, lm=FALSE)  # makes a scatterplot matrix of your dataset. show density plots, do not show correlation values, use a linear model
+
+```
+
+```{r normal data, message=FALSE}
+log.plot.kelp <- log(plot.kelp+1) #a fast and easy way to log the whole dataset!
+colnames(log.plot.kelp)<-c("max_wid_log", "min_wid_log", "abund_amphipod_log") #rename since they're logged now
+pairs.panels(log.plot.kelp, density = TRUE, cor=TRUE, lm=TRUE)  # makes a scatterplot matrix of your dataset. show density plots (density = TRUE), do not show correlation values (cor = FALSE), use a linear model (lm = TRUE)
+
+```
+
+#### LINEAR REGRESSION
+  - Hypotheses of linear regression
+      + H0 **slope of line** = 0 (means there is no influence of x on y)
+      + HA slope of line != 0 (means there is influence of x on y )
+
+**REMEMBER**
+  Y ~ INTERCEPT (B0) + SLOPE (B1) * X1 + SLOPE (B2) X2
+
+When you call for `summary(model)`, look for:
+- intercept
+- slope of X
+- p-value for X
+- R^2
+
+```{r how to understand the output}      
+fit3 <- lm(log(number.spiders) ~ height.cm, subset = colony != 5, data = spiders)
+par(mfrow = c(2,2))
+plot(fit3)
+
+summary(fit3)
+
+
+
+```
+
+how to find an outlier on a scatterplot for HW Q2
+```{r how to find an outlier on a scatterplot}
+
+plot(spiders$height.cm, spiders$number.spiders)
+text(spiders$height.cm, spiders$number.spiders, labels=rownames(spiders), pos = 1) 
+# labels = rownames(DATASET) # pos is position of label
+
+
+```
