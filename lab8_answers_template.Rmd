@@ -1,0 +1,171 @@
+---
+title: "lab8 answers"
+author: "sbsambado"
+date: "2/21/2021"
+output: html_document
+---
+
+
+# Answers for Lab 8
+
+**Question 1**
+1 point for background/context, -0.5 for uncited sources
+
+**Question 2**
+0.5 point for visualization, 0.5 for identification of predictors (SolarR, Wind, and Temp could all be predictors; Month could be justified as predictor or random effect; Day could be random effect but may not be important)
+
+**Question 3**
+0.5 point for checking that there is a linear relationship between predictors and response. 0.5 point for addressing outliers (points 117 and possibly 62; either run model with/without them or log transform Ozone) remember, not all predictors need to be normal as long as the model residuals are normal
+
+**Question 4**
+1 point for linear model with correctly checking residuals
+
+**Question 5**
+2 points (each model, with correctly checked residuals, is 1 point)
+
+**Question 6**
+1 point for nicely formatted table with df, AIC, BIC, and adj.r.sq
+
+**Question 7**
+1 point for justification of model choice; 1.5 point for prediction/assessment of fit
+
+0.5 point for formatting/style/overall professional appearance of assignment
+
+*Notes*
+
+ALL HOMEWORK SHOULD BE SUBMITTED AS A KNITTED HOMEWORK FILE (.PDF or .HTML)
+
+  + -2.0 points if HW not in right format 
+  + -.25 point if code is not annotated
+  + -.25 point if answers are not in complete sentences
+  + -.25 point if code does not seem adequate to answer question
+
+
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages needed for lab 8
+# If you haven't used a package before you will need to install it with install.packages("package") 
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(car) #for the qqPlot function
+library(psych) #for pairs.panels()
+library(knitr) # we will use this package to make beautiful tables
+library(nlme) #for fitting mixed effects models (linear models with random effects) ~ new pacakge alert! ~
+
+# datasets needed for lab 8
+
+airqual <- na.omit(airquality)
+
+```
+
+**Question 1**
+Pretty much any background info is fine.
+
+**Question 2: Visualize**
+```{r}
+#must use pairs plots
+pairs.panels(airqual, lm = T) #discuss which variables have linear relationships
+
+#optional: boxplot - remember this doesn't have to be normal
+boxplot(airqual$Ozone)
+
+```
+
+**Question 3: Check assumptions**
+```{r}
+fit_solar <- lm(Ozone~Solar.R, data = airqual)
+fit_wind <- lm(Ozone~Wind, data = airqual)
+fit_temp <- lm(Ozone~Temp, data = airqual)
+fit_all <- lm(Ozone~Temp+Wind+Solar.R, data = airqual)
+
+res_S <- resid(fit_solar)
+res_W <- resid(fit_wind)
+res_T <- resid(fit_temp)
+res_A <- resid(fit_all)
+
+op <- par(mfrow = c(2,2))
+qqPlot(res_S)
+qqPlot(res_W)
+qqPlot(res_T)
+qqPlot(res_A)
+
+par(op)
+
+logfit_solar <- lm(log(Ozone)~Solar.R, data = airqual)
+logfit_wind <- lm(log(Ozone)~Wind, data = airqual)
+logfit_temp <- lm(log(Ozone)~Temp, data = airqual)
+logfit_all <- lm(log(Ozone)~Temp+Wind+Solar.R, data = airqual)
+
+logres_S <- resid(logfit_solar)
+logres_W <- resid(logfit_wind)
+logres_T <- resid(logfit_temp)
+logres_A <- resid(logfit_all)
+
+op <- par(mfrow = c(2,2))
+qqPlot(logres_S)
+
+par(op)
+
+```
+
+**Question 4,5**
+Any models are fine
+```{r}
+#random effects example
+re_model <- lme(log(Ozone) ~ Temp, random = ~1|Month, data = na.omit(airqual))
+re_res <- resid(re_model)
+qqPlot(re_res)
+
+#interaction example
+x_model <- lm(log(Ozone) ~ Temp*Wind, data = airqual)
+x_res <- resid(x_model)
+qqPlot(x_res)
+
+#check models with and without outliers
+sub_airq <- dplyr::filter(airqual, Ozone != 1) #better way to get rid of row 21?
+x_model_SUB <- lm(log(Ozone) ~ Temp*Wind, data = sub_airq)
+qqPlot(resid(x_model_SUB))
+```
+
+**Question 6**
+```{r}
+result <- AIC(logfit_solar,logfit_all, logfit_temp, logfit_wind, x_model) #this will create a dataframe whose rownames are the models, with columns for the df and AIC of each model # don't run re_model cause made with lme
+
+#add other metrics to your table
+models <- list(logfit_solar,logfit_all, logfit_temp, logfit_wind, x_model) #make sure you keep your models in the same order here as they were when you created your results table
+result$BIC <- sapply(models, BIC) #add a column for BIC to the results
+
+#result$AICc <- result$AIC+ (2*(result$df-2)^2+2*(result$df-2))/(153-1-(result$df-2))
+#AICc doesn't make a difference bc sample size is big enough
+
+model_summary <- lapply(models, summary) #look up ?lapply if you have not used this function before
+
+#now we will use a for loop to easily extract the R^2 and adj R^2 value for each model from its summary, and store them in new columns in the results table
+
+for(i in 1:(length(models)-1)){ #this creates a variable i that starts with the value i=1
+  result$rsq[i] <- model_summary[[i]]$r.squared #we assign the rsq value from model i to the i'th row of the column 'rsq' in the table 'results'
+  result$adj_rsq[i] <- model_summary[[i]]$adj.r.squared #same for adjusted rsq
+} #now we go back to the beginning of the for-loop, add 1 to the value of i, and do everything again
+
+
+kable(result, digits = 2, align = "c")
+```
+
+**Question 7**
+Best model here is logfit_all based on AIC, BIC, R2 but it doesn't do that well predicting
+```{r}
+splitter <- sample(1:nrow(airqual), 10, replace = F) #pick 15 random rows from plant_sub to reserve as test data
+airq_train <- airqual[-splitter,] #leave those rows out of the training data
+airq_test <- airqual[splitter,] #use them to create a set of test data
+
+final_fit <- lm(Ozone ~ Solar.R + Wind + Temp, data = airq_train) #fit the final model, using JUST your training set as the data argument
+
+prediction <- predict(final_fit,airq_test) #use the fitted model to predict values for your test data
+
+plot(airq_test$Ozone, pch=1) #plot the actual test data values
+points(prediction, pch=20, col = "red") #plot the model predictions for those points
+```
+
