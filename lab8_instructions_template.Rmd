@@ -146,7 +146,8 @@ for(i in 1:length(models)){ #this creates a variable i that starts with the valu
 } #now we go back to the beginning of the for-loop, add 1 to the value of i, and do everything again
 
 
-kable(result, digits = 2, align = "c")
+kable(result, digits = 2, align = "c") %>%
+  kableExtra::kable_styling()
 
 ```
 

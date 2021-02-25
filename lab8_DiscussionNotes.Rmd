@@ -1,0 +1,173 @@
+---
+title: "lab8 discussion notes"
+author: "sbsambado"
+date: "2/25/2021"
+output: html_document
+---
+
+Today's Agenda
+
+### 1. FINAL PROJECT
+
+- Mini-Assessment # 2 is due tomorrow at 12 PM (NOON)
+      4 tools to check for normality
+      - boxplot/histogram
+      - shapiro wilk
+      - qqPlot
+      - CLT
+        >> then you make the final call!
+        
+- My sections will now be focused on final project help
+
+**Your questions boils down to this**
+(Y) numeric/normally distributed ~  (X) numeric + (X) categorical + (X) categorical
+
+- Use the tools and language we have gone over in lecture and lab
+- This is a professional report
+
+If you are stuck on where to begin
+
+- look at structure of data
+```{r}
+dim(dataset) # observations, variables
+str(dataset) # type of data (numeric vs categorical)
+dim(dataset) # observations, variables
+summary(dataset) # summaries of numeric variable s(mean/min/max, etc)
+```
+
+- find important variables
+
+- start plotting (exploratory data analysis = EDA)
+```{r}
+
+y + x1 + x2 + x3
+
+
+boxplot or scatter of y ~ x1
+boxplot or scatter of y ~ x2
+boxplot or scatter of y ~ x3
+
+# boxplot
+#histogram
+# ggplots
+```
+
+- find relationships that are similar to what we've done in class
+
+### 2. What you need for this lab
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages needed for lab 8
+# If you haven't used a package before you will need to install it with install.packages("package") 
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(car) #for the qqPlot function
+library(psych) #for pairs.panels()
+
+library(knitr) # we will use this package to make beautiful tables
+library(nlme) #for fitting mixed effects models (linear models with random effects) ~ new pacakge alert! ~
+
+# datasets needed for lab 8
+plant<- read_csv("plant_data.csv") # obviously
+airqual <- airquality # this is a built in data set in R, type `data()` into your console to see all the datasets there are!
+
+
+```
+
+### 3. Contextualize where we are this week
+    Lab 2: import and wrangle data
+    Lab 3: visualize data
+    *Comparing means/medians/variance land* -> Part 1 of final project (t-test or ANOVA)
+    Lab 4: determine normality of data
+    Lab 5: what to do with non-normal data
+    Lab 6: how to assess variance of categorical data (check normality on residuals)
+    *Regression and correlation land* -> Part 2 of final project
+    Lab 7: regression and correlation
+    Lab 8: multiple regression and model selection **THIS IS THE MOST USEFUL LAB**
+    
+###  4. Quick Notes about Lab 8
+
+  If we want to predict things
+    *y ~ x* doesn't cut it most times
+    *y ~ x + x + x* is sometimes better
+  
+  **Remember rules of parsimony, keep it simple.**
+  
+  child's height ~ mom height + nutrition score (two Xs)
+  child's height ~ mom height + length of mom's jeans (two Xs)
+  
+  **Be mindful of the difference between lm() and lme()**
+  - you may have difficulty assembling the table if you leave in your lme() model
+      
+      + lm can take on the forms
+              *linear regression*: y ~x_1
+              *multiple regression*: y ~ x_1 + x_2 + x_3
+              *multiple regression with an interaction*: y ~ x_1 * x_2
+              
+      + lme is an extension of lm, but now with mixed effects
+              *linear regression*: y ~ fixed = x_1, *random = (1|x_2)*
+              *multiple regression*: y ~ x_1 + x_2 + x_3, r*andom = (1|x_4)*
+              *multiple regression with an interaction*: y ~ x_1 * x_2 , *random = (1|x_3)*
+      
+check normality of residuals
+>> residuals = observed y/outcome - predicted y/outcome
+
+approach data
+perform normality checks of your residual (untransformed y) (boxplot, qqPlot, shapiro)
+if not normal
+transform y (log, sqrt, arc)
+re-run your normality check (transformed y )
+
+
+
+Let's go over pairs.panel one more time
+```{r message=FALSE}
+# clean up your data
+plant <- read_csv("plant_data.csv")
+str(plant) # 259 observations, 10 variables
+plant$tran_number <- as.factor(plant$tran_number)
+plant$day_of_week <- trimws(plant$day_of_week, which = "both") #this gets rid of the spaces around the words
+plant$day_of_week <- as.factor(plant$day_of_week)
+plant <- na.omit(plant)
+
+# run pairs.panel
+
+
+pairs.panels(plant, lm = TRUE, cor = T, density = T)
+pairs.panels(plant, lm = TRUE, cor = T) #note - num_flowers and num_dand_flowers are highly correlated
+
+plant_sub <- subset(plant, select = -num_dand_flowers)
+
+pairs.panels(plant_sub, lm = TRUE) #now there are no very strong correlations
+
+
+
+```
+
+    
+Let's go over how to read model summary outputs one more time
+```{r}
+fit_2var <- lm(percent_cover ~ num_leaves_in_rosette + dist_from_edge_m, 
+               data = plant_sub) 
+
+summary(fit_2var)
+
+qqPlot(fit_2var$residuals)
+
+# p-value = 1.013e-08
+# Intercept (B0) = 70.28
+# F statistic = 14.67 
+# Adjusted R square = 0.1596
+
+# if you want to figure out how many levels you have within a factor
+# HINT: unique(DATASET$FACTOR)
+
+
+
+```
+
+```{r}
+```
+
