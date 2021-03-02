@@ -164,7 +164,7 @@ qqPlot(fit_2var$residuals)
 # if you want to figure out how many levels you have within a factor
 # HINT: unique(DATASET$FACTOR)
 
-
+??HSD
 
 ```
 

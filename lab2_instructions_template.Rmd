@@ -1,0 +1,353 @@
+---
+title: "Lab2_Sp21"
+author: "sbsambado"
+date: "1/16/2021"
+output: html_document
+---
+
+Lab 2: Introduction to R Markdown and Data Analysis
+
+# Intro to Data Analysis
+
+#### 3 common syntax errors
+**spelling** 
+
++install.packages('readr'), correct
+
++instal.package('readr') , not correct
+
+**capitilization**
+
++ install.packages('readr'), correct
+
++ Install.Packages('readr'), not correct
+
+**punctuation**
+
++ install.packages('readr'), correct
+
++ instll_packages('readr'), not correct
+
+
+####  R basics
+
+variable <- function(argument)
+
+
+##### List of useful functions to create and explore data structure
+* Basic mathematical functions for summary statistics
+
+    + `sum()`
+    
+    + `mean()`
+    
+    + `min()`
+    
+    + `max()`
+    
+    + `sd()`
+    
+    + `median()`
+    
+    + `summary()`
+    
+* Functions to create & explore data structure 
+    + `c()` - concatenate function
+    + `:` - colon operator for sequence generation
+    + `seq()` - sequence generation
+    + `rep()` - replicate elements of vectors and lists
+    + `View()` - invoke a data viewer
+    + `length()` - length of an object
+    + `class()` - object class
+    + `head()` - return the first 6 rows of an object
+    + `tail()` - return the last last 6 rows an object
+    + `dim()` - returns the dimensions of an object 
+    + `nrow()` - number of rows
+    + `ncol()` - number of columns
+    + `str()` - display the structure of each column of an object
+    + `names()` - display the names of an object, typically the column names
+    + `nlevels()` - categorial levels within an object
+    + `cbind()` - combine objects by columns
+    + `rbind()` - combine objects by rows
+
+
+#### Set up
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#install.packages('readr') # if first time using readr
+## hashtag is making a comment, it is not seen as code
+# annotating your code is great practice! 
+
+#install.packages("readr")
+library(readr)
+library(ggplot2)
+library(tidyverse)
+library(knitr)
+
+
+library(ggplot2)
+```
+
+
+# Exercises
+
+Data in R To use R for data analysis, you must import data sets. 
+
+##### A. In the Gauchospace section for Lab 2, find the file named **battongues.csv**
+
+  + .csv file is a “spreadsheet” that uses commas to separate the data.
+  
+  + This data set looks at the tongue lengths of different species of bats. 
+
+First, download this file to your computer and save it in your Rproj aka working directory. 
+
+##### B.  To load the bat_tongues.csv data in R, type the following: 
+Upload the bat file
+```{r}
+# HINT: OBJECT_NAME <- read_csv("DATAFILE.csv")
+bat_tongues <- read_csv("battongues.csv")
+```
+
+When loading a new data set, it is always a good idea to take a look at it. You can do this two ways: 
+1. `View()`
+  + Do not include the View() command in your final R Markdown or it will not knit! Hashtag it out or delete it. 
+  
+2. Click on data set in your environmental window
+
+
+View the bat file
+```{r}
+
+#HINT: View(DATASET)
+
+```
+
+Now that you have data in R you can start manipulating it. 
+
+##### C. Let’s calculate the mean bat tongue length across all species. 
+First, let's make this a manageable dataset
+```{r}
+
+# Make a copy of the bat_tongues dataframe, just in case you make a mistake 
+bat_copy <- bat_tongues
+
+# Look at the names of bat_copy 
+names(bat_copy)
+
+# These are long, unwieldy names! Let’s change them
+names(bat_copy) <- c("spp", "palate", "tongue")
+names(bat_copy)
+
+```
+
+Now let's get the mean of "tongue"
+```{r}
+# Use a $ to select a column within a dataset
+
+# HINT: mean(DATASET$VARIABLE)
+mean(bat_copy$tongue)
+
+
+# another function to look at summary statistics
+summary(bat_copy$palate)
+```
+
+
+##### D. Raw data are often entered into Excel spreadsheets. We will need to convert those into .csv file types. 
++ Download and open the data set caffeiene.xls in Excel. 
++ In Excel, go to Save As and choose the CSV file type. You should not have a data set called caffeine.csv. 
+
++ Load the data set into R and look at it. 
+```{r}
+# Caffeiene 
+caffeine <- read_csv("caffeine.csv")
+
+# HINT: names(DATASET) <- c("COLUMN1 NAME", "COLUMN2 NAME")
+names(caffeine) <- c("brand", "caffeine_mg")
+```
+
++ Now explore some of the basic statistics. 
+
+```{r}
+# basic stats
+var(caffeine$caffeine_mg)
+mean(caffeine$caffeine_mg)
+max(caffeine$caffeine_mg)
+min(caffeine$caffeine_mg)
+sd(caffeine$caffeine_mg)
+median(caffeine$caffeine_mg)
+range(caffeine$caffeine_mg)
+quantile(caffeine$caffeine_mg)
+
+# or just run summary()
+summary(caffeine$caffeine_mg)
+```
+
+What is the variance of caffeine across the different types of coffee? 
+```{r}
+
+# how to analyze categorical data
+table(caffeine)
+table(caffeine$brand)
+
+# plot it!
+
+# HINT: The basics of ggpploting
+# ggplot(data = DATA, aes(x = INDEPENDENT VARIABLE, y = DEPENDENT VARIABLE)) +
+# geom_point()+
+
+ggplot(data = caffeine, aes(x = brand, y = caffeine_mg)) +
+  geom_histogram(stat = "identity") +
+  theme_minimal()+
+  theme(axis.text.x.bottom =  element_text(size = 8, angle = 90))
+  
+
+
+```
+
+# Homework
+
+Turn in the answers to the following questions. 
+
++ Use R Markdown to generate a PDF or HTML that contains your answers.
+
++ Each answer should contain all relevant code to reproduce the answer. 
+
++ Please only include code that is necessary to answer the question, but be sure to include ALL code that is necessary to answer the question, including loading the data and anything else you need to do. 
+
++ Upload your answers to the “Lab 2 Assignment” link on Gauchospace. 
+
++ The assignment is due before **SUNDAY AT 12:00 PM** 
+
++ Feel free to work together, but each person but submit their own code. 
+
++ Copying and pasting another student’s code and submitting it as your own is plagiarism. We will be able to tell very easily if you have done this! 
+
++ Note that for **full credit you must answer the questions using code**, not just by looking at the data itself. 
+
++ Also note that you need both code and plain text answers to receive full credit.
+
++ **When appropriate, qualitative assessment must have a quantitative value to support it**
+
+
+**Question 1.** A scientist hypothesizes that human intelligence results from our large brain size:body size ratio. Therefore, a smaller proportion of our brain needs to be “wired” to perform basic autonomic functions. As a student of neurology and statistics, you are skeptical. Using the dataset **mammals.csv** and your skills with R: 
+
+  + a. Which of the mammals has the largest brain size:body size ratio? 
+  + b. Which mammal has the smallest ratio? 
+  + c. Find the mean brain size:body size ratio. Are humans above or below the mean? 
+  + d. In no more than two sentences, what do your findings tell you about the scientist’s hypothesis? 
+
+```{r}
+# load in required data
+mammal <- read_csv("mammals.csv")
+
+# let's look at file
+#View(DATAFRAME)
+
+# names(DATAFRAME) <- c("COLUMN1NAME", "COLUMN2NAME", "COLUMN3NAME")
+
+```
+
+part a
+```{r}
+# Hint: Try computing the ratio and append it as a column onto the mammals dataframe, then try out the which.max() function to find the largest ratio. 
+
+# A. Which mammal has the largest brain size:body ratio?
+
+  # make new variable column
+  # DATAFRAME$VARIABLE <- DATAFRAME$VARIABLE1 / DATAFRAME$VARIABLE2
+
+  # find max ratio
+# DATAFRAME[which.max(DATAFRAME$VARIABLE),]
+
+```
+
+part b
+```{r}
+# B. Which mammal has the smallest ratio?
+# DATAFRAME[which.min(DATAFRAME$VARIABLE),]
+
+```
+part c
+```{r}
+# C. What is the mean brain size:body ratio? Are humans above or below the mean?
+# mean(DATAFRAME$VARIABLE)
+
+# find human ratio
+
+# Option 1 (prefered)
+# DATAFRAME[DATAFRAME$VARIABLE == "OBJECT",]
+
+# Option 2
+# DATAFRAME[DATAFRAME$VARIABLE == "OBJECT", "SPECIFICVALUE_OF_OBJECT"]
+
+
+```
+Answers:
+a)
+b)
+c)
+d)
+
+
+**Question 2** You have completed a thorough bird census in the desert. You recorded the abundance of 44 birds. You are interested in the number of rare species and define “rare” as having an abundance less than or equal to 10. 
+
+  a. Using the data file **desert_birds.csv**, how many desert bird species are rare? 
+```{r}
+# load data
+
+birds <- read_csv("desert_birds.csv")
+#View(birds)
+
+# Hint: Use the subset() function to select a group called “rare” based on the Count <= 10. Explore the functions length() and dim() after you subset your data. 
+
+
+# A. How many desert bird species are rare (<= 10 counts)
+
+# make subset
+
+# VARIABLE_NAME <- subset(DATAFRAME, VARIABLE <= 10)
+#find how many rows there are in subset
+
+# Option 1. Look at length of vector
+
+#length(DATAFRAME$VARIABLE)
+#dim(DATAFRAME)
+#nrow(DATAFRAME)
+
+# Option 2. Look at dataset summary
+#print(DATAFRAME)
+#summary(DATAFRAME)
+
+# This is different than finding the total sum of birds within these rare species
+#sum(DATAFRAME$VARIABLE)
+```
+Answer:
+a)
+
+
+**Question 3** There are currently 1263 endangered species recognized in the world (though there are probably many more than this). 
+
+  a. Using the data file endangered.csv and using R, what proportion of these endangered species are vertebrates? 
+```{r}
+
+# load data
+endangered <- read_csv("endangered.csv")
+
+#View(endangered)
+
+# Hint: Subset the data using vertebrate==”yes” and use sum().
+
+# A. What proportion of endangered species are vertebrates?
+
+# Option 1
+
+# VARIABLE_NAME <- subset(DATAFRAME, VARIABLE == "yes")
+# sum(DATAFRAME1$VARIABLE) / sum(DATAFRAME2$VARIABLE)
+
+
+
+```
+Answer:
+a)
