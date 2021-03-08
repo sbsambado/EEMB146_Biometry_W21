@@ -1,5 +1,5 @@
 ---
-title: "Lab3_DataVisualization_SPRING21UPDATES"
+title: "Lab 3 Data Visualization"
 author: "sbsambado"
 date: "1/21/2021"
 output: html_document

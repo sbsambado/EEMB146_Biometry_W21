@@ -1,5 +1,5 @@
 ---
-title: "Lab2_Sp21"
+title: "Lab 2 Spring 2021"
 author: "sbsambado"
 date: "1/16/2021"
 output: html_document
@@ -345,6 +345,7 @@ endangered <- read_csv("endangered.csv")
 
 # VARIABLE_NAME <- subset(DATAFRAME, VARIABLE == "yes")
 # sum(DATAFRAME1$VARIABLE) / sum(DATAFRAME2$VARIABLE)
+
 
 
 

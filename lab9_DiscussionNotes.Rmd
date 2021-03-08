@@ -1,0 +1,330 @@
+---
+title: "lab9_DiscussionNotes"
+author: "sbsambado"
+date: "3/4/2021"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+```
+
+## You made it to the last lab! Yay you!
+
+To celebrate all that you have achieved in this class and to show you just how lightly we have scratched the surface of statistics, this last lab is a veritable smorgasbord of other useful techniques we won't have time to cover in depth in this class. Many of these techniques will be useful and applicable to your final projects! But don't worry, you don't have to learn them all; this lab is meant to be a reference for you so you can continue you adventures in statistics after this class. Below, you will find brief how-to's and links to more information about the following statistical techniques:
+
+* Generalized linear models (GLM)
+* Principal component analysis (PCA)
+* Cluster analysis
+* Splines / General additive models (GAM)
+* Survival analysis
+
+Wow, that is a lot! There is so much we couldn't cover in this course, but so many more useful techniques out there! **The homework for this week is to read through the resources and how-to's for the methods you are interested in, and complete <span style="color: red;">one</span> of the exercises below and answer all questions**. Only one will be graded, so please specify the one you want graded by writing it here:
+
+<center><font size="18">
+
+**Please grade exercise: WRITE IT HERE!**
+
+</center></font>
+
+***
+***
+
+## Generalized Linear Models
+
+Generalized linear models are one of the most common extensions of the linear model you will see. Basically, you take a linear model, ignore some assumptions (equal variance, normal distribution of errors) and use a distribution other than the normal (gaussian) to describe your Y variable! The two most common ones you will see are **Binomial** (i.e., logistic regression) which is good for binary, 0/1 data or data which are probabilites, and **Poisson**, which is used for non-continuous numeric data bounded at zero and is commonly used for data which are counts. There are many more, but for this lab we will focus on these two. For GLM, you can use the same model selection methods you learned for linear regression! You still need to meet the independence assumption, and your Y variable should be distributed like your random component, but no need to check for normality (finally!).
+
+>[Read more here](https://online.stat.psu.edu/stat504/node/216/)  
+>[GLM in R](https://www.theanalysisfactor.com/generalized-linear-models-glm-r-part4/)  
+>[Interpreting GLM results](http://environmentalcomputing.net/interpreting-coefficients-in-glms/)
+
+
+Here is how you do it in R:
+
+```{r, message=FALSE}
+
+### Binomial GLM ###
+
+library(car)
+library(MASS)
+library(ggplot2)
+library(psych)
+
+bindat <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv") #nothing to download, just pull this dataset straight from the internet! fancy!
+
+head(bindat) #lets predict grad school admission based on GRE scores and rank of institution
+
+
+
+# step 1: make sure your response variable ranges 0 to 1, or is 0's and 1's, check for multicolinearity
+
+#if you were running a Poisson, you would want to be sure your data had no negative values and only integers. did you know you can also do qqplots for distributions other than the normal?!
+
+summary(bindat$admit) #yep! it does!
+
+pairs.panels(bindat[,2:3]) #i removed admit and rank bc they aren't numeric continuous. looks like no multicolinearity!
+
+
+
+# step 2: fit the glm
+
+?glm #check out the glm function
+binfit <- glm(admit ~ gre + rank, data=bindat, family="binomial") #fit the model - just like aov() or lm()
+summary(binfit) #get model results. looks like gre and rank are both significant predictors of admission.
+
+
+
+# step 3: plot the model
+
+ggplot(bindat, aes(x=gre, y=admit, color=as.factor(rank)))+ #a very basic, plain ggplot
+  geom_point()+
+  geom_smooth(method = "glm", method.args = list(family = "binomial")) #notice how you get one fit line for each rank?
+
+
+```
+
+### Exericise 1: Generalized Linear Models  
+
+Use the links above and the glm help page to answer these questions
+
+1.  What are the three parts of a GLM?
+2.  What other "families" can you pass to glm()?
+3.  What is the default link for a binomial model? For a Poisson?
+4.  Interpret the estimates given by the binomial model summary above.
+
+
+***
+***
+
+## Principal component analysis (PCA)
+
+Principal component analysis, or PCA, is considered an unsupervised machine learning technique. Unsupervised means you aren't predicting a specific Y response - in fact, you don't know what your outcome will be until you run it. PCA is a good choice when you have a lot of predictors and want to see how your observations structure together, and how those predictors might contribute to an underlying, unobserved structure. A good example of this is community analysis (what species and characteristics belong to different ecological communities) or speciation (what character traits cluster together).
+
+Basically, PCA takes your data and adds an "axis" to it that attempts to explain the largest amount of variance in your data. It then successively adds these axes, which are the principal components. Each principal components is made up of a linear combination of your variables multiplied by what are called loading values. You can think of these loading values as the "betas" for PCA, and they tell you how much each variable contributes to each principal component. The principal components are calculated using matrix decomposition (all your x's make up the matrix), and are always ordered from "most explanatory" to "least explanatory". With PCA, you often want to know not only how many PCs you need to explain most of the variation in your data, but what variables and loading values make up each PC. PCA is a non-parametric method, therefore you don't need to check that your data follow any distribution, but all your data have to be numeric!
+
+> [Thorough explanation of PCA](https://builtin.com/data-science/step-step-explanation-principal-component-analysis)  
+> [An explanation of PCA for your wine-loving grandmother - check the top response](https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues)  
+> [PCA in R](https://www.datacamp.com/community/tutorials/pca-analysis-r)
+
+Here is how you do it in R:
+
+```{r, message=FALSE}
+
+### PCA ###
+
+library(grid)
+library(gridExtra)
+
+data(iris) #nothing to download, just pull this dataset straight from R!
+
+head(iris) #this is a classic R example dataset describing the features of iris species
+
+
+# step 1: make sure you are only using numeric variables
+
+iris.num <- iris[,-5] #remove the fifth column, which is the species
+
+# step 2: run the PCA, make sure to center and scale your data
+
+ir.pca <- prcomp(iris.num, center=TRUE, scale=TRUE)
+
+# step 3: analysis of results
+
+print(ir.pca) #PC1...4 are your principal components, the numebrs are the loading values for each variable and PC
+
+plot(ir.pca, type="l") #an elbow plot, showing how the variance decreases with each additional PC. you can use this to select the optimal number of PCs to describe your data
+
+summary(ir.pca) #proportion of variance and cumulative proportion described by each PC is also very useful in determining how many PCs are needed
+
+# step 4: a great plot to show your results
+
+out <- as.data.frame(ir.pca$x) #get the PC values for each observation so we can plot it
+
+ggplot(out, aes(x=PC1, y=PC2, color=iris$Species))+
+  geom_point()
+
+```
+
+### Exericise 2: PCA
+
+Use the links above to answer these questions
+
+1.  How many PCs will a dataset with 10 variables return? A dataset with 100?
+2.  For the iris PCA, which variable is the most important for each PC?
+3.  How many PCs would you use to describe this dataset? Why?
+
+
+***
+***
+
+## Cluster analysis
+
+Cluster analysis is also an unsupervised machine learning technique, but is a little more straightforward than PCA. It does just what it says - it will cluster your observations into groups based on how similar they are! With cluster analysis, there are many decisions to make. How many groups do you want? How will you define "similarity"? All of these choices need to be justified either statistically or biologically. Cluster analysis is great for "letting the data speak for itself" and understanding the relatedness of your observations. There are many ways to perform cluster analysis, but here I will show you the hierarchical agglomerative approach. There are no assumptions for this technique?! Other than the usual "good data" assumption, of course.
+
+In the hierarchical approach, you use your predictors to calculate the "distance" between each data point. At each step of the algorithm, the two most similar points (or clusters) will be grouped together. The hierarchical approach will go on until every point is grouped into one giant, final group. Then, you must decide where to cut your new decision tree to determine the number of clusters! Agglomerative just means we build the tree from points to one group, instead of starting with one giant group and then splitting it down to individual points.
+
+>[Hierarchical clustering explained](https://towardsdatascience.com/https-towardsdatascience-com-hierarchical-clustering-6f3c98c9d0ca)  
+>[Hierarchical cluster analysis in R](https://www.r-bloggers.com/hierarchical-clustering-in-r-2/)
+
+```{r, message=FALSE}
+
+### Cluster Analysis: the hierarchical agglomerative flavor ###
+
+library(dendextend)
+library(factoextra)
+
+data(mtcars) #another CLASSIC r dataset!
+
+# step 1: calculate the distance matrix and generate the clusters
+
+d <- dist(as.matrix(mtcars)) #data must be in a matrix for dist to work
+
+hc <- hclust(d) #this actually runs the hierarchical clustering algorithm, based on the distances you just calculated. hclust uses the "complete linkage" method by default to define the clusters
+
+
+# step 2: analyze results
+
+plot(hc) #holy dendrogram, batman!
+
+fviz_nbclust(mtcars, FUN=hcut, method="wss") #get an elbow plot, just like PCA! pick the k that reduces your total within sum of squares sufficiently
+
+fviz_nbclust(mtcars, FUN=hcut, method="silhouette") #average silhouette method to determine optimal k. measures the quality of the clustering, ie how well each datapoint lies within its cluster. high average silhouette width indicates good clustering
+
+
+# step 3: beautiful plotting
+
+dend <- as.dendrogram(hc) #generate the dendrogram
+dend <- color_branches(dend, k=3) #color based on the number of clusters you determined
+dend <- set(dend, "labels_cex", 0.5) #reduce label size so they all fit nicely
+plot(dend)
+
+
+```
+
+### Exericise 3: Cluster analysis
+
+Use the links above and help files in the R documentation (ie, ?function) to answer the questions below
+
+1. What type of distance does dist() use by default? What are some other options you can use?
+2. Explain what complete linkage means.
+3. What are some disadvantages of cluster analysis?
+4. What k would you select for the above analysis? Why?
+
+
+***
+***
+
+## Splines
+
+Splines sound really cool, and they are! Splines are a type of **generalized additive model**, which is an extension of the GLM to be even more flexible. GAMs describe how a y variable is predicted by some *functions* of predictor variables, instead of those predictors just being multiplied by some parameter. (Regression) splines are a special case of the GAM where each function is typically a cubic or other polynomial function, and the function you are using changes depending on where you are in the range of the x's. 
+
+There are also many, many types of splines. The ones I will go over today are called **regression splines** and are common and easier to use than others. In regression splines, the dataset is divided into bins at intervals called knots, and each bin gets its own, usually cubic, polynomial fit. This gives you a very flexible, and potentially very accurate model when your data do not show a linear relationship (other other GLM-type relationship). Again, splines are a non-parametric method so we can ignore normality and equal variance assumptions! However, you have to make decisions about where to draw the knots, how many knots to use, and the results are difficult to interpret. These models can be compared and evaluated the same way you do for linear regression and GLM!
+
+>[Regression splines in R, with excellent explanation](https://towardsdatascience.com/unraveling-spline-regression-in-r-937626bc3d96)
+
+```{r, message=FALSE}
+
+### Splines, regression flavor ###
+
+library(tidyverse)
+library(caret)
+library(splines)
+
+data("Boston", package="MASS") #again a classic dataset from a classic package
+
+head(Boston) #we will predict median house value (mdev) in the Boston Suburbs based on the predictor variable lstat (percentage of lower status of the population)
+
+# step 1: view the data 
+
+ggplot(Boston, aes(y=medv, x=lstat))+
+  geom_point() #always visualize your data first - why use splines when a simple linear regression or GLM will do? this data however isn't linear or anything else we can describe with a typical distribution, making it perfect for splines
+
+# step 2: build the model 
+
+knots <- quantile(Boston$lstat, p=c(0.25, 0.5, 0.75)) #set one knot at three quantiles. when you run your model, think critically about where and how many knots to use
+
+spiney <- lm(medv ~ bs(lstat, knots = knots), data = Boston) #nothing fancy, just your regular lm! the predictors are now "basis splines" (bs), made of the lstat variable and the knots we selected earlier
+
+summary(spiney)$r.squared #68%, not bad!
+
+#we could also calculate AIC and BIC if we wanted to compare two regression spline models with different knots, or compare a spline model to a linear regression or GLM made with the same data!
+
+# step 3: plotting results
+
+ggplot(Boston, aes(lstat, medv) ) +
+  geom_point() +
+  stat_smooth(method = lm, formula = y ~ splines::bs(x, df = 3), color="red", fill="red", alpha=0.2)+ #draw our regression spline and make it red
+  ggtitle("Cubic Spline Fit (red)")+ #add a title
+  theme_bw()
+
+
+```
+
+### Exercise 4: Splines
+
+Use the link above to answer the questions
+
+1. Do you want to place knots in areas of the data that are relatively stable, or areas that have more variation or fluctuate more rapidly? Why?
+2. Give one advantage and one disadvantage of using splines as compared to other modeling techniques.
+3. Calculate the AIC and BIC of the model above.
+4. A spline regression is a piecewise function - what does this mean?
+
+***
+***
+
+## Survival analysis
+
+Survival data, also called time-to-event data, consist of a distinct start time and end time and analysis aims to predict the time until an event occurs (ex, time to machine malfunction, time from HIV infection to development of AIDS). Importantly, you may have to censor (remove) certain datapoints of the event of interest does not occur in the time frame of the study. In this lab, we will cover a non-parametric method of survival analysis called the Kaplan-Meier survival estimate. This method predicts the probability of survival (or the event not having happened yet) at time t. Using this survival analysis, we can calculate a KM survival curve, which is a plot of KM survival probability against time. This allows us to summarize the data to estimate things like median survival time.
+
+This only barely scratches the surface of survival analysis! Check out the links below to learn more.
+
+>[Kaplan-Meier survival analysis in R](http://www.sthda.com/english/wiki/survival-analysis-basics)  
+>[More survival analysis in R](https://www.datacamp.com/community/tutorials/survival-analysis-R)
+
+```{r, message=FALSE}
+
+### Survival Analysis, Kaplan-Meier flavor ###
+
+library(survival)
+library(survminer)
+
+data("lung") #lung cancer data from the survival package
+
+head(lung) #we will predict survival time (time) and survival (status) by sex, which is a binary variable
+
+# step 1: create the model
+
+srv <- survfit(Surv(time, status) ~ sex, data=lung)
+
+print(srv) #gives us the number of deaths (events), the median survival and 95% confidence intervals for each sex
+
+# step 2: analysis
+
+res.sum <- surv_summary(srv)
+
+head(res.sum) #a summary of your results, for each time point: the number of subjects at risk, the number of events that occured, the number of censored events, survival probability, standard error on the probability, upper and lower confidence bounds, and for which group you are predicting
+
+# step 3: plot it, as usual!
+
+ggsurvplot(srv, pval=T, conf.int=T,
+           risk.table=T, #add the risk table
+           risk.table.col="strata", #change risk color by sex groups
+           linetype="strata", #change line type by group
+           surv.median.line="hv") #specify median survival
+
+```
+
+### Exercise 5: Survival Analysis
+
+Use the links above to answer the questions
+
+1. Do you think sex is a good predictor of time-to-death? Which sex (1 or 2) has the shorter median survival time?
+2. Why isn't there a survival probability prediction for every single day?
+3. What does a verticle drop in the KM curve represent?
+
+   
+   
+   
