@@ -1,0 +1,41 @@
+---
+title: "lab1_DiscussionNotes"
+author: "sbsambado"
+date: "4/2/2021"
+output: html_document
+---
+
+Today's Agenda
+
+1. Brief intro
+2. Lab syllabus
+3. Gaucho Space
+4. Jist of R
+5. Work thorugh swirl()
+**Nothing is due next Monday! Just work through R**
+
+Or work through YaRrr! The Pirates guide to R (my personal favorite)
+https://bookdown.org/ndphillips/YaRrr/ 
+
+
+
+Swirl basics
+
+Typing **skip()** allows you to skip the current question.
+Typing **play()** lets you experiment with R on your own; swirl will ignore what you do...
+UNTIL you type **nxt()** which will regain swirl's attention.
+Typing **bye()** causes swirl to exit. Your progress will be saved.
+Typing **main()** returns you to swirl's main menu.
+Typing **info()** displays these options again.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+install.packages("swirl")
+library(swirl)
+swirl()
+setwd()
+
+```
+
+
+
