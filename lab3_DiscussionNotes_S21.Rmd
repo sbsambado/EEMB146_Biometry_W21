@@ -1,0 +1,430 @@
+---
+title: "DiscussionNotes"
+author: "sbsambado"
+date: "4/13/2021"
+output: html_document
+---
+Today's agenda
+
+1. Where are we?
+2. Class housekeeping notes
+3. Work on exercises & homework in class
+4. Ask questions
+
+*Where are we?*
+
+Week 1 -- hopefully everyone has R and Rstudio running on their computer
+Week 2 -- Rmarkdown & data analysis
+Week 3 -- Data visualization
+
+# The Big Picture 
+
+## 1. Data visualization is meant to convey a story. 
+There are many ways to tell a story, but there are some general guidelines on how to build that story
+
+  + What is your outcome of interest - your **dependent** variable 'y'? 
+      + That outcome should be placed on the y-axis
+  
+  + What is influencing your outcome of interest - your **independent** variable 'x'? 
+    + That should be placed on the x-axis
+  
+## 2. Your type of data determines how you shape your data 
+  Type
+        +  Numeric: numbers
+        
+        +  Categorical: words
+        
+  Scale
+        +  Continuous: numbers can take on **any** value
+        
+        +  Discrete: numbers or words can only be **certain** values
+
+## 3. Plotting basics
+    + If you're only plotting 1 numeric variable --> histogram 
+    
+    + If y and x are **both** numeric --> scatterplot
+    
+    + If y is numeric, and x is categorical --> boxplot 
+
+# 3. Data visualization is the **first** AND **last** step of statistical analysis
+
+  +  Be prepared to make a lot of changes along the way & have fun with it!
+  
+  + Figures will never be 100% perfect in the creator's eyes, but if it tells your story in a **clear and effective** way, then that is a job *well done*.
+
+Okay, end philosophical ramble. Let's get started. 
+
+
+*Notes*
+
+**If you get stuck on HW code**
++ 1. Refer to course material
++ 2. Nectir
++ 3. Google
++ 4. Attend a lab section
++ 5. email a TA after 1 - 4
+
+**Knitting problems**
++ make sure to have library()
+```{r}
+# error: can't find read_csv function
+
+library(readr)
+
+# good coding practice, in your first chunk of your .Rmd file
+# upload your libraries
+# then upload your data 
+```
+
++ #install.packages and #View
+```{r}
+ # install.packages()
+ # View()
+
+# errors: quartz, rtools, CRAN 
+```
+
++ decipher knitr error
++ read in data
+
+**Don't hesitate to ask questions in section!**
++ often I receive the same question from different students
+
+**Check out these resources for graph help**
++ https://www.r-graph-gallery.com/
++ ggplot2-cheatsheet.pdf
+  + hone in on graph types for numeric/categorical data
+
+**Plotting**
++ base plot or ggplot - either is fine
+```{r}
+
+# new package alert
+install.packages("ggplot2") # install if this is your first time using it
+library(ggplot2)
+
+# don't need to install anything for base plot
+
+# let's read in some practice data to illustrate
+plant <- read_csv("plant_data.csv")
+
+### arguments
+# argument 1
+
+# HINT: ggplot(dataframe) 
+ggplot(plant)
+
+# argument 2
+# HINT: ggplot(dateframe, aes(x = VARIABLEX, y = VARIABLEY)) # data you want to plot
+ggplot(plant, aes(x = dist_from_edge_m, y =num_flowers ))
+
+# argument 3
+# HINT: ggplot(dateframe, aes(x = VARIABLEX, y = VARIABLEY)) +
+  # geom_SHAPE()
+ggplot(plant, aes(x = dist_from_edge_m, y =num_flowers )) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "distance") #shape of your data
+
+
+```
+
+
++ ggplot formula
+
+    ggplot(dataframe, aes(x = variable1, y = variable2)) +
+    geom_shape()
+
+**THE FORMULA IS Y ~ X**
++ variable of interest ~ explanatory variable
++ outcome ~ input
+
+
+**Feedback on how you would like discussion section organized**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+
+```{r upload neccessary packages and data}
+
+# packages for this week
+library(readr) # allows you to read in packages
+## new pacakge alert!
+# install.packages("package")
+library(tidyverse) # tidys your data
+library(ggplot2) # plots your data
+
+# datasets for this week
+guppies <- read_csv("guppies.csv")
+lynx <- read_csv("lynx_data.csv")
+plant <- read_csv("plant_data.csv")
+birds <- read_csv("desert_birds.csv")
+
+```
+
+Explore your data
+```{r}
+# structure of dataset
+
+
+# details of dataset
+
+
+
+# summary of dataset
+
+
+```
+
+# HOMEWORK
+
+**Question 1**
+
+```{r q1 hint}
+# read in data
+plant <- read.csv("plant_data.csv")
+
+# look at data
+
+dim(plant) # 259 observations/rows , 10 columns/variables
+
+# View(plant)
+
+str(plant)
+
+```
+
+
+```{r}
+# go to for looking at dataset before analyzing or plotting 
+# View(plant)
+dim(plant) # 259 observations/rows and 10 columns/variables 
+summary(plant)
+str(plant)
+
+# basic format for histogram 
+# hist(DATASET$VARIABLEOFINTEREST)
+hist(plant$dand_rosette_diam_cm)
+hist(plant$dand_rosette_diam_cm) # diameter for all rosettes
+
+```
+
+```{r}
+
+# but what is the diameter across the three levels of distance from edge?
+# we're going to make 3 histograms, each representing either 0m, 3m, 6m
+# so how do we select for each distance?
+
+# square brackets [ ] select
+# regular ( ) for normal functions and arugments
+
+# when you're selecting for things, use == not = 
+
+limited <- plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"]
+#str(limited)
+
+
+
+# (row, columns)
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],)
+
+hist(plant$dand_rosette_diam_cm) # full column
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],) # specified colum
+#hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.3m"],) # specified colum
+#mhist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.6m"],) # specified colum
+
+#hist(plant$dand_rosette_diam_cm)
+
+# answer question
+
+# currently this 3 window outputs
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],)
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"],)
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"],)
+
+# make 1 window output
+par(mfrow = c(3,1)) # changes my parameters to 3 rows and 1 column output
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],)
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"],)
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"],)
+# make sure to re-run par function 
+par(mfrow = c(1,1))
+
+
+```
+
+```{r}
+# question 1b
+# format: boxplot(dataset$variableY)
+boxplot(plant$dand_rosette_diam_cm)
+boxplot(plant$dand_rosette_diam_cm) # boxplot for all rosette diameters
+
+# format: boxplot(dataset$variableY ~ dataset$variableX)
+# Y ~ X
+# outcome of interest ~ explanatory input
+# dependent ~ independent variable
+# Y ~ X
+boxplot(plant$dand_rosette_diam_cm ~ plant$dist_from_edge_m)
+
+# HINT: boxplot(Y ~ X)
+boxplot(plant$dand_rosette_diam_cm ~ plant$dist_from_edge_m)
+
+# unique() helps you understand the different levels/groupings within one variable 
+# unique(plant$dist_from_edge_m)
+
+# A. Describe the shape for different distances
+
+par(mfrow = c(3,1)) # view 3 rows in 1 column
+
+# HINT
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "0.0m"], xlab = "TITLE", ylab = "TITLE,  main = "TITLE)
+
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],main = "Distance from 0m", xlab = "distance from edge", ylab = "diameter")
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "3.0m"], xlab = "TITLE", ylab = "TITLE, main = "TITLE)
+
+#hist(DATAFRAME$VARIABLE1[DATAFRAME$VARIABLE2 == "6.0m"], xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+
+par(mfrow = c(1,1)) # reset
+
+# Make a boxplot to look at spread
+
+#HINT
+#boxplot(Y ~ X, DATAFRAME, xlab = "TITLE", ylab = "TITLE", main = "TITLE")
+
+boxplot(plant$dand_rosette_diam_cm ~ plant$dist_from_edge_m, xlab = "Distance from edge", ylab = "diameter")
+
+```
+
+```{r q1 answer}
+# A
+
+par(mfrow = c(3,1))
+# 0 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "0.0m"],xlab = "Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 0m")
+
+# 3 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "3.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 3m")
+
+# 6 meters
+hist(plant$dand_rosette_diam_cm[plant$dist_from_edge_m == "6.0m"], xlab="Dandelion diameter (cm)", ylab="Density", main = "Histogram of dandelion rosette diameter - 6m")
+
+par(mfrow = c(1,1))
+# look at "tails", where are they pointing
+# all look slightly skewed, with right skewed tails
+
+# B
+# Make a boxplot of dandelion rosette diameter
+boxplot(dand_rosette_diam_cm ~ dist_from_edge_m, plant, xlab="Distance from edge",
+		ylab="Dandelion rosette diameter")
+
+# not confident true effect
+
+par(mfrow = c(1,1))
+
+
+```
+
+
+**Question 2**
+
+
+the jist = transform your data
+
+transforming data is sometimes necessary **especially in ecology**
+- totally fine, you are scaling all of your data in the same way
+
+3 graphs
+1) regular data, just plot it as is
+2) log transformed 
+3) square transformation
+
+
+Then you stack graphs 1 - 3 similar to question 1
+Describe which graph is the most normal, aka the best bell curve shape 
+
+**Error for question 2c**: square root == squared, but just choose the graph that has the best bell curve
+```{r}
+# to add a new column of log transformed data 
+plant$log_num_flowers <- log(plant$num_flowers + 1)
+
+# plant$sq_num_flowers
+```
+
+```{r q2 hint}
+# A
+
+# First, transform data (i.e. make 2 new columns in plant data frame)
+# Then, make 3 histograms 
+  # num_leaves
+  # log_leaves
+  # sq_leaves
+
+
+# transform data
+
+
+# HINT
+
+
+# log transform
+# DATAFRAME$LOG_VARIABLE = log(DATAFRAME$VARIABLE + 1)
+
+# square transform 
+# DATAFRAME$SQ_VARIABLE = DATAFRAME$VARIABLE^2
+
+# look at distribution 
+
+# HINT
+
+par(mfrow = c(3,1))
+#hist(DATAFRAME$VARIABLE,  xlab = "TITLE", ylab = "TITLE", main = "TITLE")
+#hist(DATAFRAME$LOG_VARIABLE, xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+#hist(DATAFRAME$SQ_VARIABLE,  xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+```
+
+```{r q2 answer}
+
+plant$log_num_flowers = log(plant$num_flowers + 1)
+plant$sq_num_flowers = plant$num_flowers^2
+
+
+par(mfrow = c(3,1))
+hist(plant$num_flowers, xlab="Number of flowers")
+hist(plant$log_num_flowers, xlab="Log number of flowers")
+hist(plant$sq_num_flowers, xlab="Number of flowers squared")
+```
+
+**Question 3**
+
+```{r q3 hint}
+
+plant <- read_csv("plant_data.csv")
+# A. what trend do you notice in the data?
+
+# HINT
+# plot(DATAFRAME$VARIABLE1 ~ DATAFRAME$VARIABLE2, xlab = "TITLE", ylab = "TITLE, main = "TITLE")
+
+# fit <- lm(DATAFRAME$VARIABLE1 ~ DATAFRAME$VARIABLE2, data = DATAFRAME)
+# abline(fit, col = "CHOOSECOLOR")
+
+```
+
+```{r q3 answer}
+# how you would code this in R
+
+# 3 layers
+# first you need a plot of real data (i.e. your rows in dataset are open circles)
+plot(plant$percent_cover ~ plant$dist_from_tree_m, xlab="Distance from tree", ylab="Percent cover")
+# simulated data (line) to support real world data (open circles)
+fit <- lm(plant$percent_cover ~ plant$dist_from_tree_m, data=plant)
+
+# add simulated fitted line
+abline(fit,col="green")
+```
+

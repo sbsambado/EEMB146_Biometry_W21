@@ -1,0 +1,216 @@
+---
+title: "lab4_DiscussionNotes_S21"
+author: "sbsambado"
+date: "4/20/2021"
+output: html_document
+---
+
+Today's Agenda
+
+1. *What you need for this lab*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# go to packages
+library(readr) # read.csv function
+library(tidyverse) # make tidy data
+library(ggplot2) # if you want to make fancy plots
+
+# new package alert!
+# install.packages("car")
+# install.packages("car")
+library(car) # visualize with qqPlot
+
+# data needed for this lab
+titanic <- read_csv("titanic.csv")
+dexterity <- read_csv("dexterity.csv")
+bumpus <- read_csv("bumpus.csv")
+```
+
+2. *Where are we?*
+
+Week 1 -- hopefully everyone has R and Rstudio running on their computer
+Week 2 -- Rmarkdown & data analysis
+Week 3 -- Data visualization
+Week 4 -- Determine normality & compare means
+
+
+3. *Quick Notes about Lab 4*
+    + it is A LOT of information 
+        + but this information will help you with 30% of your final project
+    + sometimes it is a judgment call based on hist/box, qqPlot, CLT
+        + just make your answer complete and logical
+
+4. *Info that will make this lab assignment easier (this is a notoriously tricky lab)*     
+
+### shapiro wilks comparing NORMALITY
+### t-test comparing MEANS
+### levene's and welch's comparing VARIANCE
+
+This lab is split into 2 sections
+~ make sure you null/alternative hypotheses match with what tests you are running!! ~
+
+**1. Normality**
+  + shapiro wilks: testing normality 
+  
+**2. Comparing means**
+  + t-test : testing for means
+  + levene's / welch : testing for variance
+
+# Shapiro-Wilks: Testing for normality 
+
+*Steps to complete homework*
+1. state your null and alternative hypothesis
+2. visualize the distribution with a histogram/boxplot, qqPlot
+3. run a shapiro-wilk test (test normality)
+4. run the appropriate t-test (parametric or not parametric)
+
+
+## WRITE THIS DOWN SOMEWHERE
+
+*The gist of Shapiro-Wilks Test*
+null hypothesis: data are NORMALLY distributed
+alternative hypothesis: data are NOT NORMALLY distributed
+```{r}
+
+# HINT: shapiro.test(DATASET$VARIABLE)
+shapiro.test(titanic$Age)
+```
+
+p < 0.05 : reject null --> data are NOT normally distributed
+p > 0.05 : fail to reject null --> data are NORMALLY distributed
+
+
+# How to interpret shapiro test results
+
+```{r}
+# create data from a norm sample
+norm_samp = rnorm(1000, mean=21 , sd=3) #normal distribution 
+
+# run a shapiro.test
+# HINT: shapiro.test(VECTOR)
+shapiro.test(norm_samp)
+
+shapiro.test(norm_samp)
+
+qqPlot(norm_samp)
+shapiro.test(norm_samp)
+```
+
+  1. state your p-value: p-value = 0.472
+  2. compare your p-value to significant p-value value: 0.472 > 0.05
+  3. look at your null hypothesis: data are normally distributed
+  4. contextualize: My p-value of the shapiro-wlk test is 0.348, which is above a p-value of 0.05, so I fail to reject my null and I can be resaonably confident that my data are normal
+
+*Does your shaprio-wilk value align with the plots you made regarding data distribution?*
+
+
+testing for normality, use 4 tools
+- visualize with boxplot or historgram
+- visualize with a qqPlot
+- run a shapiro wilk test
+- see if the CLT applies (50+ observations or rows = data are normal)
+
+
++ this is a judgment call sometimes, when in doubt look at CLT (50+ observations)
+
+run a qqPlot for normality
+```{r}
+
+# other tools for visualizing normality 
+# histogram
+# boxplots
+
+# another tool for visualizing normality
+# qqPlot is in the car package 
+
+library(car)
+
+
+qqPlot() # right
+
+
+qqplot() # wrong
+qqp() # wrong
+
+# HINT: qqPlot(DATASET$VARIABLE)
+qqPlot(titanic$Age)
+
+#View(titanic)
+```
+
+# T-test: Comparing Means
+
+*paired* = take the difference (requires subsetting)
+  + can't split the groups
+    + left/right hand 1 body, leaf 1/leaf2 1 branch
+
+*two - sample* = splits 1 variable into 2 groups with code
+  + can split the groups
+    + high school/college students, basketball/baseball players
+```{r}
+# Option 1 for making two variables
+# function subset it comes from the package tidyverse 
+View(dexterity)
+
+# function subset, you need the package tidyverse
+
+library(tidyverse)
+
+# HINT : variable name <- subset(DATASET, COLUMN == "TYPE")
+dominant <- subset(dexterity, hand=="dominant")
+weak  <- subset(dexterity, hand=="weak")
+
+
+# Option 1: paired t-test
+t.test(dominant, weak, paired = TRUE)
+
+# make a graph for both dominant and weak 
+
+
+# Option 2: one sample t-test
+diff <- dominant$time - weak$time
+t.test(diff, mu = 0)
+# visualize and test normality on the diff!
+
+hist(diff)
+shapiro.test(diff)
+
+boxplot(dexterity$time ~ dexterity$hand)
+
+# paired t-test = weak and dominant (visualize boxplot or histogram)
+t.test(weak, dominant, paired = TRUE)
+
+# one sample t-test = diff (visualize boxplot or histogram)
+t.test(diff, mu = 0)
+```
+
+```{r}
+leveneTest(total_length_mm ~ survival, data = bumpus, center = "median")
+
+# ?leveneTest
+# str(bumpus)
+
+t.test(total_length_mm ~ survival, data = bumpus, var.equal = TRUE)
+```
+
+visualizing with boxplot/histogram/qqPlot
+
+- mention outliers 
+- normal distribution (bell curve or not)
+- varaince
+```{r}
+
+with(dexterity, qqPlot(time[hand == "dominant"]))
+with(dexterity, qqPlot(time[hand == "weak"]))
+
+
+with(bumpus, qqPlot(total_length_mm[survival == "no"]))
+with(bumpus, qqPlot(total_length_mm[survival == "yes"]))
+
+# HINT: boxplot(DATASET$Y ~ DATASET$X)
+boxplot(bumpus$total_length_mm ~ bumpus$survival)
+
+```
+
