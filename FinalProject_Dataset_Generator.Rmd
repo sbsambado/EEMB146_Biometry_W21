@@ -1,0 +1,404 @@
+---
+title: "FinalProject_DatasetGenerator"
+author: "sbsambado"
+date: "4/24/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(readr)
+library(xlsx)
+library(ggplot2)
+library(dplyr)
+```
+
+Final Project datasets
+
+Datasets **should include at a minimum**
+- 1 numeric normally distributed variable (y outcome)
+- 1 numeric variable (x input)
+- 2 categorical variables (x inputs)
+
+Datasets **should not include**
+- time series focused data
+- aggregated health data
+
+
+#### Open Traits Network
+This is a solid database that has ecological datasets students are used to seeing in this class.
+
+For each solid database (i.e. AmphiBIO), I would make 5 unique datasets from by randomly selecting 300 observations for each dataset. The goal of choosing 300 observations is to ensure normality should be met and avoid too much incomplete data. 
+
+If student is struggling to meet 1) normality and has 2) a lot of missing data with a particular dataset, change the random number generator to 500.
+> sample_n(DATASET, 500)
+
+Dataset: AmphiBIO
+```{r}
+# https://opentraits.org/datasets/amphi-bio
+amphiBIO <- read_csv("AmphiBIO_v1.csv")
+dim(amphiBIO)
+
+dataset_1 <- sample_n(amphiBIO, 300)
+dim(dataset_1)
+write.xlsx(dataset_1, file = "dataset_1.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_15 <- sample_n(amphiBIO, 300)
+write.xlsx(dataset_15, file = "dataset_15.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_30 <- sample_n(amphiBIO, 300)
+write.xlsx(dataset_30, file = "dataset_30.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_45 <- sample_n(amphiBIO, 300)
+write.xlsx(dataset_45, file = "dataset_45.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_60 <- sample_n(amphiBIO, 300)
+write.xlsx(dataset_60, file = "dataset_60.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_75 <- sample_n(amphiBIO, 300)
+write.xlsx(dataset_75, file = "dataset_75.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+```
+
+Dataset: Arthropod Species Traits
+```{r}
+# https://opentraits.org/datasets/arthropod-species-traits
+
+arthropod <- read_csv("ArthropodSpeciesTraits.csv")
+dim(arthropod)
+
+dataset_2 <- sample_n(arthropod, 300)
+dim(dataset_2)
+write.xlsx(dataset_2, file = "dataset_2.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_16 <- sample_n(arthropod, 300)
+write.xlsx(dataset_16, file = "dataset_16.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_31 <- sample_n(arthropod, 300)
+write.xlsx(dataset_31, file = "dataset_31.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_46 <- sample_n(arthropod, 300)
+write.xlsx(dataset_46, file = "dataset_46.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_61 <- sample_n(arthropod, 300)
+write.xlsx(dataset_61, file = "dataset_61.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_76 <- sample_n(arthropod, 300)
+write.xlsx(dataset_76, file = "dataset_76.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+```
+
+Dataset: Australian birds
+```{r}
+# https://opentraits.org/datasets/australian-birds
+
+australian <- read_csv("Australian_Bird_Data_Version_1.csv")
+dim(australian)
+
+dataset_3 <- sample_n(australian, 300)
+dim(dataset_2)
+write.xlsx(dataset_3, file = "dataset_3.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_17 <- sample_n(australian, 300)
+write.xlsx(dataset_17, file = "dataset_17.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_32 <- sample_n(australian, 300)
+write.xlsx(dataset_32, file = "dataset_32.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_47 <- sample_n(australian, 300)
+write.xlsx(dataset_47, file = "dataset_47.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_62 <- sample_n(australian, 300)
+write.xlsx(dataset_62, file = "dataset_62.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_77 <- sample_n(australian, 300)
+write.xlsx(dataset_77, file = "dataset_77.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+```
+
+Dataset: Avian hand-wing index
+```{r}
+# https://opentraits.org/datasets/avianhwi
+
+handwing <- read_csv("Australian_Bird_Data_Version_1.csv")
+dim(handwing)
+
+dataset_4 <- sample_n(handwing, 300)
+dim(dataset_4)
+write.xlsx(dataset_4, file = "dataset_4.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_18 <- sample_n(handwing, 300)
+write.xlsx(dataset_18, file = "dataset_18.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_33 <- sample_n(handwing, 300)
+write.xlsx(dataset_33, file = "dataset_33.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_48 <- sample_n(handwing, 300)
+write.xlsx(dataset_48, file = "dataset_48.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_63 <- sample_n(handwing, 300)
+write.xlsx(dataset_63, file = "dataset_63.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_78 <- sample_n(handwing, 300)
+write.xlsx(dataset_78, file = "dataset_78.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+Dataset: Beukhof_2019 - Marine Fish
+```{r}
+# https://opentraits.org/datasets/beukhof-2019
+
+marinefish <- read_csv("Beukhof_Fish.csv")
+dim(marinefish)
+
+dataset_5 <- sample_n(marinefish, 300)
+dim(dataset_5)
+write.xlsx(dataset_5, file = "dataset_5.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_19 <- sample_n(marinefish, 300)
+write.xlsx(dataset_19, file = "dataset_19.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_34 <- sample_n(marinefish, 300)
+write.xlsx(dataset_34, file = "dataset_34.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_49 <- sample_n(marinefish, 300)
+write.xlsx(dataset_49, file = "dataset_49.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_64 <- sample_n(marinefish, 300)
+write.xlsx(dataset_64, file = "dataset_64.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_79 <- sample_n(marinefish, 300)
+write.xlsx(dataset_79, file = "dataset_79.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+```
+
+Dataset: Bland_2017 - Cray Fish
+```{r}
+# https://opentraits.org/datasets/bland-2017
+
+crayfish <- read_csv("Bland_2017_Crayfish_Species_Dataset.csv")
+dim(crayfish)
+
+dataset_6 <- sample_n(crayfish, 300)
+dim(dataset_6)
+write.xlsx(dataset_6, file = "dataset_6.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_20 <- sample_n(crayfish, 300)
+write.xlsx(dataset_20, file = "dataset_20.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_35 <- sample_n(crayfish, 300)
+write.xlsx(dataset_35, file = "dataset_35.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_50 <- sample_n(crayfish, 300)
+write.xlsx(dataset_50, file = "dataset_50.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_65 <- sample_n(crayfish, 300)
+write.xlsx(dataset_65, file = "dataset_65.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_80 <- sample_n(crayfish, 300)
+write.xlsx(dataset_80, file = "dataset_80.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+
+Dataset: EGrowth Worms
+```{r}
+# https://opentraits.org/datasets/egrowth
+
+
+eGrowth <- read_csv("eGrowth.csv")
+dim(eGrowth)
+
+dataset_7 <- sample_n(eGrowth, 300)
+dim(dataset_7)
+write.xlsx(dataset_7, file = "dataset_7.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_21 <- sample_n(eGrowth, 300)
+write.xlsx(dataset_21, file = "dataset_21.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_36 <- sample_n(eGrowth, 300)
+write.xlsx(dataset_36, file = "dataset_36.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_51 <- sample_n(eGrowth, 300)
+write.xlsx(dataset_51, file = "dataset_51.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_66 <- sample_n(eGrowth, 300)
+write.xlsx(dataset_66, file = "dataset_66.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_81 <- sample_n(eGrowth, 300)
+write.xlsx(dataset_81, file = "dataset_81.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+```
+
+
+Dataset: Bacterial and archaeal phenotypic trait database
+```{r}
+# https://opentraits.org/datasets/madin-2020
+
+
+bacteria <- read_csv("Bacteria_condensed_traits_GTDB.csv")
+dim(bacteria)
+
+dataset_8 <- sample_n(bacteria, 300)
+dim(dataset_8)
+write.xlsx(dataset_8, file = "dataset_8.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_22 <- sample_n(bacteria, 300)
+write.xlsx(dataset_22, file = "dataset_22.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_37 <- sample_n(bacteria, 300)
+write.xlsx(dataset_37, file = "dataset_37.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_52 <- sample_n(bacteria, 300)
+write.xlsx(dataset_52, file = "dataset_52.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_67 <- sample_n(bacteria, 300)
+write.xlsx(dataset_67, file = "dataset_67.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_82 <- sample_n(bacteria, 300)
+write.xlsx(dataset_82, file = "dataset_82.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+```
+
+
+Dataset: Senescence / Aging and longevity of animals
+
+```{r}
+# https://opentraits.org/datasets/senescence
+
+
+senescence <- read_csv("Senescence_AgingAnimals.csv")
+dim(senescence)
+
+dataset_9 <- sample_n(senescence, 300)
+dim(dataset_9)
+write.xlsx(dataset_9, file = "dataset_9.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_23 <- sample_n(senescence, 300)
+write.xlsx(dataset_23, file = "dataset_23.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_38 <- sample_n(senescence, 300)
+write.xlsx(dataset_38, file = "dataset_38.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_53 <- sample_n(senescence, 300)
+write.xlsx(dataset_53, file = "dataset_53.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_68 <- sample_n(senescence, 300)
+write.xlsx(dataset_68, file = "dataset_68.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_83 <- sample_n(senescence, 300)
+write.xlsx(dataset_83, file = "dataset_83.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+```
+
+
+#### Tidy Tuesday Data
+
+Tried to get some fun environmental data here but it takes a while to find appropriate datasets that meet all project requirements
+
+```{r}
+install.packages("tidytuesdayR")
+library(tidytuesdayR)
+```
+
+Transit Costs Project
+```{r}
+transit_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-05/transit_cost.csv')
+write.xlsx(transit_cost, file = "transit_cost.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dim(transit_cost)
+
+
+dataset_10 <- sample_n(transit_cost, 300)
+dim(dataset_10)
+write.xlsx(dataset_10, file = "dataset_10.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_69 <- sample_n(transit_cost, 300)
+write.xlsx(dataset_69, file = "dataset_69.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+Deforestation
+```{r}
+brazil_loss <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-06/brazil_loss.csv')
+
+```
+
