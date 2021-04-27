@@ -1,0 +1,24 @@
+---
+title: "fake"
+author: "sbsambado"
+date: "4/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(readr)
+library(ggplot2)
+
+
+plant <- read_csv("plant_data.csv")
+
+ggplot(plant, aes(x = dist_from_edge_m, y = num_flowers)) +
+  geom_point()
+
+```
+

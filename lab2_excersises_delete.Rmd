@@ -1,0 +1,39 @@
+---
+title: "lab2_discussionnotes_deletedelete"
+author: "sbsambado"
+date: "4/6/2021"
+output: html_document
+---
+
+
+As long as your HW file
+
+1) YAML - authorship/date/titlle
+2) Question in plain text (white bit)
+3) code in chunks (grey bit)
+4) answer below code chunk 
+
+
+Setup file should include all data and pacakges you will use for that lab assignment
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# install packages first
+#install.packages("readr") # package that helps fun function read_csv
+library(readr)
+
+#install.packages("tidyverse") # pacakge that helps tidy up your data
+library(tidyverse)
+
+# for every lab, you will need packages 1) readr 2) tidyverse
+# always hashtag 'install.packages()' and 'View()'
+
+# rundown of things
+## heads up: variable names cannot have 1) spaces, 2) start with numbers
+
+# variable_name <- function(argument)
+# data files
+battongue <- read_csv("battongues.csv")
+
+```
+

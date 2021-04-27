@@ -7,6 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+
 
 library(tidyverse)
 library(readr)
@@ -396,9 +398,132 @@ write.xlsx(dataset_69, file = "dataset_69.xlsx",
            col.names = TRUE, row.names = TRUE)
 ```
 
-Deforestation
+
+#### Published paper
+
+Biscere 2019 - Ocean Acidification
 ```{r}
-brazil_loss <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-06/brazil_loss.csv')
+# https://royalsocietypublishing.org/doi/10.1098/rsbl.2018.0777
+
+acidification <- read_csv("ocean_acidificaiton.csv")
+dim(acidification)
+
+dataset_11 <- sample_n(acidification, 300)
+dim(dataset_11)
+write.xlsx(dataset_11, file = "dataset_11.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_39 <- sample_n(acidification, 300)
+write.xlsx(dataset_39, file = "dataset_39.xlsx",
+           col.names = TRUE, row.names = TRUE)
+  
+```
+
+#### ESM 244
+
+Completed lab 2 to create a completed version of CA pollution
+
+CA pollution & demographics
+```{r}
+
+pollution <- read_csv("ca_pollution.csv")
+dim(pollution)
+
+dataset_12 <- sample_n(pollution, 300)
+dim(dataset_12)
+write.xlsx(dataset_12, file = "dataset_12.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_24 <- sample_n(pollution, 300)
+write.xlsx(dataset_24, file = "dataset_24.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+dataset_40 <- sample_n(pollution, 300)
+write.xlsx(dataset_40, file = "dataset_40.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_54 <- sample_n(pollution, 300)
+write.xlsx(dataset_54, file = "dataset_54.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+
+dataset_70 <- sample_n(pollution, 300)
+write.xlsx(dataset_70, file = "dataset_70.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_84 <- sample_n(pollution, 300)
+write.xlsx(dataset_84, file = "dataset_84.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+Palmer penguins 
+(hopefully students don't see all the published code for this)
+```{r}
+penguins <- read_csv("penguins.csv")
+dim(penguins)
+
+dataset_13 <- penguins
+dim(dataset_12)
+write.xlsx(dataset_13, file = "dataset_13.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_41 <- penguins
+write.xlsx(dataset_41, file = "dataset_41.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+Housing prices
+```{r}
+slo_home <- read_csv("slo_homes.csv")
+dim(slo_home)
+
+dataset_14 <- sample_n(acidification, 300)
+dim(dataset_14)
+write.xlsx(dataset_14, file = "dataset_14.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_25 <- sample_n(acidification, 300)
+write.xlsx(dataset_25, file = "dataset_25.xlsx",
+           col.names = TRUE, row.names = TRUE)
+```
+
+World Environment Variables
+```{r}
+# https://www.kaggle.com/zanderventer/environmental-variables-for-world-countries?select=World_countries_env_vars.csv
+
+world_environment <- read_csv("world_env_vars.csv")
+dim(world_environment)
+
+dataset_26 <- world_environment
+dim(dataset_26)
+write.xlsx(dataset_26, file = "dataset_26.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_42 <- world_environment
+write.xlsx(dataset_42, file = "dataset_42.xlsx",
+           col.names = TRUE, row.names = TRUE)
+          
+
+```
+
+
+
+#### Figshare
+Sharks Mossel Bay
+```{r}
+# https://figshare.com/search?q=max%20renton can't find the OG article this comes from...
+sharks <- read_csv("sharks_mosselbay.csv")
+dim(sharks)
+
+dataset_27 <- sample_n(sharks, 300)
+dim(dataset_27)
+write.xlsx(dataset_27, file = "dataset_27.xlsx",
+           col.names = TRUE, row.names = TRUE)
+
+dataset_43 <- sample_n(sharks, 300)
+write.xlsx(dataset_43, file = "dataset_43.xlsx",
+           col.names = TRUE, row.names = TRUE)
 
 ```
 

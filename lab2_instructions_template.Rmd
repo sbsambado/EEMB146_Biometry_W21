@@ -218,7 +218,7 @@ Turn in the answers to the following questions.
 
 + Upload your answers to the “Lab 2 Assignment” link on Gauchospace. 
 
-+ The assignment is due before **SUNDAY AT 12:00 PM** 
++ The assignment is due before **MONDAY AT 11:59 PM** 
 
 + Feel free to work together, but each person but submit their own code. 
 

@@ -1,0 +1,330 @@
+﻿Sample,Date ,"time of day (AM, PM)",No. Sharks,Time taken for first shark to arrive (minuets),"sea state (calm, choppy, rough)",wind direction,"Water vis (poor,moderate,good)",No. males,No. females,Max. size (m),Min. size (m),trip duration (minuets) ,SITE,Water Temp (℃)
+1,2-Jan,AM,4,90,calm,SW,good,1,3,3,2.2,165,Groot Brak,22
+2,2-Jan,PM,3,55,calm,S,good,0,3,2.5,2.2,70,Groot Brak,22
+3,3-Jan,AM,3,25,calm,SE,good,0,3,2.5,2.2,195,Groot Brak,21
+4,3-Jan,PM,4,65,choppy,SE,good,1,3,3,2.2,85,Groot Brak,21
+5,4-Jan,AM,3,105,calm,E,good,0,3,3,2.2,180,Groot Brak,21
+6,4-Jan,PM,1,15,calm,SW,good,0,1,2.5,2.5,75,Groot Brak,21
+7,4-Jan,PM,2,40,calm,SW,good,0,2,2.5,2.3,175,Groot Brak,21
+8,5-Jan,AM,1,75,calm,E,good,0,1,2.5,2.5,195,Groot Brak,21
+9,5-Jan,PM,4,na,calm,ESE,good,1,3,3,2.2,50,Groot Brak,21
+10,5-Jan,PM,1,na,calm,SE,good,0,1,2.3,2.3,175,Groot Brak,21
+11,6-Jan,AM,2,100,Calm,SE,good,0,2,2.5,2.2,190,Groot Brak,20
+12,6-Jan,PM,4,35,Calm,SE,good,1,3,3,2.2,60,Groot Brak,20
+13,6-Jan,PM,0,na,Calm,SE,good,0,0,na,na,190,Groot Brak,20
+14,7-Jan,AM,2,130,Calm,E,good,0,2,2.5,2.3,190,Groot Brak,21
+15,7-Jan,PM,4,55,choppy,SE,good,0,3,2.5,2.3,190,Groot Brak,21
+16,9-Jan,AM,0,na,calm,SE,good,0,0,na,na,190,Groot Brak,20
+17,9-Jan,PM,3,na,calm,SE,good,1,2,2.5,2.2,115,Groot Brak,20
+18,9-Jan,PM,4,na,calm,SE,good,1,3,2.5,2.2,125,Groot Brak,20
+19,10-Jan,AM,0,na,calm,W,good,0,0,na,na,195,Groot Brak,21
+20,10-Jan,PM,4,55,calm,S,good,0,4,2.5,2,135,Groot Brak,21
+21,11-Jan,AM,1,110,calm,S,good,0,1,2.5,2.5,190,Groot Brak,21
+22,11-Jan,PM,4,25,calm,SW,good,1,3,2.5,2.2,105,Groot Brak,21
+23,11-Jan,PM,2,55,calm,SW,good,0,2,2.5,2.3,115,Groot Brak,21
+24,12-Jan,AM,1,115,Calm,E,good,0,1,2.5,2.5,190,Groot Brak,20
+25,12-Jan,PM,4,60,calm,ESE,good,0,4,2.5,2,115,Groot Brak,20
+26,12-Jan,PM,1,40,calm,SE,good,0,1,2.5,2.5,110,Groot Brak,20
+27,13-Jan,AM,3,90,calm,NW,good,1,2,3,2,175,Groot Brak,21
+28,13-Jan,PM,6,40,calm,SW,good,1,5,3,2,100,Groot Brak,21
+29,14-Jan,AM,2,110,choppy,SE,good,0,2,2.5,2.2,190,Groot Brak,21
+30,14-Jan,PM,3,75,choppy,SE,good,1,2,3,2.3,140,Groot Brak,21
+31,15-Jan,AM,4,120,calm,W,good,0,4,2.8,2,180,Groot Brak,20
+32,15-Jan,PM,2,50,calm,SW,good,0,2,2.3,2,115,Groot Brak,20
+33,16-Jan,AM,1,105,calm,S,good,0,1,2.5,2.5,170,Groot Brak,20
+34,16-Jan,PM,4,30,calm,SW,good,0,4,3,2.3,105,Groot Brak,20
+35,17-Jan,AM,4,105,calm,SE,good,0,3,2.8,2,185,Groot Brak,21
+36,17-Jan,PM,4,50,calm,SE,good,1,4,3,2.2,145,Groot Brak,21
+37,18-Jan,AM,3,115,calm,W,good,0,3,2.5,2,190,Groot Brak,20
+38,18-Jan,PM,1,55,calm,WSW,good,0,1,2.3,2.3,120,Groot Brak,20
+39,18-Jan,PM,6,100,calm,SW,good,0,6,3,3,100,Groot Brak,20
+40,19-Jan,AM,3,100,Calm,E,good,0,3,2.5,2.2,180,Groot Brak,21
+41,19-Jan,PM,4,50,calm,ESE,good,0,4,2.5,2,130,Groot Brak,21
+42,22-Jan,AM,0,na,Calm,E,good,0,0,na,na,190,Groot Brak,21
+43,22-Jan,PM,3,40,Calm,SE,good,0,3,2.5,2,80,Groot Brak,21
+44,23-Jan,AM,3,115,calm,NW,good,0,3,2.5,2,190,Groot Brak,20
+45,23-Jan,PM,3,na,Calm,W,moderate,0,3,2.8,2,na,Groot Brak,20
+46,24-Jan,AM,1,135,calm,E,good,0,1,2.5,2.5,200,Groot Brak,21
+47,24-Jan,PM,6,50,calm,SE,good,1,5,3,2,80,Groot Brak,21
+48,25-Jan,AM,3,na,Calm,SE,good,0,3,3,2.3,190,Groot Brak,na
+49,25-Jan,PM,6,55,Calm,SE,good,0,6,2.5,2,90,Groot Brak,na
+50,26-Jan,AM,3,50,calm,S,good,1,2,3.3,2.5,160,Groot Brak,21
+51,26-Jan,PM,5,50,calm,SW,good,1,4,3,2,105,Groot Brak,21
+52,27-Jan,AM,7,40,calm,W,good,2,5,3,2,210,Groot Brak,20
+53,27-Jan,PM,6,30,calm,SW,good,1,5,3,2,70,Groot Brak,20
+54,27-Jan,PM,4,na,Calm,SW,good,0,4,3,2.2,100,Groot Brak,20
+55,28-Jan,AM,6,40,Calm,SE,good,1,5,3,2,160,Groot Brak,21
+56,29-Jan,AM,4,110,calm,NW,good,0,3,2.5,2,190,Groot Brak,20
+57,29-Jan,PM,6,25,calm,W,good,1,5,3,2,115,Groot Brak,20
+58,29-Jan,PM,2,na,calm,W,good,1,1,3,2.5,100,Groot Brak,20
+59,31-Jan,AM,4,na,calm,S,good,0,3,3,2.3,170,Groot Brak,21
+60,31-Jan,PM,2,10,calm,SW,good,0,2,2.3,2,160,Groot Brak,21
+61,30-Jan,AM,2,55,calm,SE,good,0,2,2.5,2.3,160,Groot Brak,21
+62,30-Jan,PM,4,40,calm,S,good,1,3,3,2,na,Groot Brak,21
+63,10-Mar,AM,1,130,choppy,W,moderate,0,1,2.8,2.8,220,Seal Island,21
+64,10-Mar,PM,1,200,calm,S,moderate,0,1,2.3,2.3,250,Seal Island,21
+65,11-Mar,AM,2,na,calm,S,good,0,2,2.8,2.5,240,Seal Island,21
+66,11-Mar,PM,2,na,calm,S,good,0,2,2.8,2.2,na,Seal Island,21
+67,12-Mar,AM,0,na,calm,NW,good,0,0,na,na,na,Seal Island,20
+68,14-Mar,AM,0,na,calm,W,good,0,0,na,na,220,Seal Island,na
+69,14-Mar,PM,1,25,calm,SE,good,0,0,na,na,180,Groot Brak,na
+70,15-Mar,AM,0,na,choppy,W,good,0,0,na,na,120,Groot Brak,21
+71,15-Mar,PM,1,25,calm,SW,good,0,1,2.4,2.4,na,Seal Island,21
+72,16-Mar,AM,0,na,calm,NW,good,0,0,na,na,210,Seal Island,20
+73,16-Mar,PM,0,na,calm,SE,good,0,0,na,na,na,Seal Island,20
+74,18-Mar,AM,0,na,calm,ESE,moderate,0,0,na,na,na,Seal Island,21
+75,19-Mar,AM,0,na,calm,NW,poor,0,0,na,na,na,Seal Island,20
+76,20-Mar,AM,0,na,calm,NW,good,0,0,na,na,195,Seal Island,20
+77,20-Mar,PM,0,na,calm,SE,good,0,0,na,na,120,Seal Island,20
+78,21-Mar,AM,1,na,calm,NW,good,0,1,3,3,na,Seal Island,20
+79,21-Mar,PM,0,na,calm,S,good,0,0,na,na,na,Seal Island,21
+80,23-Mar,PM,2,15,choppy,SSE,moderate,0,0,na,na,150,Seal Island,19
+81,24-Mar,AM,4,40,calm,SW,moderate,0,0,na,na,270,Seal Island,19
+82,24-Mar,PM,2,30,calm,SW,moderate,0,0,na,na,285,Seal Island,19
+83,25-Mar,AM,4,35,calm,SE,moderate,0,4,3,2,165,Seal Island,18
+84,25-Mar,PM,2,50,calm,SE,moderate,0,1,2.8,2.8,100,Seal Island,18
+85,26-Mar,AM,2,na,calm,S,moderate,0,2,2.5,2.2,175,Seal Island,17
+86,26-Mar,PM,5,na,calm,SE,moderate,0,5,3.2,2,115,Seal Island,17
+87,28-Mar,AM,0,na,Calm,S,moderate,0,0,na,na,225,Seal Island,17
+88,28-Mar,PM,0,na,calm,SE,moderate,0,0,na,na,150,Seal Island,17
+89,28-Mar,PM,0,na,calm,SE,moderate,0,0,na,na,160,Seal Island,17
+90,27-Mar,AM,1,60,Calm,SW,moderate,0,1,2,2,160,Seal Island,17
+91,27-Mar,PM,2,45,calm,SW,moderate,1,1,2.5,2.2,185,Seal Island,17
+92,29-Mar,AM,4,30,calm,W,moderate,0,4,3,2.2,110,Seal Island,17
+93,29-Mar,PM,3,20,calm,WSW,moderate,1,1,3.2,2,140,Seal Island,17
+94,30-Mar,AM,2,na,Calm,W,poor,0,2,2.6,2.2,160,Seal Island,17
+95,30-Mar,PM,3,na,calm,W,moderate,0,1,3,0,215,Seal Island,17
+96,31-Mar,AM,5,10,calm,NW,moderate,1,4,3.2,2,135,Seal Island,17
+97,31-Mar,PM,3,15,calm,NW,moderate,0,2,2.5,2.4,80,Seal Island,17
+98,6-Apr,AM,6,20,calm,W,good,0,6,3.7,2.3,115,Seal Island,21
+99,6-Apr,PM,3,10,calm,W,good,0,3,37,3,135,Seal Island,21
+100,5-Apr,AM,2,20,Calm,W,good,0,2,3.7,2.5,95,Seal Island,20
+101,5-Apr,PM,5,30,calm,S,good,0,5,3.7,2.5,125,Seal Island,20
+102,5-Apr,PM,3,20,calm,S,good,0,3,3.7,2.5,85,Seal Island,20
+103,4-Apr,AM,3,30,calm,SW,good,0,3,3.5,2.5,100,Seal Island,20
+104,4-Apr,PM,3,15,calm,SE,good,0,3,3,2.5,120,Seal Island,20
+105,4-Apr,PM,2,95,calm,SE,good,0,2,3.7,3.5,155,seal Island,20
+106,3-Apr,AM,5,25,Calm,SE,poor,0,0,na,na,265,Seal Island,18
+107,3-Apr,PM,5,45,Calm,SE,poor,0,0,na,na,90,Seal Island,18
+108,2-Apr,AM,5,30,choppy,SW,moderate,0,0,na,na,200,Seal Island,19
+109,2-Apr,PM,3,na,choppy,S,poor,0,0,na,na,120,Seal Island,19
+110,1-Apr,AM,3,15,calm,E,moderate,0,0,na,na,135,Seal Island,18
+111,1-May,AM,3,15,calm,SE,good,1,2,2.6,2.5,160,seal Island ,19
+112,1-May,PM,3,25,calm,SE,good,1,2,2.6,2.5,130,seal Island ,19
+113,2-May,AM,5,20,calm,SW,moderate,1,4,3.3,2,105,seal Island ,17
+114,3-May,AM,4,25,calm,NE,good,1,3,3.3,2.5,110,seal Island ,18
+115,3-May,PM,3,15,calm,NE,good,0,3,2.8,2.5,155,seal island ,18
+116,4-May,AM,5,25,choppy,SW,poor,1,4,3.3,2.5,160,seal Island ,17
+117,4-May,PM,3,1,choppy,SW,poor,0,3,3.3,2.5,160,seal island ,17
+118,5-May,AM,9,10,calm,SW,na,0,5,3.6,2.1,140,seal island ,19
+119,5-May,PM,5,5,choppy,SW,na,0,5,3.6,2.1,160,seal island ,19
+120,6-May,AM,7,20,calm,NW,good,1,6,3.5,2.3,315,seal Island ,18
+121,7-May,AM,5,15,calm,na,good,2,3,3.5,2.5,120,seal Island ,18
+122,8-May,AM,6,10,calm,W,good,2,4,3.5,2.2,105,seal island ,18
+123,8-May,PM,5,10,calm,N,good,1,4,3.5,2.3,125,seal Island ,18
+124,9-May,AM,8,10,calm,NW,moderate,2,6,3.8,2.5,95,seal Island ,18
+125,10-May,AM,8,25,calm,N,good,1,7,3.5,2.2,120,seal Island ,17
+126,10-May,PM,6,10,calm,E,good,0,6,3.5,2.3,130,seal Island ,17
+127,11-May,AM,6,3,calm,W,moderate,Unsexed,Unsexed,3.5,2,105,seal Island ,18
+128,12-May,AM,7,10,calm,NW,moderate,1,6,3.5,2,115,seal Island ,18
+129,12-May,PM,5,5,calm,SW,moderate,1,4,3.5,2.2,100,seal Island ,18
+130,14-May,AM,4,32,calm,W,moderate,0,4,3.5,2.2,240,seal Island ,18
+131,15-May,PM,6,10,calm,SE,good,1,5,3.3,2.2,95,seal Island ,17
+132,16-May,AM,9,5,calm,S,good,1,8,3.5,2.2,95,seal Island ,17
+133,16-May,PM,6,0,calm,SE,good,1,5,3.5,2.2,65,seal Island ,17
+134,18-May,AM,6,10,calm,SE,good ,1,5,3.3,2.5,110,seal Island ,17
+135,18-May,PM,5,10,calm,SE,good,1,4,3.5,2.3,105,seal Island ,17
+136,18-May,PM,8,10,calm,S,good,0,8,3.5,2.3,95,seal Island ,17
+137,22-May,AM,4,5,calm,W,moderate,0,4,3,2.3,65,seal Island ,17
+138,23-May,AM,7,17,choppy,W,poor,1,6,3.3,2.2,90,seal Island ,17
+139,23-May,PM,5,5,calm,NW,poor,1,4,3,2.2,80,seal Island ,17
+140,24-May,AM,8,20,calm,W,good,1,7,3.2,2.3,115,seal Island ,16
+141,24-May,PM,5,5,choppy,SW,good,2,3,3,2.2,120,seal Island ,16
+142,25-May,AM,6,10,calm,W,moderate,1,5,3.5,2.2,135,seal Island ,17
+143,25-May,PM,7,10,calm,W,moderate,1,6,3.5,2.2,125,seal Island ,17
+144,27-May,AM,6,10,calm,W,good,0,6,3.5,2.5,125,seal Island ,17
+145,29-May,AM,7,10,calm,W,good,1,6,3.2,2.5,70,seal Island ,17
+146,5-Jun,AM,6,5,calm,S,good,0,6,3.5,2.3,95,seal Island,17
+147,7-Jun,AM,9,5,calm,SW,good,0,9,3.5,2.3,115,seal Island,17
+148,7-Jun,PM,6,0,calm,SW,good,0,6,3.5,2.3,100,seal Island,17
+149,8-Jun,AM,7,5,calm,na,good,1,6,3.5,2.5,95,seal Island,17
+150,10-Jun,AM,8,5,calm,SW,good,1,7,3.8,2.2,145,seal Island,17
+151,11-Jun,PM,7,15,calm,SW,moderate,1,6,3.3,2.5,75,seal Island,17
+152,12-Jun,AM,9,5,calm,S,good,1,8,3.5,2.2,120,seal Island,17
+153,13-Jun,AM,7,15,calm,NW,good,1,6,3.3,2.3,100,seal Island,17
+154,14-Jun,AM,5,2,calm,NW,good,0,5,3.5,2.8,105,seal Island,16
+155,15-Jun,AM,15,7,calm,N,good,Unsexed,Unsexed,3.7,2,110,seal Island,17
+156,16-Jun,AM,9,5,calm,NW,good,1,8,3.3,2.3,135,seal Island,17
+157,16-Jun,PM,8,na,calm,NW,good,1,7,3.3,2.8,120,seal Island,17
+158,17-Jun,AM,0,na,calm,na,na,0,0,na,na,180,seal Island,17
+159,18-Jun,AM,8,10,calm,na,good,Unsexed,Unsexed,3.9,2,85,seal Island,17
+160,20-Jun,AM,7,20,calm,E,poor,1,6,3.5,2.2,160,seal Island,17
+161,20-Jun,PM,6,5,calm,S,poor,1,5,3.5,2.2,115,seal Island,17
+162,21-Jun,AM,7,na,calm,NW,moderate,1,6,3.3,2.3,120,seal Island,17
+163,21-Jun,PM,6,5,calm,NW,moderate,1,5,3.3,2.3,105,seal Island,17
+164,22-Jun,PM,8,5,calm,E,moderate,2,6,4,2.3,115,seal Island,18
+165,23-Jun,AM,8,5,calm,W,moderate,0,0,na,na,90,Seal Island,16.5
+166,24-Jun,AM,6,na,calm,S,poor,1,5,3.5,2.8,140,seal Island,16
+167,26-Jun,AM,8,5,calm,S,moderate,0,0,na,na,60,seal Island,16.5
+168,27-Jun,PM,9,5,calm,NW,moderate,0,0,na,na,60,seal Island,16.5
+169,28-Jun,PM,9,10,calm,S,moderate,0,0,na,na,90,seal Island,16.5
+170,29-Jun,AM,8,10,calm,NW,moderate,0,0,na,na,105,seal Island,16.5
+171,29-Jun,PM,7,10,calm,NW,moderate,0,0,na,na,70,seal Island,16.5
+172,30-Jun,PM,6,0,calm,na,good,0,0,na,na,90,seal Island,16.5
+173,1-Jul,AM,6,5,calm,na,good,0,0,na,na,75,Seal Island,16.5
+174,3-Jul,PM,8,15,calm,NW,moderate,0,0,na,na,140,Seal Island,16.5
+175,4-Jul,AM,8,5,calm,NW,moderate,0,0,na,na,120,Seal Island,17
+176,4-Jul,PM,8,10,calm,NW,moderate,0,0,na,na,125,Seal Island,17
+177,5-Jul,AM,6,10,calm,na,good,0,0,na,na,105,Seal Island,16.5
+178,7-Jul,AM,7,10,calm,NE,good,2,5,3.3,2.2,135,Seal Island,17
+179,7-Jul,PM,9,10,calm,E,good,2,7,3.3,2.2,110,Seal Island,17
+180,8-Jul,AM,8,5,calm,SE,good,2,6,4,2.2,125,Seal Island,17
+181,8-Jul,PM,6,5,calm,SE,good,1,5,4,2.2,130,Seal Island,17
+182,9-Jul,AM,11,5,calm,SE,good,4,7,3.3,2.2,135,Seal Island,16.5
+183,9-Jul,PM,6,5,calm,SE,good,3,3,3.2,2.2,45,Seal Island,16.5
+184,10-Jul,AM,6,5,calm,E,good,1,5,3.2,2.2,80,Seal Island,17
+185,13-Jul,AM,10,5,calm,W,good,2,8,3.2,2.2,105,Seal Island,17
+186,14-Jul,AM,9,5,calm,NW,moderate,2,7,3.3,2,125,Seal Island,17
+187,14-Jul,PM,11,10,calm,SW,moderate,2,9,3.5,2,130,Seal Island,17
+188,15-Jul,AM,9,10,calm,E,good,3,7,3.2,2.2,100,Seal Island,17
+189,17-Jul,PM,8,10,calm,S,good,3,5,3.5,2.2,125,Seal Island,17
+190,18-Jul,PM,1,95,calm,NW,moderate,0,1,2.2,2.2,200,Seal Island,17
+191,19-Jul,AM,0,na,calm,N,good,0,0,na,na,160,Seal Island,17
+192,19-Jul,PM,3,120,calm,NW,good,0,0,na,na,170,Seal Island,17
+193,20-Jul,AM,3,15,calm,NW,moderate,0,0,na,na,120,Seal Island,17
+194,21-Jul,AM,5,10,calm,NW,good,0,0,na,na,135,Seal Island,17
+195,5-Aug,AM,1,140,Calm,SW,poor,0,0,na,na,160,Seal Island,17
+196,6-Aug,AM,0,na,Calm,W,poor,0,0,na,na,245,Seal Island,17
+197,7-Aug,AM,0,na,calm,W,moderate,0,0,na,na,200,Seal Island,17
+198,8-Aug,AM,0,na,Choppy,SW,poor,0,0,na,na,165,Seal Island,17
+199,9-Aug,AM,0,na,calm,SW,good,0,0,na,na,165,Seal Island,17
+200,10-Aug,AM,0,na,calm,W,good,0,0,na,na,170,Seal Island,17
+201,11-Aug,AM,0,na,calm,W,good,0,0,na,na,215,Seal Island ,18
+202,12-Aug,AM,0,na,calm,NNW,moderate ,0,0,na,na,180,Seal Island,16
+203,13-Aug,AM,0,na,Calm,SW,good,0,0,na,na,210,Seal Island,17
+204,14-Aug,AM,1,na,calm,NW,good,0,1,2.8,2.8,180,Seal Island,17
+205,15-Aug,AM,3,15,calm,NW,moderate ,0,3,3,2.8,150,Seal Island,16
+206,16-Aug,AM,3,10,calm,NNW,moderate,1,2,3,2,120,Seal Island,16
+207,16-Aug,PM,3,20,calm,W,moderate,1,2,3,2,190,Seal Island,16
+208,17-Aug,AM,3,5,calm,NNW,moderate,1,2,3,1.8,120,Seal Island,16
+209,17-Aug,PM,1,45,Calm,W,moderate,1,0,1.8,1.8,165,Seal Island,16
+210,18-Aug,AM,3,10,calm,E,good,2,1,3,1.8,120,Seal Island,16
+211,18-Aug,PM,2,60,calm,E,good,0,2,3.3,3,120,Seal Island,16
+212,19-Aug,AM,2,12,calm,W,moderate ,0,0,na,na,150,Seal Island,14
+213,19-Aug,PM,2,40,choppy,W,moderate ,0,0,na,na,100,Seal Island,14
+214,20-Aug,AM,1,80,Calm,SW,Good,0,1,1.9,1.9,150,Seal Island,15
+215,22-Aug,AM,3,30,Calm,W,Good,0,2,3.3,2,100,Seal Island,16
+216,23-Aug,PM,2,50,calm,W,moderate ,Unsexed,Unsexed,2.8,2.8,120,Seal Island,na
+217,24-Aug,AM,2,10,calm,S,moderate,1,1,3,1.8,130,Seal Island,16
+218,24-Aug,PM,2,5,Calm,S,moderate,1,1,3,1.8,65,Seal Island,16
+219,25-Aug,AM,0,na,calm,S,moderate,0,0,na,na,150,Seal Island,16
+220,27-Aug,AM,2,10,choppy,WNW,moderate,0,2,3.3,3.2,95,Seal Island,18
+221,28-Aug,AM,2,20,Calm,NW,poor,0,2,3.2,2.2,na,Seal Island,18
+222,28-Aug,AM,3,25,calm,NW,poor,0,3,3.2,1.8,na,Seal Island,18
+223,28-Aug,PM,0,na,calm,W,poor,0,0,na,na,na,Seal Island,18
+224,29-Aug,PM,1,45,calm,SSE,poor,0,0,na,na,120,Seal Island,16
+225,30-Aug,AM,0,na,na,na,na,0,0,na,na,na,Seal Island,16
+226,30-Aug,PM,0,na,na,na,na,0,0,na,na,na,Seal Island,16
+227,11-Sep,AM,3,75,calm,E,poor,1,2,2.5,2.2,150,Seal Island ,17
+228,11-Sep,PM,5,5,calm,SE,poor,1,4,2.5,2.2,95,Seal Island ,17
+229,12-Sep,AM,4,15,Calm,NW,poor,1,3,3.3,2,90,Seal Island ,15
+230,12-Sep,PM,8,5,Calm,SW,poor,2,6,3.5,2,na,Seal Island ,15
+231,13-Sep,AM,4,15,calm,NW,moderate,1,3,3.1,2.4,95,Seal Island ,16
+232,13-Sep,PM,4,5,Choppy,NW,moderate,1,3,3.3,2.2,60,Seal Island ,16
+233,14-Sep,AM,4,10,Calm,WNW,poor,1,3,3.5,2.3,95,Seal Island ,17
+234,14-Sep,PM,5,5,Calm,SW,poor,1,4,3.3,2.3,90,Seal Island ,17
+235,15-Aug,AM,8,10,calm,W,poor,2,6,3.5,2.2,135,Seal Island ,18
+236,15-Aug,PM,4,10,calm,SW,poor,2,2,2.5,2.2,110,seal Island ,18
+237,16-Sep,AM,3,na,calm,N,moderate,0,3,3.3,2.3,190,Seal Island ,16
+238,17-Sep,AM,5,15,calm,WNW,moderate,0,5,3.5,2.3,170,Seal Island ,17
+239,17-Sep,PM,4,10,calm,SW,moderate,0,4,3.5,2.3,120,Seal Island ,17
+240,18-Sep,AM,5,10,calm,NW,moderate,0,5,3.5,2.5,95,Seal Island ,16
+241,18-Sep,PM,5,10,calm,NW,Poor,0,5,3.5,2.5,95,Seal Island ,16
+242,20-Sep,AM,3,65,calm,W,good,1,2,2.5,2.2,225,Seal Island ,17
+243,21-Sep,AM,5,15,calm,W,poor,0,5,3.5,2.3,135,seal Island ,17
+247,24-Sep,AM,4,15,calm,W,good,0,4,3.2,2.4,75,Seal Island ,16
+248,25-Sep,AM,1,135,calm,W,good,0,1,3.3,3.3,185,Seal Island ,17
+249,25-Sep,PM,1,50,calm,SW,good,0,1,3.3,3.3,115,Seal Island ,17
+250,25-Sep,PM,0,na,calm,S,good,0,0,na,na,150,Seal Island ,17
+251,26-Sep,AM,4,25,calm,SW,good,1,3,3.5,2.3,135,Seal Island ,17
+252,26-Sep,PM,2,10,calm,S,good,0,2,3.5,2.3,120,Seal Island ,17
+253,27-Sep,AM,6,190,calm,E,good,2,4,3.5,2.2,200,Seal Island ,16
+254,27-Sep,PM,8,10,calm,E,good,2,6,3.5,2.2,100,seal Island ,16
+255,28-Sep,AM,9,5,calm,NE,moderate,2,7,3.5,2,165,Seal Island ,16
+256,28-Sep,PM,7,15,calm,E,moderate,2,5,3,2,145,Seal Island ,16
+257,27-Oct,AM,8,25,choppy,SE,poor,Unsexed,Unsexed,3.8,2,195,Seal Island,17
+258,28-Oct,AM,8,20,calm,SE,moderate,1,7,3.3,2.5,203,Seal Island,18
+259,28-Oct,PM,10,10,choppy,SE,poor,1,9,4,2.5,200,Seal Island,18
+260,29-Oct,AM,8,10,calm,E,moderate,0,8,3.5,2,170,Seal Island,17
+261,31-Oct,AM,2,180,rough,NW,poor,0,2,2,2,170,Seal Island,19
+262,31-Oct,PM,5,30,choppy,S,poor,0,5,3,1.7,102,Seal Island,19
+263,4-Nov,AM,6,10,na,S,na,1,5,3.5,2.2,135,Seal Island,17
+264,4-Nov,PM,7,5,na,SE,na,2,5,3.5,2.2,70,Seal Island,17
+265,5-Nov,AM,6,10,na,SW,na,0,0,na,na,145,Seal Island,19
+266,5-Nov,PM,4,10,na,SW,na,0,0,na,na,60,Seal Island,19
+267,6-Nov,AM,6,10,na,W,na,0,6,3.5,2.2,110,Seal Island,18
+268,6-Nov,PM,6,10,na,SW,na,0,6,3.5,2.2,95,Seal Island,18
+269,7-Nov,AM,5,25,na,SE,na,0,5,3.5,2.2,115,Seal Island,17
+270,7-Nov,PM,5,5,na,SE,na,0,5,3.5,2.2,90,Seal Island,17
+271,8-Nov,AM,6,30,na,SE,na,0,6,3.4,2,105,Seal Island,17
+272,8-Nov,PM,4,60,na,SE,na,0,4,3.3,2.3,155,Seal Island,17
+273,9-Nov,AM,5,60,na,NE,na,0,5,3.4,2,125,Seal Island,19
+274,9-Nov,PM,5,30,na,S,na,0,5,3.4,2,120,Seal Island,19
+275,10-Nov,AM,4,20,na,SE,na,0,4,3.3,2.2,105,Seal Island,18
+276,10-Nov,PM,6,5,na,SE,na,0,4,3.3,2.2,120,Seal Island,18
+277,11-Nov,AM,5,20,na,SE,na,0,5,3.5,2.2,75,Seal Island,18
+278,11-Nov,PM,4,15,na,SE,na,0,4,3.5,2.2,140,Seal Island,18
+279,12-Nov,AM,2,115,na,SE,na,0,2,2.5,2,155,Seal Island,18
+280,12-Nov,PM,3,30,na,SE,na,0,3,2.5,2,65,Seal Island,18
+281,13-Nov,AM,7,30,na,NW,na,0,7,3.4,2,150,Seal Island,18
+282,13-Nov,PM,8,5,na,W,na,0,8,3.6,2,95,Seal Island,18
+283,13-Nov,PM,4,5,na,W,na,0,4,3.6,2.8,120,Seal Island,18
+284,14-Nov,AM,6,5,na,SW,na,0,6,3.3,2.3,85,Seal Island,18
+285,14-Nov,PM,5,35,na,S,na,0,5,3.3,2.3,115,Seal Island,18
+286,14-Nov,PM,6,10,na,S,na,0,6,3.3,2.5,90,Seal Island,18
+287,15-Nov,AM,6,5,na,E,na,0,6,3.8,2.3,120,Seal Island,18
+288,15-Nov,PM,6,10,na,SE,na,0,6,3,2.3,110,Seal Island,18
+289,15-Nov,PM,4,10,na,S,na,0,4,3,2.3,115,Seal Island,18
+290,16-Nov,AM,5,15,na,S,na,0,5,3.3,2,135,Seal Island,18
+291,16-Nov,PM,7,40,na,W,na,0,7,3.3,2,130,Seal Island,18
+292,16-Nov,PM,4,25,na,W,na,0,4,3.3,2.3,155,Seal Island,18
+293,17-Nov,AM,10,5,na,SW,na,1,9,3.3,1.8,160,Seal Island,19
+294,17-Nov,PM,6,10,na,W,na,1,5,3.3,1.8,120,Seal Island,19
+295,18-Nov,AM,5,25,na,SW,na,5,0,3.5,1.8,155,Seal Island,19
+296,18-Nov,PM,3,50,na,SW,na,5,0,3.5,1.8,180,Seal Island,19
+297,19-Nov,PM,5,35,na,SE,na,0,5,3.5,2,145,Seal Island,19
+298,20-Nov,AM,8,30,na,SE,na,Unsexed,Unsexed,3.5,2.1,170,Seal Island,19
+299,20-Nov,PM,7,145,na,SE,na,Unsexed,Unsexed,3.5,2.1,170,Seal Island,19
+300,21-Nov,AM,6,5,na,SSW,na,1,5,3.5,2.2,120,Seal Island,18
+301,21-Nov,PM,9,10,na,S,na,1,8,3.5,2.2,115,Seal Island,18
+302,22-Nov,AM,8,5,na,E,na,0,8,3.3,2.3,135,Seal Island,18
+303,22-Nov,PM,7,10,na,SE,na,1,6,3.3,2.3,95,Seal Island,18
+304,22-Nov,PM,7,5,na,SE,na,1,6,3.3,2.3,70,Seal Island,18
+305,23-Nov,AM,7,5,na,E,na,1,6,3.8,2.2,145,Seal Island,19
+306,23-Nov,PM,8,15,na,SE,na,1,7,3.8,2.2,105,Seal Island,19
+307,24-Nov,AM,8,0,na,SW,na,Unsexed,Unsexed,3.5,1.8,145,Seal Island,19
+308,24-Nov,PM,6,135,na,SW,na,Unsexed,Unsexed,3.5,2.2,115,Seal Island,19
+309,24-Nov,PM,6,15,na,SE,na,Unsexed,Unsexed,3.5,2.2,130,Seal Island,19
+310,26-Nov,AM,7,20,na,SW,na,0,7,3.5,1.8,145,Seal Island,20
+311,26-Nov,PM,3,55,na,SE,na,0,3,2.8,1.8,215,Seal Island,20
+312,25-Nov,AM,6,10,na,SE,na,Unsexed,Unsexed,3.3,1.8,160,Seal Island,19
+313,25-Nov,PM,7,25,na,SE,na,Unsexed,Unsexed,3.3,1.8,na,Seal Island,19
+314,27-Nov,AM,4,10,na,SE,na,0,4,3.3,1.8,150,Seal Island,19
+315,28-Nov,AM,6,15,na,SW,na,0,5,3.5,1.8,95,Seal Island,19
+316,28-Nov,PM,2,25,na,SW,na,0,2,3,18,110,Seal Island,19
+317,29-Nov,AM,6,5,na,S,na,0,6,3.5,2,165,Seal Island,19
+318,30-Nov,AM,2,120,na,ESE,na,0,2,3,2.5,230,Seal Island,18
+319,2-Nov,AM,5,10,na,SE,na,1,4,3.5,2.2,140,Seal Island,18
+320,3-Nov,AM,6,10,na,E,na,1,5,3.5,2.2,110,Seal Island,18
+321,3-Nov,PM,7,20,na,SE,na,1,6,3.5,2.5,90,Seal Island,18
+322,26-Dec,AM,5,75,na,SE,moderate ,0,3,3.3,1.4,195,Groot Brak,22
+323,26-Dec,PM,6,5,na,SE,good,0,3,3.3,1.4,80,Groot Brak,22
+324,27-Dec,AM,3,5,na,E,moderate,0,3,3.5,3,255,Groot Brak,na
+325,28-Dec,AM,3,15,na,E,good,1,2,3.3,1.5,135,Groot Brak,23
+326,28-Dec,PM,3,0,na,SW,moderae,1,2,3.5,2,75,Groot Brak,23
+327,29-Dec,AM,5,20,na,SE,good,1,4,3.3,2.3,120,Groot Brak,22
+328,29-Dec,PM,6,10,na,SE,good,1,4,3.3,2.3,95,Groot Brak,22
+329,30-Dec,AM,6,20,na,SW,good,1,5,3.5,2.2,85,Groot Brak,22
+330,31-Dec,AM,6,30,na,S,good ,1,5,3.5,1.4,135,Groot Brak,23
+331,31-Dec,PM,6,0,na,SW,good ,1,5,3.5,1.4,120,Groot Brak,23
+332,31-Dec,PM,4,0,na,SW,poor,1,3,2.8,1.4,100,Groot Brak,23

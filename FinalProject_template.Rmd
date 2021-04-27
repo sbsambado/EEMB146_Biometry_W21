@@ -1,0 +1,274 @@
+---
+title: "EEMB 146 Final Report: Example with Iris Data"
+author: "Tatum Katz"
+date: "5/13/2020"
+output: pdf_document
+---
+
+**This is a merely a template or the "bare bones" of what your final report should look like. I reccomend copying and pasting this into a .Rmd in your .Rproj. Once pasted in your .Rmd, I reccomend filling in the sections with your writing and code. Pay attention to the document format and figure labels within {r}.**
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE) # you must have this set to TRUE
+
+```
+
+
+```{r data and libraries, include=FALSE}
+# upload necessary libraries
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(psych)
+library(car)
+library(multcomp)
+library(bookdown)
+
+# include other libraries you may need
+
+# upload your dataset(s)
+dat <- iris #if you needed to clean or transform the data, it should be done up here so when you make the plots below they work.
+
+```
+
+## Abstract
+
+Here, I would write ~4 sentences about why this research is relevant, what I did, and my findings.
+
+## Introduction
+
+Here, I would give a general overview of my dataset; the variables and how it was collected. I would also talk about my research question, and why it is interesting and important.
+
+## Exploratory Data Analysis
+
+Here, I would mostly state the findings that the petal variables are nonnormal, and references the figures I made. Check out the R code to see how I got these figures to show up where I wanted them to! (Fig. 1). Then, I would reference Figure 2, which is a nice example of a use of the function par. Hey, did you notice it automatically numbers my figures in the order they appear?
+
+```{r warnings=FALSE, fig.show="hold", echo=FALSE, output=FALSE, fig.cap="i would write a VERY informative figure caption here that explained EVERY THING about this plot!"}
+
+#more numeric var investigation
+pairs.panels(dat[,-5]) #include as a fig
+
+```
+
+
+```{r warnings=FALSE, fig.show="hold", echo=FALSE, output=FALSE, fig.cap="i would write a VERY informative figure caption here that explained EVERY THING about this plot!"}
+
+par(mfrow=c(2,2)) #include as a fig
+boxplot(Sepal.Length ~ Species, data=dat, ylab="Sepal Length", xlab="Species")
+boxplot(Sepal.Width ~ Species, data=dat, ylab="Sepal Width", xlab="Species")
+boxplot(Petal.Length ~ Species, data=dat, ylab="Petal Length", xlab="Species")
+boxplot(Petal.Width ~ Species, data=dat, ylab="Petal Width", xlab="Species")
+par(mfrow=c(1,1))
+
+```
+
+## Statistical Methods
+
+Here, I would explain generally what I did, and then make subsections!
+
+#### Does petal length vary by species?
+
+I would CLEARLY state my hypotheses, and the test I ran. I would describe what ANOVA is, what its assumptions are and how I checked them, You could even get mathy here if you wanted to with some $latex$, but it isn't required.
+
+#### What variables are good predictors of petal length?
+
+Same as above, but you could get super fancy with some $$latex on its own line using double dollar signs $$.
+
+## Results
+
+Now, I would generally explain my results, and go for those subsections again bc i love me some subsections.
+
+#### Does petal length vary by species?
+
+I would report all my statistical results like this: I found a significant difference across species' mean petal lengths (one-way ANOVA; F-value = 1180, p-value < 0.05). And then reference Figure 3!
+
+```{r warnings=FALSE, fig.show="hold", echo=FALSE, output=FALSE, fig.cap="i literally did all my analyses in the appendix and then copied and pasted my favorite plots up here so they show up in the main body!"}
+label.df <- data.frame(Species = levels(dat$Species), #make significance stars
+                       Petal.Width = c(.7, 1.9, 2.6)) #these are the y-axis locs of the stars
+
+ggplot(dat, aes(x=Species, y=Petal.Width, fill=Species, color=Species))+ #base plot
+  geom_boxplot(show.legend=F)+ #do a boxplot, but hide legend cause its just colors
+  scale_fill_viridis_d()+ #set the fill colors
+  scale_color_manual(values=c("orchid", "lightseagreen", "orange"))+ #set line colors
+  ylab("Petal Width")+ 
+  geom_text(data = label.df, label = "***", size=10, show.legend=F)+ #add those ***
+  theme_bw()+ #cute theme
+  theme(text = element_text(size=18)) #cause my eyes is tired and old
+
+```
+
+#### What variables are good predictors of petal length?
+
+Rinse, and repeat (Figure 4).
+
+```{r warnings=FALSE, fig.show="hold", echo=FALSE, output=FALSE, fig.cap="i literally did all my analyses in the appendix and then copied and pasted my favorite plots up here so they show up in the main body!"}
+
+ggplot(dat, aes(x=Sepal.Length, y=Petal.Length, color=Species, fill=Species))+
+  geom_jitter(size=3, alpha=0.6, shape=21)+
+  geom_smooth(method="lm", alpha=0.6, size=0.5)+
+  scale_color_manual(values=c("orchid", "lightseagreen", "orange"))+
+  scale_fill_viridis_d()+ #set the fill colors
+  ylab("Petal Width")+ 
+  xlab("Sepal Length")+
+  theme_bw()+ #cute theme
+  theme(text = element_text(size=18)) #cause my eyes is tired and old
+
+```
+
+## Discussion
+
+Here, I would wrap up everything and explain the biological signficiance. What didn't I do? What were the limitations? What would I do next?
+
+## References
+
+Site each paper and package here. Try using the citation function to get your cites for each package! 
+
+## Appendix
+
+### Exploratory data analysis
+
+```{r}
+
+#general data checking
+head(dat)
+levels(dat$Species)
+summary(dat)
+
+#check numeric vars for distributions and normality
+par(mfrow=c(2,2))
+hist(dat$Sepal.Length, main="", xlab="Sepal Length")
+hist(dat$Sepal.Width, main="", xlab="Sepal Width")
+hist(dat$Petal.Length, main="", xlab="Petal Length")
+hist(dat$Petal.Width, main="", xlab="Petal Width")
+par(mfrow=c(1,1))
+
+shapiro.test(dat$Sepal.Length) #not normal
+shapiro.test(dat$Sepal.Width) #normal
+shapiro.test(dat$Petal.Length) #not normal
+shapiro.test(dat$Petal.Width) #not normal
+
+par(mfrow=c(2,2))
+qqPlot(dat$Sepal.Length) #looks normal
+qqPlot(dat$Sepal.Width) #looks normal
+qqPlot(dat$Petal.Length) #looks not normal
+qqPlot(dat$Petal.Width) #looks not normal
+par(mfrow=c(1,1))
+
+#more numeric var investigation
+pairs.panels(dat[,-5]) #include as a fig
+
+#numeric vars vs. species
+par(mfrow=c(2,2)) #include as a fig
+boxplot(Sepal.Length ~ Species, data=dat, xlab="Sepal Length")
+boxplot(Sepal.Width ~ Species, data=dat, xlab="Sepal Width")
+boxplot(Petal.Length ~ Species, data=dat, xlab="Petal Length")
+boxplot(Petal.Width ~ Species, data=dat, xlab="Petal Width")
+par(mfrow=c(1,1))
+
+#based on all this, here are my findings:
+
+#petal vars not normal, may need to be transformed
+#species seems like a good predictor of each numeric var, perhaps an ANOVA, or multivariate linear model
+#sepal length and petal length look correlated
+#sepal length and petal width look correlated
+#petal length and petal width look correlated
+
+#so, i think i will run an anova on petal length ~ species for my "comparing means" test
+#and run a linear model to see what variables are most predictive of petal length for my "predictive" test
+
+```
+
+
+### Statistical methods
+#### ANOVA
+```{r}
+
+#goal: one way anova of petal length by species
+
+#step 1: check assumptions of anova
+#indep data? probs
+#normality
+#equal variance
+
+fit1 <- lm(Petal.Length ~ Species, data=dat)
+par(mfrow=c(2,2))
+plot(fit1) #oof looks a little cone shaped
+par(mfrow=c(1,1))
+res1 <- fit1$residuals
+shapiro.test(res1) #just barely non-normal
+qqPlot(res1) #actually looks normal
+hist(res1) #hmm, not obviously skewed
+
+#so the variances aren't great but the data are normal enough so maybe i can ignore that violation!
+
+#step 2: run the anova
+
+irisaov <- aov(Petal.Length ~ Species, data=dat)
+summary(irisaov) #species highly significant, as expected from EDA. only added digits arg bc otherwise pvals were rounded to 0
+
+#step 3: post-hoc analyses
+
+TukeyHSD(irisaov) #whoa p-values should never be 0. this is a rounding error. lets extract with more precision
+thsd <- TukeyHSD(irisaov)
+print(thsd, digits=15) #wow so super significant, they are all sig different from each other
+
+#step 4: make a nice ggplot figure to summarize these results, include as a fig
+
+label.df <- data.frame(Species = levels(dat$Species), #make significance stars
+                       Petal.Width = c(.7, 1.9, 2.6)) #these are the y-axis locs of the stars
+
+ggplot(dat, aes(x=Species, y=Petal.Width, fill=Species, color=Species))+ #base plot
+  geom_boxplot(show.legend=F)+ #do a boxplot, but hide legend cause its just colors
+  scale_fill_viridis_d()+ #set the fill colors
+  scale_color_manual(values=c("orchid", "lightseagreen", "orange"))+ #set line colors
+  ylab("Petal Width")+ 
+  geom_text(data = label.df, label = "***", size=10, show.legend=F)+ #add those ***
+  theme_bw()+ #cute theme
+  theme(text = element_text(size=18)) #cause my eyes is tired and old
+
+```
+
+#### Linear regression
+```{r}
+
+#goal: predict petal length by all, see what is important
+
+#step 1: check assumptions of linear regression
+#indep? i hope so
+#normal residuals?
+#equal variances?
+
+fit2 <- lm(Petal.Length ~ Sepal.Length + Species, data=dat) 
+par(mfrow=c(2,2))
+plot(fit2) #looks homoskedastic to me
+par(mfrow=c(1,1))
+res2 <- fit2$residuals
+qqPlot(res2) #she is normal
+shapiro.test(res2) #yep its normo
+
+#step 2: run the lm
+
+summary(fit2) #EVERYTHING! is a significant predictor, which isn't shocking based on EDA
+
+#step 3: make a pretty graph to summarize findings
+
+ggplot(dat, aes(x=Sepal.Length, y=Petal.Length, color=Species, fill=Species))+
+  geom_jitter(size=3, alpha=0.6, shape=21)+
+  geom_smooth(method="lm", alpha=0.6, size=0.5)+
+  scale_color_manual(values=c("orchid", "lightseagreen", "orange"))+
+  scale_fill_viridis_d()+ #set the fill colors
+  ylab("Petal Width")+ 
+  xlab("Sepal Length")+
+  theme_bw()+ #cute theme
+  theme(text = element_text(size=18)) #cause my eyes is tired and old
+
+```
+
+
+
+
+
+
+
+
